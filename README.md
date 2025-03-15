@@ -25,5 +25,5 @@ This repository is designed to create a **personalized Linktree** that points to
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/your-username/linktree-marco-milza.git
+   git clone https://github.com/182Marco/myLink3
    ```
