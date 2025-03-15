@@ -1,0 +1,62 @@
+details {
+  width: 450px;
+  transition: all 0.3s ease;
+  transition: 0.4s;
+}
+
+summary {
+  list-style: none; /* Removes the default arrow */
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+summary::-webkit-details-marker {
+  display: none; /* Hide the default triangle marker in WebKit browsers */
+}
+
+summary i {
+  margin-left: auto;
+  transition: transform 0.3s ease;
+}
+
+summary i::before {
+  color: var(--primary-text-color);
+  transition: color 0.4s;
+}
+
+details[open] summary i {
+  transform: rotate(90deg);
+}
+
+summary:hover {
+  color: var(--cta-color);
+}
+
+summary:hover i::before {
+  color: var(--cta-color);
+}
+
+details section {
+  margin: 15px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+details section div {
+  display: flex;
+  flex-direction: column;
+  max-width: 66%;
+}
+
+h3 {
+  margin: 0 0 6px;
+  font-size: 12px;
+}
+
+h4 {
+  font-size: 9px;
+}

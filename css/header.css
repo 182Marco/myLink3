@@ -1,0 +1,37 @@
+header {
+  display: flex;
+  align-items: center;
+  padding: 4px 0 20px;
+}
+
+header i {
+  margin: 0 0 0 10px;
+  font-size: 22px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+i.fa-brands.fa-linkedin::before {
+  color: #0077b5;
+  transition: 0.3;
+}
+
+i.fa-brands.fa-linkedin:hover {
+  transform: scale(1.04);
+}
+
+h1 {
+  margin: 12px 0 0;
+  font-size: 24px;
+}
+
+h1,
+h2 {
+  font-weight: 500;
+  font-size: 19px;
+}
+
+h2 {
+  margin: 0;
+  font-style: italic;
+}
