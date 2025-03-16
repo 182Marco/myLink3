@@ -13,25 +13,47 @@ header i {
 
 i.fa-brands.fa-linkedin::before {
   color: #0077b5;
-  transition: 0.3;
+  transition: color 0.3s ease;
+}
+
+i.fa-brands.fa-linkedin {
+  transition: transform 0.15s ease;
 }
 
 i.fa-brands.fa-linkedin:hover {
-  transform: scale(1.04);
+  animation: trembleEffect 0.3s ease 2;
+}
+
+@keyframes trembleEffect {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 h1 {
-  margin: 12px 0 0;
-  font-size: 24px;
+  margin: 9px 0 0;
+  font-size: 19px;
 }
 
 h1,
 h2 {
   font-weight: 500;
-  font-size: 19px;
 }
 
 h2 {
   margin: 0;
+  font-size: 16px;
   font-style: italic;
 }

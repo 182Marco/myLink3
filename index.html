@@ -4,11 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- font awesome cdn -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    />
-    <link rel="stylesheet" href="style.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/colors.css" />
+    <link rel="stylesheet" href="css/resets.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/myImg.css" />
+    <link rel="stylesheet" href="css/btns.css" />
+    <link rel="stylesheet" href="css/accordion.css" />
     <!-- favicon -->
     <link rel="icon" href="img/favicon.ico" />
     <title>Marco Milza</title>
@@ -19,15 +22,38 @@
         <img src="./img/io.png" alt="Marco Milza profile picture" />
       </figure>
       <h1>Marco Milza</h1>
-      <h2>Front end developer</h2>
+      <header>
+        <h2>Front end developer</h2> 
+        <i class="fa-brands fa-linkedin"></i>
+      </header>
+      <aside>
       <details>
         <summary>
-          Apri l'accordion
+          My tutorial videos
           <i class="fa-solid fa-chevron-right"></i>
-          <!-- Chevron -->
         </summary>
-        <p>Contenuto nascosto che appare quando si espande.</p>
-        <button>go check it</button>
+        <main>
+        <section>
+          <div>
+            <h3>How to think when creating a deep copy function?</h3>
+            <h4>
+              Although a built-in method in vanilla JS since ECMAScript 2021, I explain a logical 
+              exercise to write a deep copy function that works regardless of nested references
+            </h4>
+          </div>
+          <button id="deepCopyBtn">go check it</button>
+        </section>
+        <section>
+          <div>
+            <h3> Typescript Generic Explenation</h3>
+            <h4>
+              A simple way to understand generics and an example of usage with different syntaxes.
+            </h4>
+          </div>
+          <button id="genericsBtn">go check it</button>
+        </section>
+      </main>
+      </aside>
       </details>
     </div>
     <!-- main js -->

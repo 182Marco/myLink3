@@ -1,7 +1,12 @@
 details {
   width: 450px;
   transition: all 0.3s ease;
-  transition: 0.4s;
+  transition: height 0.4s ease, opacity 0.4s ease;
+}
+
+details[open] {
+  height: auto;
+  opacity: 1;
 }
 
 summary {
@@ -39,8 +44,25 @@ summary:hover i::before {
   color: var(--cta-color);
 }
 
+main {
+  clip-path: inset(100% 0 0 0);
+}
+
+main.reveal {
+  animation: reveal 0.2s ease-out forwards;
+}
+
+@keyframes reveal {
+  0% {
+    clip-path: inset(0 0 100% 0);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
 details section {
-  margin: 15px 0 0;
+  margin: 25px 0 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -49,7 +71,7 @@ details section {
 details section div {
   display: flex;
   flex-direction: column;
-  max-width: 66%;
+  max-width: 75%;
 }
 
 h3 {
