@@ -13,7 +13,7 @@ const barrelImport =
 const customHooks =
   'https://www.linkedin.com/feed/update/urn:li:activity:7164705355015430147/';
 // UTILS
-const getElement = selector => document.querySelector(selector);
+const getEl = selector => document.querySelector(selector);
 const goTo = link => window.open(link, '_blank');
 const attachClickListener = (el, link) =>
   el.addEventListener('click', () => goTo(link));
@@ -27,20 +27,20 @@ const toggleClass = () => {
   }
 };
 // DOM ELEMENTS
-const summary = getElement('summary');
-const ul = getElement('details ul');
-const deepCopyBtn = getElement('#deepCopyBtn');
-const genericsBtn = getElement('#genericsBtn');
-const shallowOrDeepCopyBtn = getElement('#shallowOrDeepCopyBtn');
-const propsSpreadingBtn = getElement('#propsSpreadingBtn');
-const barrelImportBtn = getElement('#barrelImportBtn');
-const customHooksBtn = getElement('#customHooksBtn');
+const summary = getEl('summary');
+const ul = getEl('details ul');
+const deepCopyBtn = getEl('#deepCopyBtn');
+const genericsBtn = getEl('#genericsBtn');
+const shallowOrDeepCopyBtn = getEl('#shallowOrDeepCopyBtn');
+const propsSpreadingBtn = getEl('#propsSpreadingBtn');
+const barrelImportBtn = getEl('#barrelImportBtn');
+const customHooksBtn = getEl('#customHooksBtn');
 // LISTENERS
 // toggle class
 summary.addEventListener('click', toggleClass);
 // add links
 document.addEventListener('DOMContentLoaded', () =>
-  attachClickListener(getElement('.fa-linkedin'), myBasicLinkedinUrl)
+  attachClickListener(getEl('.fa-linkedin'), myBasicLinkedinUrl)
 );
 attachClickListener(deepCopyBtn, deepCopy);
 attachClickListener(genericsBtn, generics);

@@ -1,16 +1,9 @@
-details {
+article {
   width: 800px;
-  transition: all 0.3s ease;
-  transition: height 0.4s ease, opacity 0.4s ease;
-}
-
-details[open] {
-  height: auto;
-  opacity: 1;
 }
 
 summary {
-  list-style: none; /* Removes the default arrow */
+  list-style: none;
   display: flex;
   align-items: center;
   font-size: 16px;
@@ -18,22 +11,22 @@ summary {
   cursor: pointer;
 }
 
-summary::-webkit-details-marker {
-  display: none; /* Hide the default triangle marker in WebKit browsers */
+summary::-webkit-article-marker {
+  display: none; /* Hides the default expand/collapse marker */
 }
 
 summary i {
   margin-left: auto;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease; /* Smooth transition for rotating the icon */
 }
 
 summary i::before {
   color: var(--primary-text-color);
-  transition: color 0.4s;
+  transition: color 0.4s; /* Smooth transition for icon color change */
 }
 
-details[open] summary i {
-  transform: rotate(90deg);
+article[open] summary i {
+  transform: rotate(90deg); /* Rotates the icon when the article are open */
 }
 
 summary:hover {
@@ -44,47 +37,26 @@ summary:hover i::before {
   color: var(--cta-color);
 }
 
-ul {
-  clip-path: inset(100% 0 0 0);
+article {
+  overflow: hidden;
+  transition: all 10s;
 }
 
-ul.hide {
-  animation: hide 5s ease-out forwards;
-}
-
-ul.reveal {
-  animation: reveal 5s ease-out forwards;
-}
-
-@keyframes reveal {
-  0% {
-    clip-path: inset(0 0 100% 0);
-  }
-  100% {
-    clip-path: inset(0 0 0 0);
-  }
-}
-
-@keyframes hide {
-  0% {
-    clip-path: inset(0 0 0 0);
-  }
-  100% {
-    clip-path: inset(0 0 100% 0);
-  }
-}
-
-details li {
-  margin: 25px 0 0;
+article li {
+  padding: 25px 0 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-details li div {
+article li:last-of-type {
+  padding: 25px 0 25px;
+}
+
+article li div {
   display: flex;
   flex-direction: column;
-  max-width: 75%;
+  max-width: 85%;
 }
 
 h3 {

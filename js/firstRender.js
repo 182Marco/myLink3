@@ -19,7 +19,7 @@ const tutorials = [
   },
 ];
 
-const tutorialsContainer = document.querySelector('#tutorials');
+const tutorialsContainer = document.querySelector('#tutorials ul');
 
 tutorials.forEach(
   e =>
