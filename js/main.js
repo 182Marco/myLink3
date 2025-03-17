@@ -1,4 +1,5 @@
 // LINKS
+const myBasicLinkedinUrl = 'https://www.linkedin.com/in/marco-milza/';
 const deepCopy =
   'https://www.linkedin.com/feed/update/urn:li:activity:7174874211486711808/';
 const generics =
@@ -16,10 +17,18 @@ const getElement = selector => document.querySelector(selector);
 const goTo = link => window.open(link, '_blank');
 const attachClickListener = (el, link) =>
   el.addEventListener('click', () => goTo(link));
-const toggleClass = () => main.classList.toggle('reveal');
+const toggleClass = () => {
+  if (ul.classList.contains('reveal')) {
+    ul.classList.remove('reveal');
+    ul.classList.add('hide');
+  } else {
+    ul.classList.remove('hide');
+    ul.classList.add('reveal');
+  }
+};
 // DOM ELEMENTS
 const summary = getElement('summary');
-const main = getElement('details main');
+const ul = getElement('details ul');
 const deepCopyBtn = getElement('#deepCopyBtn');
 const genericsBtn = getElement('#genericsBtn');
 const shallowOrDeepCopyBtn = getElement('#shallowOrDeepCopyBtn');
@@ -30,6 +39,9 @@ const customHooksBtn = getElement('#customHooksBtn');
 // toggle class
 summary.addEventListener('click', toggleClass);
 // add links
+document.addEventListener('DOMContentLoaded', () =>
+  attachClickListener(getElement('.fa-linkedin'), myBasicLinkedinUrl)
+);
 attachClickListener(deepCopyBtn, deepCopy);
 attachClickListener(genericsBtn, generics);
 attachClickListener(shallowOrDeepCopyBtn, shallowOrDeepCopy);

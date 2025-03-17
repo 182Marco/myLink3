@@ -4,8 +4,8 @@ body {
     to bottom right,
     var(--background-color),
     var(--dark-shade-color)
-  ); /* Set background gradient */
-  font-family: "Montserrat", sans-serif;
+  );
+  font-family: 'Montserrat', sans-serif;
   padding: 30px 0;
   display: flex;
   justify-content: center;
@@ -20,27 +20,30 @@ body > div {
   align-items: center;
 }
 
-aside {
+i {
+  cursor: pointer;
+}
+
+section {
   height: 100%;
-  /*  overflow-y: auto; */
   scrollbar-width: thin;
   scrollbar-color: #888 #f1f1f1;
 }
 
-aside::-webkit-scrollbar {
+section::-webkit-scrollbar {
   width: 8px;
 }
 
-aside::-webkit-scrollbar-track {
+section::-webkit-scrollbar-track {
   background: #f1f1f1;
   border-radius: 10px;
 }
 
-aside::-webkit-scrollbar-thumb {
+section::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 10px;
 }
 
-aside::-webkit-scrollbar-thumb:hover {
+section::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
