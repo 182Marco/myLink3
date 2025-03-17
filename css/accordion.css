@@ -6,6 +6,7 @@ summary {
   list-style: none;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
@@ -15,17 +16,18 @@ summary::-webkit-article-marker {
   display: none; /* Hides the default expand/collapse marker */
 }
 
-summary i {
-  margin-left: auto;
-  transition: transform 0.3s ease; /* Smooth transition for rotating the icon */
+article summary i:before {
+  display: block;
+  width: 16px;
 }
 
-summary i::before {
+article summary i {
+  margin: 0;
   color: var(--primary-text-color);
-  transition: color 0.4s; /* Smooth transition for icon color change */
+  transition: all 10s ease-out;
 }
 
-article[open] summary i {
+article summary i.rotate {
   transform: rotate(90deg); /* Rotates the icon when the article are open */
 }
 

@@ -4,6 +4,7 @@ const getTag = selector => document.querySelector(selector);
 // get elements
 const tutorialsEl = getTag('article');
 const summaryEl = getTag('#tutorial summary');
+const chevron = getTag('.fa-chevron-right');
 // heights
 const initialTutorialsElHeight = `${tutorialsEl.offsetHeight}px`;
 const summaryHeight = '20px';
@@ -15,4 +16,9 @@ const setTutorialHeight = () =>
     ? setHeight(initialTutorialsElHeight)
     : setHeight(summaryHeight);
 
-tutorialsEl.addEventListener('click', setTutorialHeight);
+const handleTutorialAnimations = () => {
+  setTutorialHeight();
+  chevron.classList.toggle('rotate');
+};
+
+tutorialsEl.addEventListener('click', handleTutorialAnimations);
