@@ -21,13 +21,19 @@
   </head>
   <body>
     <div>
-      <figure>
-        <img src="./img/io.png" alt="Marco Milza profile picture" />
-      </figure>
-      <h1>Marco Milza</h1>
       <header>
-        <h2>Front end developer</h2>
-        <i class="fa-brands fa-linkedin"></i>
+        <figure>
+          <img src="./img/io.png" alt="Marco Milza profile picture" />
+        </figure>
+        <h1>Marco Milza</h1>
+        <nav>
+          <h2>Front end developer</h2>
+          <!--&#58;&#47;&#47 stays as escape for -->
+          <i
+            class="fa-brands fa-linkedin"
+            onclick='window.open( "https&#58;&#47;&#47;www.linkedin.com/in/marco-milza", "_blank")'
+          ></i>
+        </nav>
       </header>
       <section>
         <article id="tutorials">
@@ -38,12 +44,6 @@
           <ul></ul>
         </article>
       </section>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis
-        officia beatae quos fugiat eius cum enim perspiciatis sunt suscipit
-        distinctio earum exercitationem dolore rerum repudiandae accusamus nisi,
-        nostrum ipsum laborum.
-      </p>
     </div>
     <!-- js -->
     <script src="js/firstRender.js" charset="utf-8"></script>

@@ -1,5 +1,6 @@
 article {
   width: 800px;
+  height: 100%;
 }
 
 summary {
@@ -10,6 +11,7 @@ summary {
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
+  height: 20px;
 }
 
 summary::-webkit-article-marker {
@@ -24,7 +26,7 @@ article summary i:before {
 article summary i {
   margin: 0;
   color: var(--primary-text-color);
-  transition: all 10s ease-out;
+  transition: all 0.3s ease-out;
 }
 
 article summary i.rotate {
@@ -41,7 +43,21 @@ summary:hover i::before {
 
 article {
   overflow: hidden;
-  transition: all 10s;
+  transition: all 0.3s ease-out;
+}
+
+article ul {
+  border: none;
+  text-decoration: none;
+  height: 100%;
+  outline: none;
+  padding: 0 15px 0 0;
+  overflow: auto;
+  scrollbar-width: none;
+}
+
+article ul::-webkit-scrollbar {
+  display: none; /* For Chrome/Safari */
 }
 
 article li {
@@ -52,7 +68,7 @@ article li {
 }
 
 article li:last-of-type {
-  padding: 25px 0 25px;
+  padding: 25px 0 20px;
 }
 
 article li div {

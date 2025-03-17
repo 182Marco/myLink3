@@ -1,10 +1,10 @@
 // utils
 const setHeight = height => (tutorialsEl.style.height = height);
-const getTag = selector => document.querySelector(selector);
+const getEl = selector => document.querySelector(selector);
 // get elements
-const tutorialsEl = getTag('article');
-const summaryEl = getTag('#tutorial summary');
-const chevron = getTag('.fa-chevron-right');
+const tutorialsEl = getEl('article');
+const summaryEl = getEl('#tutorial summary');
+const chevron = getEl('.fa-chevron-right');
 // heights
 const initialTutorialsElHeight = `${tutorialsEl.offsetHeight}px`;
 const summaryHeight = '20px';
