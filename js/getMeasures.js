@@ -47,7 +47,7 @@ const toggleSection = selectedS => {
 };
 
 // Attach event listeners
-sections.forEach(section => {
-  if (!section.el) return;
-  section.el.addEventListener('click', () => toggleSection(section));
+sections.forEach(s => {
+  if (!s.el) return;
+  s.el.addEventListener('click', () => toggleSection(s));
 });
