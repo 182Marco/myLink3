@@ -1,24 +1,53 @@
 // utils
-const setHeight = height => (tutorialsEl.style.height = height);
 const getEl = selector => document.querySelector(selector);
+const setHeight = (el, height) => (el.style.height = height);
+
 // get elements
-const tutorialsEl = getEl('article');
-const summaryEl = getEl('#tutorial summary');
-const chevron = getEl('.fa-chevron-right');
-// heights
-const initialTutorialsElHeight = `${tutorialsEl.offsetHeight}px`;
-const summaryHeight = '20px';
-// set initial height 0
-tutorialsEl.style.height = summaryHeight;
+const sections = [
+  { id: '#tutorials', chevron: '.fa-chevron-right' },
+  { id: '#u-ex', chevron: '.fa-chevron-right' },
+  { id: '#source-code', chevron: '.fa-chevron-right' },
+].map(e => ({
+  el: getEl(e.id),
+  chevron: getEl(`${e.id} ${e.chevron}`),
+  initialHeight: null,
+}));
 
-const setTutorialHeight = () =>
-  tutorialsEl.style.height === summaryHeight
-    ? setHeight(initialTutorialsElHeight)
-    : setHeight(summaryHeight);
+const summaryHeight = '50px';
 
-const handleTutorialAnimations = () => {
-  setTutorialHeight();
-  chevron.classList.toggle('rotate');
+// Set initial height and store full heights
+sections.forEach(s => {
+  if (s.el) {
+    s.initialHeight = `${s.el.offsetHeight}px`;
+    s.el.style.height = summaryHeight;
+  }
+});
+
+// Toggle function (with close other sections)
+const toggleSection = selectedS => {
+  sections.forEach(s => {
+    if (
+      s.el !== selectedS.el &&
+      (window.innerWidth < 433 || window.innerWidth > 833)
+    ) {
+      // Close other sections
+      setHeight(s.el, summaryHeight);
+      s.chevron?.classList.remove('rotate');
+    }
+  });
+
+  // Toggle the selected section
+  if (selectedS.el.style.height === summaryHeight) {
+    setHeight(selectedS.el, selectedS.initialHeight);
+    selectedS.chevron?.classList.add('rotate');
+  } else {
+    setHeight(selectedS.el, summaryHeight);
+    selectedS.chevron?.classList.remove('rotate');
+  }
 };
 
-tutorialsEl.addEventListener('click', handleTutorialAnimations);
+// Attach event listeners
+sections.forEach(section => {
+  if (!section.el) return;
+  section.el.addEventListener('click', () => toggleSection(section));
+});
