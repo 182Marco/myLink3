@@ -11,7 +11,7 @@ summary {
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  height: 65px;
+  height: 50px;
 }
 
 summary::-webkit-article-marker {
@@ -51,36 +51,49 @@ article ul {
   text-decoration: none;
   height: 100%;
   outline: none;
-  padding: 0 10px 0 0;
+  padding: 0 10px 50px 0;
   overflow: auto;
   scrollbar-width: none;
+  list-style: none;
 }
 
 article ul::-webkit-scrollbar {
   display: none; /* For Chrome/Safari */
 }
 
-article ul {
-  padding-bottom: 50px;
+article ul li {
+  padding: 10px 0 8px;
+  display: inline-flex;
+  align-items: flex-start;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+article ul li::before {
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  content: '\f08e';
+  color: var(--primary-text-color);
+  flex-shrink: 0;
 }
 
 article li {
-  margin: 10px 0 0;
-  display: flex;
-  align-items: center;
-}
-article li p {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   font-size: 14px;
   font-weight: 600;
   color: var(--primary-text-color);
-  cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.5s;
 }
 
 article li p:hover {
+  color: var(--cta-color);
+}
+
+article ul li:hover {
+  color: var(--cta-color);
+}
+
+article ul li:hover::before {
   color: var(--cta-color);
 }
 
