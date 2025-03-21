@@ -20,7 +20,6 @@ i {
 section {
   scrollbar-width: thin;
   scrollbar-color: #888 #f1f1f1;
-  height: 200px;
 }
 
 @media (max-width: 1025px) {
@@ -64,9 +63,6 @@ section {
     padding: 40px 0 10px;
   }
 
-  section {
-    height: 250px;
-  }
   body header {
     padding: 0 0 25px;
   }
