@@ -1,6 +1,5 @@
 article {
   width: 500px;
-  height: 100%;
 }
 
 summary {
@@ -8,10 +7,10 @@ summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: bold;
   cursor: pointer;
-  height: 50px;
+  height: 40px;
 }
 
 summary::-webkit-article-marker {
@@ -26,7 +25,7 @@ article summary i:before {
 article summary i {
   margin: 0;
   color: var(--primary-text-color);
-  transition: all 0.3s ease-out;
+  transition: all 0.5s ease-out;
 }
 
 article summary i.rotate {
@@ -43,15 +42,13 @@ summary:hover i::before {
 
 article {
   overflow: hidden;
-  transition: all 0.3s ease-out;
+  transition: all 0.5s ease-out;
 }
 
 article ul {
   border: none;
   text-decoration: none;
-  height: 100%;
   outline: none;
-  padding: 0 10px 50px 0;
   overflow: auto;
   scrollbar-width: none;
   list-style: none;
@@ -62,43 +59,63 @@ article ul::-webkit-scrollbar {
 }
 
 article ul li {
-  padding: 10px 0 8px;
+  width: 100%;
+  padding: 7px 0;
   display: inline-flex;
   align-items: flex-start;
   align-items: center;
   gap: 8px;
   cursor: pointer;
-}
-
-article ul li::before {
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
-  content: '\f08e';
-  color: var(--primary-text-color);
-  flex-shrink: 0;
-}
-
-article li {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--primary-text-color);
   transition: all 0.5s;
 }
 
-article li p:hover {
+article ul li::before {
+  font-family: 'Font Awesome 6 Free';
+  content: '\f08e';
+  color: var(--primary-text-color);
+  flex-shrink: 0;
+}
+
+article li p {
+  position: relative;
+}
+
+article li p::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background-color: var(--cta-color);
+  transition: width 0.3s ease-in-out;
+}
+
+article ul li:hover p {
   color: var(--cta-color);
 }
 
-article ul li:hover {
-  color: var(--cta-color);
+article ul li:hover p::after {
+  width: 100%;
 }
 
 article ul li:hover::before {
   color: var(--cta-color);
 }
 
+article ul li:first-child {
+  padding: 0 0 7px;
+}
+
+article ul li:last-child {
+  padding: 7px 0 10px;
+}
+
 @media (max-width: 833px) {
-  article {
+  section article {
     width: 700px;
   }
 }
