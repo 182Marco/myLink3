@@ -58,16 +58,16 @@ const accordions = [
         link: 'https://www.google.com',
       },
       {
-        title: 'My 3D Scenes Gallery',
-        description:
-          'In this video, I showcase a gallery of 3D graphic scenes applied to development, exploring this niche of JavaScript programming',
-        link: 'https://www.google.com',
-      },
-      {
-        title: '3D Showcase, the GitHub Code',
+        title: 'My 3D Scenes Gallery: Video Presentation',
         description:
           'Experience a gallery of 3D graphic scenes applied to development. Dive into this JavaScript programming niche and explore the project firsthand!',
         link: 'https://www.google.com',
+      },
+      {
+        title: 'My 3D Scenes Gallery',
+        description:
+          'In this video, I showcase a gallery of 3D graphic scenes applied to development, exploring this niche of JavaScript programming',
+        link: 'https://3dgallerythreefiber.netlify.app/',
       },
     ],
   },
