@@ -55,7 +55,7 @@ const accordions = [
         title: 'See for Yourself: A Netflix Replica',
         description:
           'Enter marcomilza@gmail.com and use xxx as the password to explore the templates and features of a Netflix replica app I built. Search and watch movies and TV series just like on the real platform!',
-        link: 'https://www.google.com',
+        link: 'https://netfli-x-marco-milza.netlify.app/',
       },
       {
         title: 'My 3D Scenes Gallery: Video Presentation',
