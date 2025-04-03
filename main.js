@@ -74,6 +74,8 @@ const accordions = [
         description:
           'Experience a gallery of 3D graphic scenes applied to development. Dive into this JavaScript programming niche and explore the project firsthand!',
         link: 'https://www.google.com',
+        isOnYouTube: true,
+        isVisible: false,
       },
       {
         title: 'My 3D Scenes Gallery',
