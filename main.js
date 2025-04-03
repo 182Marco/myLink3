@@ -13,7 +13,9 @@ const accordions = [
         title: 'Thinking Through a Deep Copy Function',
         description:
           "<code>StructuredClone()</code> has been available since ECMAScript 2021, but here's a logical exercise to write a deep copy function that works regardless of nested references.",
-        link: 'https://www.linkedin.com/feed/update/urn:li:activity:7174874211486711808/',
+        link: 'https://www.youtube.com/watch?v=FB6LsVv2IKI',
+        isOnYouTube: true,
+        isVisible: true,
       },
       {
         title: 'Typescript Generic Explanation',
@@ -21,6 +23,7 @@ const accordions = [
           'A simple way to understand generics and an example of usage with different syntaxes.',
         link: 'https://www.youtube.com/watch?v=4aE7kfqhdPg',
         isOnYouTube: true,
+        isVisible: true,
       },
       {
         title: 'Spread props on a React Component',
