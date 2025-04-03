@@ -31,19 +31,25 @@ const accordions = [
         title: 'Spread props on a React Component',
         description:
           'I show how to use the rest operator to isolate props (e.g., button props in a modal) and spread them onto components.',
-        link: 'https://www.linkedin.com/feed/update/urn:li:activity:7169996639141670912/',
+        link: 'https://www.youtube.com/watch?v=KA6Ccu5F5ik',
+        isOnYouTube: true,
+        isVisible: true,
       },
       {
         title: 'Barrel Imports for Cleaner Code',
         description:
           'I show how barrel imports simplify module management by consolidating exports into a single file, improving code organization and readability.',
-        link: 'https://www.linkedin.com/feed/update/urn:li:activity:7169996639141670912/',
+        link: 'https://www.youtube.com/watch?v=iYBkhkfALFA&list=PLZzwNYM3GJOr6X18nCv6H9s8oi2GkUGOL',
+        isOnYouTube: true,
+        isVisible: true,
       },
       {
         title: 'Decoupled UI & Logic, Custom Hooks',
         description:
           'I show how custom hooks in React help separate logic from JSX/TSX templates, improving code reusability and maintainability.',
-        link: 'https://www.linkedin.com/feed/update/urn:li:activity:7164705355015430147/',
+        link: 'https://www.youtube.com/watch?v=3QknDb6h88s&list=PLZzwNYM3GJOr6X18nCv6H9s8oi2GkUGOL&index=5',
+        isOnYouTube: true,
+        isVisible: true,
       },
     ],
   },
