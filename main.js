@@ -19,7 +19,7 @@ const accordions = [
         title: 'Typescript Generic Explanation',
         description:
           'A simple way to understand generics and an example of usage with different syntaxes.',
-        link: 'https://www.linkedin.com/feed/update/urn:li:activity:7177355303410167810/',
+        link: 'https://www.youtube.com/watch?v=4aE7kfqhdPg',
       },
       {
         title: 'Spread props on a React Component',
