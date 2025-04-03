@@ -20,6 +20,7 @@ const accordions = [
         description:
           'A simple way to understand generics and an example of usage with different syntaxes.',
         link: 'https://www.youtube.com/watch?v=4aE7kfqhdPg',
+        isOnYouTube: true,
       },
       {
         title: 'Spread props on a React Component',
