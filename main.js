@@ -7,7 +7,9 @@ const accordions = [
         title: 'Shallow or Deep Copy?',
         description:
           'I explain what happens when you shallow copy a reference and the potential bugs that may arise.',
-        link: 'https://www.linkedin.com/feed/update/urn:li:activity:7172495074285469697/',
+        link: 'https://www.youtube.com/watch?v=k2FVpUXqSfc',
+        isOnYouTube: true,
+        isVisible: true,
       },
       {
         title: 'Thinking Through a Deep Copy Function',
