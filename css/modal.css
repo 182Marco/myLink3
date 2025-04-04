@@ -1,0 +1,60 @@
+.modal {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  background-color: #000;
+}
+.modal.show {
+  display: flex;
+}
+.modal .video-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50% -50%);
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.modal iframe {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99;
+}
+
+.modal .x-box {
+  background-color: #000;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 40px;
+  position: absolute;
+  top: 1%;
+  left: 0.3%;
+  cursor: pointer;
+  transition: 0.3s;
+  z-index: 100;
+  cursor: pointer;
+}
+.modal .x-box .fa-x::before {
+  color: var(--link-hover-color);
+  transition: 0.3s;
+}
+
+.modal .x-box:hover .fa-x::before {
+  color: white;
+}
