@@ -23,7 +23,7 @@ const accordions = [
         title: 'Typescript Generic Explanation',
         description:
           'A simple way to understand generics and an example of usage with different syntaxes.',
-        link: 'https://www.youtube.com/watch?v=4aE7kfqhdPg',
+        link: 'https://www.youtube.com/embed/4aE7kfqhdPg?si=UHwChIoyU8jU7IVG',
         isOnYouTube: true,
         isVisible: true,
       },
@@ -61,13 +61,17 @@ const accordions = [
         title: 'Netflix Replica: Video Presentation',
         description:
           'In this video, I present the templates and features of a Netflix replica app I built, where you can browse, search, and stream movies and TV series',
-        link: 'https://www.linkedin.com/feed/update/urn:li:activity:7179893837467697153/',
+        link: 'https://www.youtube.com/watch?v=URvi-QwBXPs&t=1s',
+        isOnYouTube: true,
+        isVisible: true,
       },
       {
         title: 'See for Yourself: A Netflix Replica',
         description:
           'Enter marcomilza@gmail.com and use xxx as the password to explore the templates and features of a Netflix replica app I built. Search and watch movies and TV series just like on the real platform!',
         link: 'https://netfli-x-marco-milza.netlify.app/',
+        isOnYouTube: false,
+        isVisible: true,
       },
       {
         title: 'My 3D Scenes Gallery: Video Presentation',
@@ -82,6 +86,8 @@ const accordions = [
         description:
           'In this video, I showcase a gallery of 3D graphic scenes applied to development, exploring this niche of JavaScript programming',
         link: 'https://3dgallerythreefiber.netlify.app/',
+        isOnYouTube: false,
+        isVisible: true,
       },
     ],
   },
@@ -94,24 +100,32 @@ const accordions = [
         description:
           'Explore the full functionality of my Netflix replica built with Vue.js. Browse, search, and stream movies and TV series while viewing the source code alongside.',
         link: 'https://codesandbox.io/p/github/182Marco/marco-m-netflix/main?file=%2Fpackage.json%3A2%2C1-2%2C70&workspaceId=ws_83N1aBN8g8iPuq9LEMC9FB',
+        isOnYouTube: false,
+        isVisible: true,
       },
       {
         title: 'Netflix Replica: Source Code on GitHub',
         description:
           'Dive into the Vue.js source code of my Netflix replica. Analyze the architecture, explore the logic, and understand how the app handles streaming features.',
         link: 'https://github.com/182Marco/marco-m-netflix',
+        isOnYouTube: false,
+        isVisible: true,
       },
       {
         title: '3D Graphics: Live Demo (CodeSandbox)',
         description:
           'Interact with a gallery of 3D graphic scenes built with React and React Three Fiber. Experience real-time 3D rendering while inspecting the source code.',
         link: 'https://codesandbox.io/p/github/182Marco/3D-React-Fiber-Gallery/main?file=%2Fsrc%2Fcomponents%2FportalPass%2Fcomponents%2FmonsterStage%2FmonsterStage.jsx%3A1%2C1-50%2C1&workspaceId=ws_83N1aBN8g8iPuq9LEMC9FB',
+        isOnYouTube: false,
+        isVisible: true,
       },
       {
         title: '3D Showcase: Source Code on GitHub',
         description:
           'Explore the React and React Three Fiber source code behind my 3D graphics project. See how 3D scenes are structured and rendered dynamically.',
         link: 'https://github.com/182Marco/3D-React-Fiber-Gallery',
+        isOnYouTube: false,
+        isVisible: true,
       },
     ],
   },
