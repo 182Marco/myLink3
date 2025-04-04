@@ -193,29 +193,6 @@ visibleAccordions.forEach(
   a => (sectionEl.innerHTML += AccordionFnComponent(a))
 );
 
-accordions.forEach(
-  a =>
-    (sectionEl.innerHTML += `
-    <article id="${a.id}">
-      <summary>
-        ${a.title}
-        <i class="fa-solid fa-chevron-right"></i>
-      </summary>
-      <ul>
-        ${a.list
-          .map(
-            e => `
-              <li onclick="window.open('${e.link}', '_blank')">       
-                <p title="${e.description}">${e.title}</p>
-              </li>
-                 `
-          )
-          .join('')}
-      </ul>
-    </article>
-  `)
-);
-
 // GET MEASURES
 const collapsedHeight = '40px';
 
