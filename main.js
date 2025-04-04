@@ -134,6 +134,52 @@ const accordions = [
 const getLinkText = resourceObj =>
   `<p title="${resourceObj.description}">${resourceObj.title}</p>`;
 
+const ExternalLinkFnComponent = resourceObj => `
+  <li onclick="window.open('${resourceObj.link}', '_blank')">       
+      ${getLinkText(resourceObj)}
+  </li>`;
+
+const toggleModal = ev =>
+  ev.currentTarget.querySelector('.modal').classList.toggle('show');
+
+const IframeFnComponent = resourceObj => `
+  <li onclick="toggleModal(event)" >
+     ${getLinkText(resourceObj)}
+     <div class="modal">
+      <div class="x-box" onclick="toggleModal(event)">
+        <i class="fa-solid fa-x"></i>
+      </div> 
+      <div class="video-box">
+        <iframe 
+          src="${resourceObj.link}" 
+          title="${resourceObj.title}" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          referrerpolicy="strict-origin-when-cross-origin" 
+          allowfullscreen>
+        </iframe>
+      </div> 
+    </div>
+  </li>`;
+
+const AccordionFnComponent = accordion => `
+    <article id="${accordion.id}">
+      <summary>
+        ${accordion.title}
+        <i class="fa-solid fa-chevron-right"></i>
+      </summary>
+      <ul>
+        ${accordion.list
+          .map(resourceObj =>
+            resourceObj.isOnYouTube && window.innerWidth >= 768
+              ? IframeFnComponent(resourceObj)
+              : ExternalLinkFnComponent(resourceObj)
+          )
+          .join('')}
+      </ul>
+    </article>
+  `;
+
 const sectionEl = document.querySelector('section');
 
 accordions.forEach(
