@@ -37,6 +37,28 @@
     </header>
     <section id="root"></section>
     <!-- js -->
-    <script src="main.js" charset="utf-8"></script>
+    <script>
+      const scripts = [
+        './js/rawData.js',
+        './js/components/getLinkText.js',
+        './js/components/externalLinkFnComponent.js',
+        './js/components/AccordionFnComponent.js',
+        './js/utils/toggleModal.js',
+        './js/components/IframeFnComponent.js',
+        './js/root.js',
+        './js/utils/fixedVars.js',
+        './js/utils/accordionsLogic.js',
+      ];
+
+      const loadScriptsSequentially = (i = 0) => {
+        if (i >= scripts.length) return;
+        const s = document.createElement('script');
+        s.src = scripts[i];
+        s.onload = () => loadScriptsSequentially(i + 1);
+        document.body.appendChild(s);
+      };
+
+      loadScriptsSequentially();
+    </script>
   </body>
 </html>
