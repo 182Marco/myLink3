@@ -131,6 +131,9 @@ const accordions = [
   },
 ];
 
+const getLinkText = resourceObj =>
+  `<p title="${resourceObj.description}">${resourceObj.title}</p>`;
+
 const sectionEl = document.querySelector('section');
 
 accordions.forEach(
