@@ -7,7 +7,7 @@ const accordions = [
         title: 'Shallow or Deep Copy?',
         description:
           'I explain what happens when you shallow copy a reference and the potential bugs that may arise.',
-        link: 'https://www.youtube.com/watch?v=k2FVpUXqSfc',
+        link: 'https://www.youtube.com/embed/k2FVpUXqSfc?si=lUnx5xij0GZUtr5M',
         isOnYouTube: true,
         isVisible: true,
       },
@@ -15,7 +15,7 @@ const accordions = [
         title: 'Thinking Through a Deep Copy Function',
         description:
           "<code>StructuredClone()</code> has been available since ECMAScript 2021, but here's a logical exercise to write a deep copy function that works regardless of nested references.",
-        link: 'https://www.youtube.com/watch?v=FB6LsVv2IKI',
+        link: 'https://www.youtube.com/embed/FB6LsVv2IKI?si=mDIviaVoEtpUYiJu',
         isOnYouTube: true,
         isVisible: true,
       },
@@ -31,7 +31,7 @@ const accordions = [
         title: 'Spread props on a React Component',
         description:
           'I show how to use the rest operator to isolate props (e.g., button props in a modal) and spread them onto components.',
-        link: 'https://www.youtube.com/watch?v=KA6Ccu5F5ik',
+        link: 'https://www.youtube.com/embed/KA6Ccu5F5ik?si=9MHZEGvy4EZTTDHP',
         isOnYouTube: true,
         isVisible: true,
       },
@@ -39,7 +39,7 @@ const accordions = [
         title: 'Barrel Imports for Cleaner Code',
         description:
           'I show how barrel imports simplify module management by consolidating exports into a single file, improving code organization and readability.',
-        link: 'https://www.youtube.com/watch?v=iYBkhkfALFA&list=PLZzwNYM3GJOr6X18nCv6H9s8oi2GkUGOL',
+        link: 'https://www.youtube.com/embed/iYBkhkfALFA?si=inIXU1Iop-7GYHaQ',
         isOnYouTube: true,
         isVisible: true,
       },
@@ -47,7 +47,7 @@ const accordions = [
         title: 'Decoupled UI & Logic, Custom Hooks',
         description:
           'I show how custom hooks in React help separate logic from JSX/TSX templates, improving code reusability and maintainability.',
-        link: 'https://www.youtube.com/watch?v=3QknDb6h88s&list=PLZzwNYM3GJOr6X18nCv6H9s8oi2GkUGOL&index=5',
+        link: 'https://www.youtube.com/embed/3QknDb6h88s?si=pjDFRdJ_LlNQNl5S',
         isOnYouTube: true,
         isVisible: true,
       },
@@ -61,7 +61,7 @@ const accordions = [
         title: 'Netflix Replica: Video Presentation',
         description:
           'In this video, I present the templates and features of a Netflix replica app I built, where you can browse, search, and stream movies and TV series',
-        link: 'https://www.youtube.com/watch?v=URvi-QwBXPs&t=1s',
+        link: 'https://www.youtube.com/embed/URvi-QwBXPs?si=Ceh7biXNW5tFx_Nc',
         isOnYouTube: true,
         isVisible: true,
       },
