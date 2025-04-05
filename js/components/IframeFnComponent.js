@@ -1,6 +1,6 @@
 const IframeFnComponent = resourceObj => `
   <li onclick="toggleModal(event)" >
-     ${getLinkText(resourceObj)}
+     ${GetLinkTextFnComponent(resourceObj)}
      <div class="modal">
       <div class="x-box" onclick="toggleModal(event)">
         <i class="fa-solid fa-x"></i>
