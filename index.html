@@ -8,15 +8,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/colors.css" />
-    <link rel="stylesheet" href="css/resets.css" />
-    <link rel="stylesheet" href="css/header.css" />
-    <link rel="stylesheet" href="css/myImg.css" />
-    <link rel="stylesheet" href="css/btns.css" />
-    <link rel="stylesheet" href="css/accordion.css" />
-    <link rel="stylesheet" href="css/modal.css" />
-    <!-- favicon -->
+    <link rel="stylesheet" href="cssLoad.css" />
     <link rel="icon" href="img/favicon.ico" />
     <title>Marco Milza</title>
   </head>
@@ -37,28 +29,6 @@
     </header>
     <section id="root"></section>
     <!-- js -->
-    <script>
-      const scripts = [
-        './js/rawData.js',
-        './js/components/getLinkText.js',
-        './js/components/externalLinkFnComponent.js',
-        './js/components/AccordionFnComponent.js',
-        './js/utils/toggleModal.js',
-        './js/components/IframeFnComponent.js',
-        './js/root.js',
-        './js/utils/fixedVars.js',
-        './js/utils/accordionsLogic.js',
-      ];
-
-      const loadScriptsSequentially = (i = 0) => {
-        if (i >= scripts.length) return;
-        const s = document.createElement('script');
-        s.src = scripts[i];
-        s.onload = () => loadScriptsSequentially(i + 1);
-        document.body.appendChild(s);
-      };
-
-      loadScriptsSequentially();
-    </script>
+    <script src="jsLoad.js"></script>
   </body>
 </html>
