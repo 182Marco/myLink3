@@ -1,4 +1,4 @@
-figure {
+header > figure {
   flex-shrink: 0;
   width: 100px;
   height: 100px;
