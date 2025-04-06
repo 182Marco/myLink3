@@ -144,3 +144,103 @@ const accordions = [
     ],
   },
 ];
+
+const GetLinkTextFnComponent = resourceObj =>
+  `
+     <section>
+       <figure>
+         <img alt="${resourceObj.description}" src="${resourceObj.img}" />
+       </figure>
+       <h5>${resourceObj.title}</h5>
+     </section>
+  `;
+
+const ExternalLinkFnComponent = resourceObj => `
+  <li onclick="window.open('${resourceObj.link}', '_blank')">       
+      ${GetLinkTextFnComponent(resourceObj)}
+  </li>`;
+
+const AccordionFnComponent = accordion => `
+    <article id="${accordion.id}">
+      <summary>
+        ${accordion.title}
+        <i class="fa-solid fa-chevron-right rotate"></i>
+      </summary>
+      <ul>
+        ${accordion.list
+          .map(resourceObj =>
+            resourceObj.isOnYouTube && window.innerWidth >= 768
+              ? IframeFnComponent(resourceObj)
+              : ExternalLinkFnComponent(resourceObj)
+          )
+          .join('')}
+      </ul>
+    </article>
+  `;
+
+const toggleModal = ev =>
+  ev.currentTarget.querySelector('.modal').classList.toggle('show');
+
+const IframeFnComponent = resourceObj => `
+  <li onclick="toggleModal(event)" >
+     ${GetLinkTextFnComponent(resourceObj)}
+     <div class="modal">
+      <div class="x-box" onclick="toggleModal(event)">
+        <i class="fa-solid fa-x"></i>
+      </div> 
+      <div class="video-box">
+        <iframe 
+          src="${resourceObj.link}" 
+          title="${resourceObj.title}" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          referrerpolicy="strict-origin-when-cross-origin" 
+          allowfullscreen>
+        </iframe>
+      </div> 
+    </div>
+  </li>`;
+
+const visibleAccordions = accordions
+  .map(obj => ({
+    ...obj,
+    list: obj.list.filter(e => e.isVisible),
+  }))
+  .filter(obj => obj.list.length > 0);
+
+const sectionEl = document.querySelector('#root');
+
+visibleAccordions.forEach(
+  a => (sectionEl.innerHTML += AccordionFnComponent(a))
+);
+
+const collapsedAccordionHeight = '40px';
+
+const mappedAccordion = visibleAccordions.map(e => ({
+  id: e.id,
+  el: document.getElementById(e.id),
+  chevron: document.querySelector(`#${e.id} .fa-chevron-right`),
+  initialHeight: null,
+}));
+
+mappedAccordion.forEach(a => {
+  a.initialHeight = `${a.el.offsetHeight}px`;
+});
+
+const shutAccordion = a => {
+  a.el.style.height = collapsedAccordionHeight;
+  a.chevron?.classList.remove('rotate');
+};
+const openAccordion = a => {
+  a.el.style.height = a.initialHeight;
+  a.chevron?.classList.add('rotate');
+};
+
+const toggleAccordions = selectedA =>
+  selectedA.el.style.height === collapsedAccordionHeight
+    ? openAccordion(selectedA)
+    : shutAccordion(selectedA);
+
+mappedAccordion.forEach(s =>
+  s.el.addEventListener('click', () => toggleAccordions(s))
+);
