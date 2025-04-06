@@ -2,7 +2,7 @@ const AccordionFnComponent = accordion => `
     <article id="${accordion.id}">
       <summary>
         ${accordion.title}
-        <i class="fa-solid fa-chevron-right"></i>
+        <i class="fa-solid fa-chevron-right rotate"></i>
       </summary>
       <ul>
         ${accordion.list

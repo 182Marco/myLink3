@@ -5,9 +5,8 @@ const mappedAccordion = visibleAccordions.map(e => ({
   initialHeight: null,
 }));
 
-mappedAccordion.forEach(s => {
-  s.initialHeight = `${s.el.offsetHeight}px`;
-  s.el.style.height = collapsedAccordionHeight;
+mappedAccordion.forEach(a => {
+  a.initialHeight = `${a.el.offsetHeight}px`;
 });
 
 const shutAccordion = a => {
@@ -20,11 +19,9 @@ const openAccordion = a => {
 };
 
 const toggleAccordions = selectedA =>
-  mappedAccordion.forEach(a =>
-    a === selectedA && selectedA.el.style.height === collapsedAccordionHeight
-      ? openAccordion(a)
-      : shutAccordion(a)
-  );
+  selectedA.el.style.height === collapsedAccordionHeight
+    ? openAccordion(selectedA)
+    : shutAccordion(selectedA);
 
 mappedAccordion.forEach(s =>
   s.el.addEventListener('click', () => toggleAccordions(s))
