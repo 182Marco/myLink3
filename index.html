@@ -10,18 +10,28 @@
   <body>
     <header>
       <figure>
-        <img src="./img/io.png" alt="Marco Milza profile picture" />
+        <img src="./img/io.avif" alt="Marco Milza profile picture" />
       </figure>
-      <h1>Marco Milza</h1>
       <nav>
-        <h2>Front end developer</h2>
-        <i
-          class="fa-brands fa-linkedin"
-          onclick='window.open( "https&#58;&#47;&#47;www.linkedin.com/in/marco-milza", "_blank")'
-        ></i>
+        <h1>Marco Milza</h1>
+        <section>
+          <i
+            class="fa-brands fa-linkedin"
+            onclick='window.open( "https&#58;&#47;&#47;www.linkedin.com/in/marco-milza", "_blank")'
+          ></i>
+          <h2>Front end developer</h2>
+        </section>
       </nav>
     </header>
-    <section id="root"></section>
-    <script src="jsLoad.js"></script>
+    <main id="root"></main>
+    <script src="./rawData.js"></script>
+    <script src="./js/components/GetLinkTextFnComponent.js"></script>
+    <script src="./js/components/ExternalLinkFnComponent.js"></script>
+    <script src="./js/components/AccordionFnComponent.js"></script>
+    <script src="./js/utils/toggleModal.js"></script>
+    <script src="./js/components/IframeFnComponent.js"></script>
+    <script src="./js/root.js"></script>
+    <script src="./js/utils/fixedVars.js"></script>
+    <script src="./js/utils/accordionsLogic.js"></script>
   </body>
 </html>
