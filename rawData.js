@@ -10,6 +10,7 @@ const accordions = [
         link: 'https://www.youtube.com/embed/k2FVpUXqSfc?si=lUnx5xij0GZUtr5M',
         isOnYouTube: true,
         isVisible: true,
+        img: 'img/4.avif',
       },
       {
         title: 'Thinking Through a Deep Copy Function',
@@ -18,6 +19,7 @@ const accordions = [
         link: 'https://www.youtube.com/embed/FB6LsVv2IKI?si=mDIviaVoEtpUYiJu',
         isOnYouTube: true,
         isVisible: true,
+        img: 'img/5.avif',
       },
       {
         title: 'Typescript Generic Explanation',
@@ -26,6 +28,7 @@ const accordions = [
         link: 'https://www.youtube.com/embed/4aE7kfqhdPg?si=UHwChIoyU8jU7IVG',
         isOnYouTube: true,
         isVisible: true,
+        img: 'img/3.avif',
       },
       {
         title: 'Spread props on a React Component',
@@ -34,14 +37,7 @@ const accordions = [
         link: 'https://www.youtube.com/embed/KA6Ccu5F5ik?si=9MHZEGvy4EZTTDHP',
         isOnYouTube: true,
         isVisible: true,
-      },
-      {
-        title: 'Barrel Imports for Cleaner Code',
-        description:
-          'I show how barrel imports simplify module management by consolidating exports into a single file, improving code organization and readability.',
-        link: 'https://www.youtube.com/embed/iYBkhkfALFA?si=inIXU1Iop-7GYHaQ',
-        isOnYouTube: true,
-        isVisible: true,
+        img: 'img/7.avif',
       },
       {
         title: 'Decoupled UI & Logic, Custom Hooks',
@@ -50,6 +46,16 @@ const accordions = [
         link: 'https://www.youtube.com/embed/3QknDb6h88s?si=pjDFRdJ_LlNQNl5S',
         isOnYouTube: true,
         isVisible: true,
+        img: 'img/8.avif',
+      },
+      {
+        title: 'Barrel Imports for Cleaner Code',
+        description:
+          'I show how barrel imports simplify module management by consolidating exports into a single file, improving code organization and readability.',
+        link: 'https://www.youtube.com/embed/iYBkhkfALFA?si=inIXU1Iop-7GYHaQ',
+        isOnYouTube: true,
+        isVisible: true,
+        img: 'img/6.avif',
       },
     ],
   },
@@ -64,6 +70,7 @@ const accordions = [
         link: 'https://www.youtube.com/embed/URvi-QwBXPs?si=Ceh7biXNW5tFx_Nc',
         isOnYouTube: true,
         isVisible: true,
+        img: 'img/1.avif',
       },
       {
         title: 'See for Yourself: A Netflix Replica',
@@ -72,6 +79,7 @@ const accordions = [
         link: 'https://netfli-x-marco-milza.netlify.app/',
         isOnYouTube: false,
         isVisible: true,
+        img: 'img/2.avif',
       },
       {
         title: 'My 3D Scenes Gallery: Video Presentation',
@@ -80,6 +88,7 @@ const accordions = [
         link: 'https://www.google.com',
         isOnYouTube: true,
         isVisible: false,
+        img: 'img/10.avif',
       },
       {
         title: 'My 3D Scenes Gallery',
@@ -88,6 +97,7 @@ const accordions = [
         link: 'https://3dgallerythreefiber.netlify.app/',
         isOnYouTube: false,
         isVisible: true,
+        img: 'img/9.avif',
       },
     ],
   },
@@ -96,28 +106,13 @@ const accordions = [
     title: 'For Devs: View the Source Code',
     list: [
       {
-        title: 'Netflix Replica: Live Demo (CodeSandbox)',
-        description:
-          'Explore the full functionality of my Netflix replica built with Vue.js. Browse, search, and stream movies and TV series while viewing the source code alongside.',
-        link: 'https://codesandbox.io/p/github/182Marco/marco-m-netflix/main?file=%2Fpackage.json%3A2%2C1-2%2C70&workspaceId=ws_83N1aBN8g8iPuq9LEMC9FB',
-        isOnYouTube: false,
-        isVisible: true,
-      },
-      {
-        title: 'Netflix Replica: Source Code on GitHub',
-        description:
-          'Dive into the Vue.js source code of my Netflix replica. Analyze the architecture, explore the logic, and understand how the app handles streaming features.',
-        link: 'https://github.com/182Marco/marco-m-netflix',
-        isOnYouTube: false,
-        isVisible: true,
-      },
-      {
         title: '3D Graphics: Live Demo (CodeSandbox)',
         description:
           'Interact with a gallery of 3D graphic scenes built with React and React Three Fiber. Experience real-time 3D rendering while inspecting the source code.',
         link: 'https://codesandbox.io/p/github/182Marco/3D-React-Fiber-Gallery/main?file=%2Fsrc%2Fcomponents%2FportalPass%2Fcomponents%2FmonsterStage%2FmonsterStage.jsx%3A1%2C1-50%2C1&workspaceId=ws_83N1aBN8g8iPuq9LEMC9FB',
         isOnYouTube: false,
         isVisible: true,
+        img: 'img/14.avif',
       },
       {
         title: '3D Showcase: Source Code on GitHub',
@@ -126,6 +121,25 @@ const accordions = [
         link: 'https://github.com/182Marco/3D-React-Fiber-Gallery',
         isOnYouTube: false,
         isVisible: true,
+        img: 'img/12.avif',
+      },
+      {
+        title: 'Netflix Replica: Source Code on CodeSandbox',
+        description:
+          'Explore the full functionality of my Netflix replica built with Vue.js. Browse, search, and stream movies and TV series while viewing the source code alongside.',
+        link: 'https://codesandbox.io/p/github/182Marco/marco-m-netflix/main?file=%2Fpackage.json%3A2%2C1-2%2C70&workspaceId=ws_83N1aBN8g8iPuq9LEMC9FB',
+        isOnYouTube: false,
+        isVisible: true,
+        img: 'img/13.avif',
+      },
+      {
+        title: 'Netflix Replica: Source Code on GitHub',
+        description:
+          'Dive into the Vue.js source code of my Netflix replica. Analyze the architecture, explore the logic, and understand how the app handles streaming features.',
+        link: 'https://github.com/182Marco/marco-m-netflix',
+        isOnYouTube: false,
+        isVisible: true,
+        img: 'img/11.avif',
       },
     ],
   },
