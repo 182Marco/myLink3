@@ -145,6 +145,9 @@ const accordions = [
   },
 ];
 
+const toggleModal = ev =>
+  ev.currentTarget.querySelector('.modal').classList.toggle('show');
+
 const GetLinkTextFnComponent = resourceObj =>
   `
      <section>
@@ -159,27 +162,6 @@ const ExternalLinkFnComponent = resourceObj => `
   <li onclick="window.open('${resourceObj.link}', '_blank')">       
       ${GetLinkTextFnComponent(resourceObj)}
   </li>`;
-
-const AccordionFnComponent = accordion => `
-    <article id="${accordion.id}">
-      <summary>
-        ${accordion.title}
-        <i class="fa-solid fa-chevron-right rotate"></i>
-      </summary>
-      <ul>
-        ${accordion.list
-          .map(resourceObj =>
-            resourceObj.isOnYouTube && window.innerWidth >= 768
-              ? IframeFnComponent(resourceObj)
-              : ExternalLinkFnComponent(resourceObj)
-          )
-          .join('')}
-      </ul>
-    </article>
-  `;
-
-const toggleModal = ev =>
-  ev.currentTarget.querySelector('.modal').classList.toggle('show');
 
 const IframeFnComponent = resourceObj => `
   <li onclick="toggleModal(event)" >
@@ -200,6 +182,24 @@ const IframeFnComponent = resourceObj => `
       </div> 
     </div>
   </li>`;
+
+const AccordionFnComponent = accordion => `
+    <article id="${accordion.id}">
+      <summary>
+        ${accordion.title}
+        <i class="fa-solid fa-chevron-right rotate"></i>
+      </summary>
+      <ul>
+        ${accordion.list
+          .map(resourceObj =>
+            resourceObj.isOnYouTube && window.innerWidth >= 768
+              ? IframeFnComponent(resourceObj)
+              : ExternalLinkFnComponent(resourceObj)
+          )
+          .join('')}
+      </ul>
+    </article>
+  `;
 
 const visibleAccordions = accordions
   .map(obj => ({
