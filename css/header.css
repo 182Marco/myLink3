@@ -69,7 +69,14 @@ h2 {
 }
 
 @media (max-width: 525px) {
+  h1 {
+    font-size: 18px;
+    padding: 0 0 3px;
+  }
   h2 {
-    font-size: 14px;
+    font-size: 12px;
+  }
+  nav section {
+    padding: 3px 0 0;
   }
 }
