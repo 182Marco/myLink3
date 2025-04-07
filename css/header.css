@@ -68,7 +68,7 @@ h2 {
   font-style: italic;
 }
 
-@media (max-width: 425px) {
+@media (max-width: 525px) {
   h2 {
     font-size: 14px;
   }
