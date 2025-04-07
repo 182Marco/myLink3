@@ -1,7 +1,7 @@
 const accordions = [
   {
     id: 'tutorials',
-    title: 'Coding Tutorials by Me',
+    title: 'Coding Tutorials by me',
     list: [
       {
         title: 'Shallow or Deep Copy?',
@@ -61,7 +61,7 @@ const accordions = [
   },
   {
     id: 'u-ex',
-    title: 'Experience My Projects Firsthand',
+    title: 'My Projects',
     list: [
       {
         title: 'Netflix Replica: Video Presentation',
@@ -103,7 +103,7 @@ const accordions = [
   },
   {
     id: 'source-code',
-    title: 'For Devs: View the Source Code',
+    title: 'For Devs: Source Code',
     list: [
       {
         title: '3D Graphics: Live Demo (CodeSandbox)',
