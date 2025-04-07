@@ -85,7 +85,7 @@ const accordions = [
         title: 'My 3D Scenes Gallery: Video Presentation',
         description:
           'Experience a gallery of 3D graphic scenes applied to development. Dive into this JavaScript programming niche and explore the project firsthand!',
-        link: 'https://www.google.com',
+        link: 'https://www.youtube.com/embed/57bONIEfiL4?si=r-k2oSqcYLRahVdU',
         isOnYouTube: true,
         isVisible: false,
         img: 'img/10.avif',
