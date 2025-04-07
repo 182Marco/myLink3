@@ -87,7 +87,7 @@ const accordions = [
           'Experience a gallery of 3D graphic scenes applied to development. Dive into this JavaScript programming niche and explore the project firsthand!',
         link: 'https://www.youtube.com/embed/57bONIEfiL4?si=r-k2oSqcYLRahVdU',
         isOnYouTube: true,
-        isVisible: false,
+        isVisible: true,
         img: 'img/10.avif',
       },
       {
