@@ -102,12 +102,11 @@ article ul li h5 {
 
 @media (max-width: 425px) {
   article ul li h5 {
-    font-size: 13px;
+    display: none;
   }
 
   article ul li {
     width: 250px;
-    height: 140.5px;
   }
 
   article ul li figure {
