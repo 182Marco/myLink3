@@ -7,30 +7,38 @@ header {
 header nav {
   margin: 0 0 0 15px;
 }
+header nav section:nth-of-type(2),
+header nav section:nth-of-type(3) {
+  display: none;
+}
+header.show-contacts nav section:nth-of-type(2),
+header.show-contacts nav section:nth-of-type(3) {
+  display: flex;
+}
 
 header section {
   display: flex;
   align-items: center;
   margin: 2px 0 0 0;
+  cursor: pointer;
 }
 
 header section i {
   margin: 0 6px 0 0;
-  font-size: 22px;
+  font-size: 12px;
   transition: all 0.2s;
-  cursor: pointer;
 }
 
-i.fa-brands.fa-linkedin::before {
+header section i::before {
   color: #0077b5;
   transition: color 0.3s ease;
 }
 
-i.fa-brands.fa-linkedin {
+header section i {
   transition: transform 0.15s ease;
 }
 
-i.fa-brands.fa-linkedin:hover {
+header section i:hover {
   animation: trembleEffect 0.3s ease 2;
 }
 
@@ -74,7 +82,7 @@ h2 {
     padding: 0 0 3px;
   }
   h2 {
-    font-size: 12px;
+    font-size: 9px;
   }
   nav section {
     padding: 3px 0 0;
