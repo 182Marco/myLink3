@@ -55,7 +55,7 @@ header.innerHTML = `
 `;
 
 document
-  .querySelectorAll('ul section')
+  .querySelectorAll('ul li')
   .forEach((s, i) =>
     myData.contacts[i].onClick
       ? s.addEventListener('click', myData.contacts[i].onClick)
