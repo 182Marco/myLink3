@@ -1,3 +1,67 @@
+const myData = {
+  firstName: 'Marco',
+  secondName: 'Milza',
+  fullName() {
+    return this.firstName + this.secondName;
+  },
+  img: './img/io.avif',
+  imgAlt() {
+    return `${this.firstName} ${this.secondName} profile picture`;
+  },
+  contacts: [
+    {
+      icon: 'fa-brands fa-linkedin',
+      contact: 'Front end developer',
+      isAlwaysVisible: true,
+      onClick: () =>
+        window.open('https://www.linkedin.com/in/marco-milza', '_blank'),
+    },
+    {
+      icon: 'fa-solid fa-phone',
+      contact: '+39 3295858709',
+      isAlwaysVisible: false,
+    },
+    {
+      icon: 'fa-solid fa-envelope',
+      contact: 'marcomilza@gmail.com',
+      isAlwaysVisible: false,
+      onClick: () => (window.location.href = 'mailto:marcomilza@gmail.com'),
+    },
+  ],
+};
+
+const params = new URLSearchParams(window.location.search);
+const header = document.querySelector('header');
+
+header.innerHTML = `
+  <figure>
+    <img src="${myData.img}" alt="${myData.imgAlt()}" />
+  </figure>
+  <ul>
+    <h1>${myData.fullName()}</h1>
+    ${myData.contacts
+      .map((c, i) =>
+        c.isAlwaysVisible || params.has('data')
+          ? `
+      <li>
+        <i class="${c.icon}"></i>
+        <h2>${c.contact}</h2>
+      </li>
+    `
+          : ''
+      )
+      .join('')}
+  </ul>
+`;
+
+document
+  .querySelectorAll('ul section')
+  .forEach((s, i) =>
+    myData.contacts[i].onClick
+      ? s.addEventListener('click', myData.contacts[i].onClick)
+      : null
+  );
+
 const accordions = [
   {
     id: 'tutorials',
