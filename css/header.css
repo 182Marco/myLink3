@@ -7,33 +7,37 @@ header {
 
 header ul {
   margin: 0 0 0 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
-header li {
+header ul li {
   display: flex;
   align-items: center;
   cursor: pointer;
+  padding: 7px 0;
 }
 
-header li i {
-  margin: 0 6px 0 0;
+header ul li:first-of-type,
+header ul li:last-of-type {
+  padding: 0;
+}
+
+header ul li i {
   font-size: 18px;
   transition: all 0.2s;
 }
 
 header li i::before {
+  font-size: 22px;
   color: var(--cta-color);
   transition: color 0.3s ease;
+  margin-right: 4px;
 }
 
 header li i {
   transition: transform 0.15s ease;
 }
 
-header li:not(:nth-last-of-type(2)) i:hover {
+header ul li:not(:nth-of-type(2)) i:hover {
   animation: trembleEffect 0.3s ease 2;
 }
 
@@ -57,7 +61,7 @@ header li:not(:nth-last-of-type(2)) i:hover {
 
 h1 {
   font-size: 20px;
-  margin: 0 0 2px 0;
+  padding: 0 0 7px;
 }
 
 h1,
@@ -74,12 +78,8 @@ h2 {
 @media (max-width: 525px) {
   h1 {
     font-size: 18px;
-    padding: 0 0 3px;
   }
   h2 {
-    font-size: 9px;
-  }
-  ul li {
-    padding: 3px 0 0;
+    font-size: 12px;
   }
 }
