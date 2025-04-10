@@ -35,6 +35,7 @@ const header = document.querySelector('header');
 
 header.innerHTML = `
   <figure>
+    <i class="fa-solid fa-x"></i>
     <img src="${myData.img}" alt="${myData.imgAlt()}" />
   </figure>
   <ul>
@@ -61,6 +62,9 @@ document
       ? s.addEventListener('click', myData.contacts[i].onClick)
       : null
   );
+
+const myPic = document.querySelector('figure');
+myPic.addEventListener('click', () => myPic.classList.toggle('open'));
 
 const accordions = [
   {
