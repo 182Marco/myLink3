@@ -2,21 +2,23 @@ header {
   display: flex;
   align-items: center;
   height: 110px;
-  margin: 0 0 20px;
+  margin: 0 0 45px;
 }
 
-header ul {
+header nav {
   margin: 0 0 0 15px;
 }
 
 header ul li {
   display: flex;
   align-items: center;
-  cursor: pointer;
   padding: 7px 0;
 }
 
-header ul li:first-of-type,
+header ul li:first-of-type {
+  padding: 3px 0 0;
+}
+
 header ul li:last-of-type {
   padding: 0;
 }
@@ -30,15 +32,15 @@ header li i::before {
   font-size: 22px;
   color: var(--cta-color);
   transition: color 0.3s ease;
-  margin-right: 4px;
+  margin: 0 6px 0 0;
 }
 
-header li i {
-  transition: transform 0.15s ease;
-}
-
-header ul li:not(:nth-of-type(2)) i:hover {
+header ul li i:hover {
   animation: trembleEffect 0.3s ease 2;
+}
+
+header ul li:not(:nth-of-type(2)) {
+  cursor: pointer;
 }
 
 @keyframes trembleEffect {
@@ -61,7 +63,7 @@ header ul li:not(:nth-of-type(2)) i:hover {
 
 h1 {
   font-size: 20px;
-  padding: 0 0 7px;
+  padding: 0 0 3px;
 }
 
 h1,
