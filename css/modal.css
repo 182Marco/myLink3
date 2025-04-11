@@ -1,26 +1,20 @@
 dialog {
   visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   position: fixed;
   top: 0;
   left: 0;
-  width: 0;
-  height: 0;
+  width: 100vw;
+  height: 100vh;
   z-index: 2;
   background-color: #000;
   transition: opacity 0.25s ease-out;
 }
 
 dialog.show {
-  visibility: visible;
-  opacity: 1;
-  pointer-events: auto;
-  width: 100vw;
-  height: 100vh;
+  display: flex;
 }
 
 dialog .video-box {
