@@ -45,8 +45,26 @@ document
 const myPic = document.querySelector('figure');
 myPic.addEventListener('click', () => myPic.classList.toggle('open'));
 
+let isOpenModal = false;
+
 const toggleModal = ev => {
-  ev.currentTarget.querySelector('dialog').classList.toggle('show');
+  const dialog = ev.currentTarget?.querySelector('dialog');
+  if (!dialog) return;
+
+  if (isOpenModal) {
+    const iframe = dialog.querySelector('iframe');
+    const src = iframe?.src;
+    iframe?.remove();
+    src &&
+      dialog.appendChild(
+        Object.assign(document.createElement('iframe'), { src })
+      );
+    dialog.classList.remove('show');
+  } else {
+    dialog.classList.add('show');
+  }
+
+  isOpenModal = !isOpenModal;
   ev.stopPropagation();
 };
 
