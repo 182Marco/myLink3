@@ -61,7 +61,7 @@ article ul {
 }
 
 article ul::-webkit-scrollbar {
-  display: none; /* For Chrome/Safari */
+  display: none;
 }
 
 article ul li {
