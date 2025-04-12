@@ -3,7 +3,7 @@ const myData = {
   firstName: 'Marco',
   secondName: 'Milza',
   fullName() {
-    return this.firstName + this.secondName;
+    return `${this.firstName} ${this.secondName}`;
   },
   img: './img/io.avif',
   imgAlt() {
