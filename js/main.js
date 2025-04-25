@@ -141,6 +141,7 @@ const mappedAccordion = visibleAccordions.map(e => ({
   id: e.id,
   el: document.getElementById(e.id),
   chevron: document.querySelector(`#${e.id} .fa-chevron-right`),
+  summary: document.querySelector(`#${e.id} summary`),
   initialHeight: null,
 }));
 
@@ -163,5 +164,5 @@ const toggleAccordions = selectedA =>
     : shutAccordion(selectedA);
 
 mappedAccordion.forEach(s =>
-  s.el.addEventListener('click', () => toggleAccordions(s))
+  s.summary.addEventListener('click', () => toggleAccordions(s))
 );
