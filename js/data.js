@@ -98,8 +98,8 @@ const accordions = [
     ],
   },
   {
-    id: 'u-ex',
-    title: 'My Projects',
+    id: 'videos',
+    title: 'I walk you through my apps with videos',
     list: [
       {
         title: 'Netflix Replica: Video Presentation',
@@ -111,15 +111,6 @@ const accordions = [
         img: 'img/1.avif',
       },
       {
-        title: 'See for Yourself: A Netflix Replica',
-        description:
-          'Enter marcomilza@gmail.com and use xxx as the password to explore the templates and features of a Netflix replica app I built. Search and watch movies and TV series just like on the real platform!',
-        link: 'https://netfli-x-marco-milza.netlify.app/',
-        isOnYouTube: false,
-        isVisible: true,
-        img: 'img/2.avif',
-      },
-      {
         title: 'My 3D Scenes Gallery: Video Presentation',
         description:
           'Experience a gallery of 3D graphic scenes applied to development. Dive into this JavaScript programming niche and explore the project firsthand!',
@@ -128,6 +119,22 @@ const accordions = [
         isVisible: true,
         img: 'img/10.avif',
       },
+    ],
+  },
+  {
+    id: 'u-ex',
+    title: 'My project websites',
+    list: [
+      {
+        title: 'See for Yourself: A Netflix Replica',
+        description:
+          "Enter also without password (the login it' just simulated), explore the templates and features of a Netflix replica app I built. Search and watch movies and TV series just like on the real platform!",
+        link: 'https://netfli-x-marco-milza.netlify.app/',
+        isOnYouTube: false,
+        isVisible: true,
+        img: 'img/2.avif',
+      },
+
       {
         title: 'My 3D Scenes Gallery',
         description:
