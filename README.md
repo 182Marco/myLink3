@@ -27,6 +27,3 @@ This repository is designed to create a **personalized Linktree** that points to
    ```bash
    git clone https://github.com/182Marco/myLink3
    ```
-1234567890
-1234567890
-abcde
