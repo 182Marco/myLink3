@@ -1,5 +1,4 @@
-1234567890
-1234567890123456789## Marco Milza - Front-End Developer
+## Marco Milza - Front-End Developer
 
 This repository is designed to create a **personalized Linktree** that points to the portfolio resources of **Marco Milza**, a front-end developer.
 
