@@ -1,4 +1,4 @@
-1## The project aim
+12## The project aim
 T2his repository is designed to create a **personalized Linktree** that points to the portfolio resources of **Marco Milza**, a front-end developer.
 
 ## What is Linktree?
