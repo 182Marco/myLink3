@@ -1,8 +1,3 @@
-1234567890
-tfgvvgxico
-1g
-
-
 
 ## The project aim
 
