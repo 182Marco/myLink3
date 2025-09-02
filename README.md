@@ -1,6 +1,3 @@
-ggdighsftr
-1234567890
-fgg
 
 ## The project aim
 
