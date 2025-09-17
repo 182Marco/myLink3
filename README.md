@@ -1,7 +1,6 @@
 1234567890
 gvgffggggg
-gg
-f
+ggvv
 
 ## The project aim
 
