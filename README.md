@@ -1,5 +1,4 @@
-6
-hb3bb
+hb3bb6;
 
 ## The project aim
 
