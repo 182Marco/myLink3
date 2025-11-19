@@ -1,5 +1,5 @@
 1234567890
-gn
+gnb
 
 ## The project aim
 
