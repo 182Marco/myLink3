@@ -1,9 +1,3 @@
-1f3f5h7u90
-hvfgffhhhh
-gggg
-
-
-
 ## The project aim
 
 This repository is designed to create a **personalized Linktree** that points to the portfolio resources of **Marco Milza**, a front-end developer.
