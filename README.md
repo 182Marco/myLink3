@@ -1,5 +1,5 @@
 1f3f5h7u90
-hvfgff
+hvfgffh
 
 
 
@@ -9,7 +9,7 @@ This repository is designed to create a **personalized Linktree** that points to
 
 ## What is Linktree?
 
-[Linktree](https://linktr.ee/) is a tool that allows you to create a page with a list of links to easily share on social media, websites, and other platforms. The goal of this project is to create a personalized version of Linktree to showcase and share Marco Milza's portfolio resources.
+[Linktree](https://linktr.tee/) is a tool that allows you to create a page with a list of links to easily share on social media, websites, and other platforms. The goal of this project is to create a personalized version of Linktree to showcase and share Marco Milza's portfolio resources.
 
 ## Features
 
