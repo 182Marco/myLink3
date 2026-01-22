@@ -1,5 +1,5 @@
 12345
-cf
+cfg
 
 ## The project aim
 
