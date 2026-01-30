@@ -2,7 +2,7 @@
 hggh
 hhgh
 hbhh
-hhh
+hhhh
 
 ## The project aim
 
