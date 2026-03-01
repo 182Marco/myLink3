@@ -3,7 +3,7 @@
 nhbn
 ihhb
 hhhb
-h
+hh
 
 ## The project aim
 
