@@ -1,5 +1,5 @@
 g2h4
-hhh
+hhhh
 
 ## The project aim
 
