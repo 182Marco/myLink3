@@ -1,6 +1,6 @@
 1234567890
 gggggggggh
-gigo
+gigok
 
 ## The project aim
 
