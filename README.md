@@ -13,7 +13,7 @@ service, no build step, total control over design and behaviour.
 ## Features
 
 - **Single source of truth**: profile, contacts, sections and cards are all
-  described in `js/data.js`. The HTML is an empty shell.
+  described in `src/js/data.js`. The HTML is an empty shell.
 - **Accordion sections** with animated open/close, each with a horizontally
   scrollable row of cards.
 - **Smart links**: YouTube items open in an in-page video modal on desktop and
@@ -27,7 +27,7 @@ service, no build step, total control over design and behaviour.
 ## Technologies
 
 - **HTML5**: empty page shell
-- **CSS3**: one file per concern, design tokens in `css/colors.css`
+- **CSS3**: one file per concern, design tokens in `src/css/colors.css`
 - **Vanilla JavaScript**: renderer that turns data into DOM
 - **Font Awesome** (CDN): icons
 - **AVIF** images
@@ -35,7 +35,7 @@ service, no build step, total control over design and behaviour.
 ## How it works
 
 ```
-js/data.js  ──►  js/main.js  ──►  <header> + <main>
+src/js/data.js  ──►  src/js/main.js  ──►  <header> + <main>
  (the data)      (the renderer)     (the page)
 ```
 
@@ -72,7 +72,7 @@ const accordions = [
 
 ## Customize (data entry)
 
-Everything is done by editing `js/data.js`:
+Everything is done by editing `src/js/data.js`:
 
 | I want to...        | Do this                                                         |
 | ------------------- | --------------------------------------------------------------- |
@@ -81,16 +81,16 @@ Everything is done by editing `js/data.js`:
 | Hide a card/section | Set `isVisible: false` on the card(s)                           |
 | Add a contact       | Add an object to `myData.contacts`                              |
 | Keep a contact private | Set `isAlwaysVisible: false` (shown with `?data`)            |
-| Change colors       | Edit the variables in `css/colors.css`                          |
+| Change colors       | Edit the variables in `src/css/colors.css`                          |
 
 ## Project structure
 
 ```
-index.html        empty shell
-cssLoad.css       imports Font Awesome and all files in css/
-css/              styles split by concern
-js/data.js        all the content (the only file you edit day to day)
-js/main.js        renderer and event wiring
+src/index.html    empty shell
+src/cssLoad.css   imports Font Awesome and all files in css/
+src/css/          styles split by concern
+src/js/data.js        all the content (the only file you edit day to day)
+src/js/main.js        renderer and event wiring
 img/              images
 AGENTS.md         guidelines for AI agents and contributors
 ```
@@ -104,10 +104,10 @@ AGENTS.md         guidelines for AI agents and contributors
    cd myLink3
    ```
 
-2. **Open it**: double-click `index.html`, or serve the folder with any static
+2. **Open it**: double-click `src/index.html`, or serve the folder with any static
    server, e.g. `npx serve .`.
 
-3. **Edit `js/data.js`** and reload. To see the private contacts, open
+3. **Edit `src/js/data.js`** and reload. To see the private contacts, open
    `index.html?data`.
 
 4. **Deploy** the folder as-is to any static host (Netlify, GitHub Pages...).
@@ -117,4 +117,4 @@ AGENTS.md         guidelines for AI agents and contributors
 Read [`AGENTS.md`](AGENTS.md). The golden rule: **the whole app must always be
 derived from the single data structure**, even as it evolves. The principle is
 also packaged as a reusable skill in
-[`.claude/skills/single-source-data-driven`](.claude/skills/single-source-data-driven/SKILL.md).
+[`skills/single-source-data-driven`](skills/single-source-data-driven/SKILL.md).

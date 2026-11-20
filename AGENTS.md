@@ -1,8 +1,9 @@
 # AGENTS.md
 
 Personalized Linktree for Marco Milza (front-end developer). Static site: no
-build step, no bundler, no package manager. Open `index.html` in a browser (or
-any static server) to run it. Deployed as static files.
+bundler, no package manager. Open `src/index.html` in a browser (or any static
+server) to run it. Deployed as static files from `dist/`, produced by
+`./build.sh` (a plain copy of `src/`).
 
 ## Golden rule: single source of truth
 
@@ -33,20 +34,36 @@ This must hold even as the app grows:
   duplicated strings.
 
 The portable version of this principle is the skill
-`.claude/skills/single-source-data-driven/SKILL.md`. Follow it when adding
+`skills/single-source-data-driven/SKILL.md`. Follow it when adding
 features.
 
 ## Layout
 
+Production files are strictly separated from docs, planning and agent tooling.
+
 ```
-index.html        empty shell, loads cssLoad.css, data.js, main.js (in this order)
-cssLoad.css       only @imports: Font Awesome (CDN) + every file in css/
-css/              one file per concern (header, accordion, modal, myImg, ...)
-css/colors.css    design tokens as CSS custom properties (:root)
-js/data.js        THE data: `myData` (profile + contacts) and `accordions`
-js/main.js        renderer: data -> DOM, plus event wiring
-img/              avif images, referenced from data by path
+AGENTS.md         agent instructions (this file); CLAUDE.md just imports it
+skills/           reusable agent skills/prompts (.claude/skills is a symlink here)
+dev/              internal dev aids (e.g. dev/mappa.html). Never referenced by src/
+build.sh          cleans dist/ and copies ONLY src/ into it
+dist/             generated, git-ignored, ready to deploy. Never edit by hand
+src/              the ONLY production code (everything below lives here)
+  index.html      empty shell, loads cssLoad.css, data.js, main.js (in this order)
+  cssLoad.css     only @imports: Font Awesome (CDN) + every file in css/
+  css/            one file per concern (header, accordion, modal, myImg, ...)
+  css/colors.css  design tokens as CSS custom properties (:root)
+  js/data.js      THE data: `myData` (profile + contacts) and `accordions`
+  js/main.js      renderer: data -> DOM, plus event wiring
+  img/            avif images, referenced from data by path
 ```
+
+Rules:
+
+- Changes to the public site go in `src/`. Paths inside `src/` are relative and
+  must work standalone.
+- Internal maps, drafts and notes go in `dev/`.
+- `src/` must never mention or link `AGENTS.md`, `skills/` or `dev/`.
+- Before every deploy run `./build.sh` to regenerate `dist/`, and deploy `dist/`.
 
 `data.js` is loaded before `main.js` and exposes plain globals (`myData`,
 `accordions`); there are no modules. Keep that order.
@@ -113,7 +130,7 @@ Responsive breakpoints currently used: 425px and 768px.
 
 ## Verification
 
-No tests or linter. After changes, open `index.html` in a browser and check:
+No tests or linter. After changes, run `./build.sh`, open `dist/index.html` in a browser and check:
 sections render, accordions open/close, desktop (≥768px) YouTube cards open the
 modal and mobile ones open a new tab, `?data` reveals phone/email, console has no
 errors.
