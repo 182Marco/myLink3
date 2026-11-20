@@ -99,8 +99,8 @@ const ui = {
   closePhoto: 'Close photo',
 };
 
-// Seamless tile repeated behind the whole page (green waves).
-const pageBackground = 'img/bg-waves.avif';
+// Image fixed behind the whole page (cover).
+const pageBackground = 'img/Onde-futuristiche-al-neon.avif';
 
 const hero = {
   badge: 'AI Agents • Full Stack • Real Impact',

@@ -6,10 +6,16 @@ body {
   font-size: 14px;
   overflow-x: clip;
   background-color: var(--bg-primary);
-  background-image: var(--bg-image);
-  background-position: top center;
-  background-size: 1600px auto;
-  background-repeat: repeat;
+}
+
+/* fixed full-viewport background image (works on iOS too) */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--bg-image) center / cover no-repeat;
+  pointer-events: none;
 }
 
 header,

@@ -204,7 +204,6 @@ const ContactComponent = c => `
 const FooterComponent = (f, profile, contacts) => {
   const cta = contacts.find(c => c.isCta);
   return `
-    <span class="footer__wave" aria-hidden="true"></span>
     <div class="footer__cta">
       <h2 class="heading">${f.title} <span class="accent">${f.accent}</span></h2>
       ${

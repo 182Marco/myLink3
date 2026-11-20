@@ -18,26 +18,6 @@ footer {
   position: relative;
 }
 
-/* glowing curved line + soft light, as in the mockup */
-.footer__wave {
-  position: absolute;
-  top: -70px;
-  left: 50%;
-  width: 150vw;
-  height: 240px;
-  transform: translateX(-50%);
-  border-top: 2px solid rgba(0, 220, 203, 0.55);
-  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-  background: radial-gradient(
-    ellipse at 50% 0,
-    rgba(0, 220, 203, 0.14),
-    transparent 65%
-  );
-  -webkit-mask-image: linear-gradient(to bottom, #000 30%, transparent);
-  mask-image: linear-gradient(to bottom, #000 30%, transparent);
-  pointer-events: none;
-}
-
 .footer__mail {
   display: inline-flex;
   align-items: center;
