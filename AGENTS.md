@@ -52,7 +52,8 @@ src/              the ONLY production code (everything below lives here)
   cssLoad.css     only @imports: Font Awesome (CDN) + every file in css/
   css/            one file per concern (header, accordion, modal, myImg, ...)
   css/colors.css  design tokens as CSS custom properties (:root)
-  js/             data.js, components.js, accordion.js, media.js, main.js
+  js/             data.js, media.js, main.js
+  js/components/  one file per component (HeaderComponent.js, ...) ; accordion/ holds AccordionComponent.js + AccordionBehavior.js (open/close logic)
   video/          local video files referenced by `players` (to be added)
   img/            avif/svg images, referenced from data by path
 ```
@@ -66,7 +67,7 @@ Rules:
 - Before every deploy run `./build.sh` to regenerate `dist/`, and deploy `dist/`.
 
 Scripts are plain globals, loaded in this order (see `src/index.html`):
-`data.js` (data) → `components.js` (pure templates) → `accordion.js` →
+`data.js` (data) → `components/*.js` (one pure template per file, listed in `index.html`) →
 `media.js` (players, sequence, modal) → `main.js` (bootstrap).
 
 ## Data model (`src/js/data.js`)
