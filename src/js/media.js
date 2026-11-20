@@ -192,7 +192,19 @@ const startSequence = () => {
   playStep(0);
 };
 
+const initPhotoViewer = () => {
+  document.body.insertAdjacentHTML('beforeend', PhotoModalComponent(myData));
+  const dialog = document.querySelector('.photo-modal');
+  document
+    .querySelector('[data-photo]')
+    .addEventListener('click', () => dialog.showModal());
+  dialog.addEventListener('click', ev => {
+    if (ev.target !== dialog.querySelector('img')) dialog.close();
+  });
+};
+
 const initMedia = () => {
+  initPhotoViewer();
   initModal();
   document.querySelectorAll('[data-player]').forEach(initPlayer);
   startSequence();

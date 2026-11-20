@@ -8,14 +8,28 @@ const HeadingComponent = ({ title, accent }, level = 2) => `
   <span class="dash" aria-hidden="true"></span>
   <h${level} class="heading">${title} <span class="accent">${accent}</span></h${level}>`;
 
-const HeaderComponent = profile => `
-  <figure class="avatar">
+const ChipComponent = c => `
+  <a class="chip" href="${c.href}">
+    <i class="${c.icon}" aria-hidden="true"></i>${c.contact}
+  </a>`;
+
+const HeaderComponent = (profile, contacts) => `
+  <button type="button" class="avatar" aria-label="${ui.openPhoto}" data-photo>
     <img src="${profile.img}" alt="${profile.imgAlt()}" />
-  </figure>
+  </button>
   <div>
     <p class="header__name">${profile.fullName()}</p>
     <p class="header__role">${profile.role}</p>
+    ${contacts.length ? `<div class="chips">${contacts.map(ChipComponent).join('')}</div>` : ''}
   </div>`;
+
+const PhotoModalComponent = profile => `
+  <dialog class="photo-modal">
+    <button type="button" class="video-modal__close" aria-label="${ui.closePhoto}">
+      <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+    </button>
+    <img src="${profile.img}" alt="${profile.imgAlt()}" />
+  </dialog>`;
 
 const PlayerComponent = (id, cfg) => `
   <div class="player" data-player="${id}" data-state="idle">
@@ -56,8 +70,7 @@ const HeroComponent = h => `
       </ul>
     </div>
     <div class="hero__media">${PlayerComponent(h.player, players[h.player])}</div>
-  </section>
-  <p class="scroll-hint">${h.scrollHint}<i class="fa-solid fa-arrow-down" aria-hidden="true"></i></p>`;
+  </section>`;
 
 const AboutComponent = a => `
   <section class="about" data-scroll-anchor>
@@ -157,7 +170,10 @@ const AccordionComponent = a => {
 
 const ProjectsComponent = (intro, list) => `
   <section class="projects" data-scroll-anchor>
-    ${HeadingComponent(intro)}
+    <div class="projects__head">
+      <div>${HeadingComponent(intro)}</div>
+      <span class="stripes" aria-hidden="true"></span>
+    </div>
     ${list.map(AccordionComponent).join('')}
   </section>`;
 
@@ -170,9 +186,14 @@ const ContactComponent = c => `
 const FooterComponent = (f, profile, contacts) => {
   const cta = contacts.find(c => c.isCta);
   return `
+    <span class="footer__wave" aria-hidden="true"></span>
     <div class="footer__cta">
       <h2 class="heading">${f.title} <span class="accent">${f.accent}</span></h2>
-      ${cta ? `<a class="footer__mail" href="${cta.href}">${cta.contact}</a>` : ''}
+      ${
+        cta
+          ? `<a class="footer__mail" href="${cta.href}"><i class="${cta.icon}" aria-hidden="true"></i><span>${cta.contact}</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>`
+          : ''
+      }
     </div>
     <div class="footer__bar">
       <div>

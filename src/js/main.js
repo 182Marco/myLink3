@@ -14,11 +14,17 @@ const visibleContacts = myData.contacts.filter(
   c => c.isAlwaysVisible || params.has('data')
 );
 
+const contactsIn = place =>
+  visibleContacts.filter(c => c.places.includes(place));
+
 const visibleAccordions = accordions
   .map(obj => ({ ...obj, list: obj.list.filter(e => e.isVisible) }))
   .filter(obj => obj.list.length > 0);
 
-document.querySelector('header').innerHTML = HeaderComponent(myData);
+document.querySelector('header').innerHTML = HeaderComponent(
+  myData,
+  contactsIn('header')
+);
 document.querySelector('main').innerHTML =
   HeroComponent(hero) +
   AboutComponent(about) +
@@ -26,7 +32,7 @@ document.querySelector('main').innerHTML =
 document.querySelector('footer').innerHTML = FooterComponent(
   footer,
   myData,
-  visibleContacts
+  contactsIn('footer')
 );
 
 initAccordions();

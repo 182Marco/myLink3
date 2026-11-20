@@ -19,9 +19,9 @@
   align-items: center;
   gap: 12px;
   width: 100%;
-  min-height: 56px;
+  min-height: 50px;
   padding: 0 18px;
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 600;
   text-align: left;
   border-radius: 16px;
@@ -74,4 +74,35 @@
 
 .accordion__inner > * {
   margin: 4px 18px 18px;
+}
+
+.projects__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* decorative diagonal streaks next to the section title */
+.stripes {
+  flex-shrink: 0;
+  width: 84px;
+  height: 52px;
+  margin-bottom: 4px;
+  transform: skewX(-32deg);
+  background: repeating-linear-gradient(
+    90deg,
+    var(--accent) 0 5px,
+    transparent 5px 16px
+  );
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 40%);
+  mask-image: linear-gradient(to right, transparent, #000 40%);
+  opacity: 0.7;
+}
+
+@media (max-width: 560px) {
+  .stripes {
+    width: 52px;
+    height: 36px;
+  }
 }

@@ -18,12 +18,15 @@ const myData = {
   },
   // Shown in the footer as icon links. `isAlwaysVisible: false` => only with
   // `?data` in the URL (private data).
+  // `places`: where the contact is rendered ('header' = chip under the role,
+  // 'footer' = icon link). `isAlwaysVisible: false` => only with `?data`.
   contacts: [
     {
       icon: 'fa-brands fa-linkedin',
       contact: 'LinkedIn',
       href: 'https://www.linkedin.com/in/marco-milza',
       isExternal: true,
+      places: ['footer'],
       isAlwaysVisible: true,
     },
     {
@@ -31,20 +34,23 @@ const myData = {
       contact: 'GitHub',
       href: 'https://github.com/182Marco',
       isExternal: true,
+      places: ['footer'],
       isAlwaysVisible: true,
     },
     {
       icon: 'fa-solid fa-phone',
-      contact: '+39 3295858709',
-      href: 'tel:+393295858709',
+      contact: '+39 3295868709',
+      href: 'tel:+393295868709',
+      places: ['header'],
       isAlwaysVisible: false,
     },
     {
       icon: 'fa-solid fa-envelope',
       contact: 'marcomilza@gmail.com',
       href: 'mailto:marcomilza@gmail.com',
-      isCta: true, // also rendered as the call-to-action link in the footer
-      isAlwaysVisible: false,
+      isCta: true, // also the big mailto link in the footer call to action
+      places: ['footer'],
+      isAlwaysVisible: true,
     },
   ],
 };
@@ -87,7 +93,8 @@ const ui = {
   closeVideo: 'Close video',
   scrollPrev: 'Scroll left',
   scrollNext: 'Scroll right',
-  openLabel: 'Open',
+  openPhoto: 'Open photo',
+  closePhoto: 'Close photo',
 };
 
 const hero = {
@@ -97,7 +104,6 @@ const hero = {
   description:
     "I build agentic chatbots and AI-powered solutions that unlock your company's knowledge, automate workflows and deliver measurable ROI.",
   player: 'intro',
-  scrollHint: 'Scroll to discover more',
   techStack: [
     { name: 'Python', icon: 'fa-brands fa-python', color: '#ffd43b' },
     { name: 'React', icon: 'fa-brands fa-react', color: '#61dafb' },
@@ -193,14 +199,14 @@ const accordions = [
         description:
           'Enter also without password (the login is just simulated) and explore the movie platform, with its AI chatbot.',
         link: 'https://netfli-x-marco-milza.netlify.app/',
-        img: 'img/2.avif',
+        img: 'img/netflixscout-site.svg',
         isVisible: true,
       },
       {
         title: '3D Gallery',
         description: 'A gallery of 3D graphic experiments.',
         link: 'https://3dgallerythreefiber.netlify.app/',
-        img: 'img/9.avif',
+        img: 'img/gallery3d-site.svg',
         isVisible: true,
       },
     ],

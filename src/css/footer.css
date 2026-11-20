@@ -1,4 +1,5 @@
 footer {
+  position: relative;
   margin-top: clamp(40px, 7vw, 80px);
   padding-bottom: 24px;
 }
@@ -12,10 +13,69 @@ footer {
   border-top: 1px solid var(--border-subtle);
 }
 
+.footer__cta,
+.footer__bar {
+  position: relative;
+}
+
+/* glowing curved line + soft light, as in the mockup */
+.footer__wave {
+  position: absolute;
+  top: -70px;
+  left: 50%;
+  width: 150vw;
+  height: 240px;
+  transform: translateX(-50%);
+  border-top: 2px solid rgba(0, 220, 203, 0.55);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  background: radial-gradient(
+    ellipse at 50% 0,
+    rgba(0, 220, 203, 0.14),
+    transparent 65%
+  );
+  -webkit-mask-image: linear-gradient(to bottom, #000 30%, transparent);
+  mask-image: linear-gradient(to bottom, #000 30%, transparent);
+  pointer-events: none;
+}
+
 .footer__mail {
-  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  font-size: 15px;
   font-weight: 600;
-  border-bottom: 1px solid currentColor;
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, var(--accent), var(--accent-blue), var(--accent))
+      0 0 / 200% 100%;
+  background-color: var(--bg-card);
+  background-blend-mode: normal;
+  color: var(--bg-primary);
+  transition:
+    background-position 500ms ease,
+    box-shadow 300ms ease,
+    transform 220ms ease;
+}
+
+.footer__mail:hover,
+.footer__mail:focus-visible {
+  background-position: 100% 0;
+  box-shadow: 0 0 24px rgba(0, 220, 203, 0.35);
+  transform: translateY(-2px);
+}
+
+.footer__mail i {
+  color: inherit;
+}
+
+.footer__mail .fa-arrow-right {
+  transition: transform 220ms ease;
+}
+
+.footer__mail:hover .fa-arrow-right {
+  transform: translateX(4px);
 }
 
 .footer__bar {
@@ -34,7 +94,7 @@ footer {
 }
 
 .social {
-  font-size: 22px;
+  font-size: 20px;
   color: var(--text-secondary);
   transition: color 220ms ease;
 }
