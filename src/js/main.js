@@ -38,5 +38,4 @@ document.querySelector('footer').innerHTML = FooterComponent(
 );
 
 initAccordions();
-initScrollers();
 initMedia(); // last: starts the automatic sequence

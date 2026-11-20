@@ -45,7 +45,7 @@ const initModal = () => {
     ev.preventDefault(); // below 768px the link opens in a new tab instead
     openVideoModal(
       link.href,
-      link.querySelector('.card__title')?.textContent ?? ''
+      link.dataset.title ?? link.querySelector('.card__title')?.textContent ?? ''
     );
   });
 };

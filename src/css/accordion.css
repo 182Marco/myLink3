@@ -72,9 +72,6 @@
   overflow: hidden;
 }
 
-.accordion__inner > * {
-  margin: 4px 18px 18px;
-}
 
 .projects__head {
   display: flex;

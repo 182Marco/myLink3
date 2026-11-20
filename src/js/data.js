@@ -93,9 +93,9 @@ const ui = {
   newTab: '(opens in a new tab)',
   comingSoon: 'Coming soon',
   closeVideo: 'Close video',
-  scrollPrev: 'Scroll left',
-  scrollNext: 'Scroll right',
   openPhoto: 'Open photo',
+  technologies: 'Technologies',
+  contacts: 'Contacts',
   closePhoto: 'Close photo',
 };
 
@@ -138,8 +138,10 @@ const projectsIntro = {
 
 /*
  * Accordions.
- *  layout: 'grid' (featured first card) | 'scroller' (horizontal scroll)
- *  card: 'cover' (cover image) | 'app' (icon + name + arrow) | 'repo'
+ *  layout: 'grid' (featured first card) | 'rows' (accordion rows / list)
+ *  hasTitle: true => section label (green dash + title) above the block
+ *  card: 'cover' (cover image) | 'app' (icon + name + arrow); | 'tutorial' / 'repo' (row styles of a
+ *        'rows' layout, whose accordion title is `summary`)
  *  isCollapsible: false => plain row without accordion (default true)
  *  hasCaption: false => no text under the cover (default true)
  *  list[] item:
@@ -214,103 +216,79 @@ const accordions = [
     id: 'tutorials',
     title: 'Tutorials',
     icon: 'fa-solid fa-graduation-cap',
-    layout: 'scroller',
-    card: 'cover',
-    isOpen: true,
+    hasTitle: true, // section label (green dash + title) above the block
+    layout: 'rows', // one accordion (closed at first render) with a row per item
+    card: 'tutorial', // row style: bordered box per tutorial
+    summary: 'My own video lessons on JavaScript, TypeScript and React',
     list: [
       {
         title: 'Shallow or Deep Copy?',
-        description:
-          'I explain what happens when you shallow copy a reference and the potential bugs that may arise.',
         link: 'https://www.youtube.com/embed/k2FVpUXqSfc?si=lUnx5xij0GZUtr5M',
         isOnYouTube: true,
         isVisible: true,
-        img: 'img/4.avif',
       },
       {
         title: 'Thinking Through a Deep Copy Function',
-        description:
-          "<code>StructuredClone()</code> has been available since ECMAScript 2021, but here's a logical exercise to write a deep copy function that works regardless of nested references.",
         link: 'https://www.youtube.com/embed/FB6LsVv2IKI?si=mDIviaVoEtpUYiJu',
         isOnYouTube: true,
         isVisible: true,
-        img: 'img/5.avif',
       },
       {
         title: 'TypeScript Generic Explanation',
-        description:
-          'A simple way to understand generics and an example of usage with different syntaxes.',
         link: 'https://www.youtube.com/embed/4aE7kfqhdPg?si=UHwChIoyU8jU7IVG',
         isOnYouTube: true,
         isVisible: true,
-        img: 'img/3.avif',
       },
       {
         title: 'Spread props on a React Component',
-        description:
-          'I show how to use the rest operator to isolate props (e.g., button props in a modal) and spread them onto components.',
         link: 'https://www.youtube.com/embed/KA6Ccu5F5ik?si=9MHZEGvy4EZTTDHP',
         isOnYouTube: true,
         isVisible: true,
-        img: 'img/7.avif',
       },
       {
         title: 'Decoupled UI & Logic, Custom Hooks',
-        description:
-          'I show how custom hooks in React help separate logic from JSX/TSX templates, improving code reusability and maintainability.',
         link: 'https://www.youtube.com/embed/3QknDb6h88s?si=pjDFRdJ_LlNQNl5S',
         isOnYouTube: true,
         isVisible: true,
-        img: 'img/8.avif',
       },
       {
         title: 'Barrel Imports for Cleaner Code',
-        description:
-          'I show how barrel imports simplify module management by consolidating exports into a single file, improving code organization and readability.',
         link: 'https://www.youtube.com/embed/iYBkhkfALFA?si=inIXU1Iop-7GYHaQ',
         isOnYouTube: true,
         isVisible: true,
-        img: 'img/6.avif',
       },
     ],
   },
   {
     id: 'repos',
-    title: 'Code Repositories',
+    title: 'GitHub Repositories',
+    hasTitle: true,
     icon: 'fa-brands fa-github',
-    layout: 'grid',
-    card: 'repo',
-    isOpen: true,
+    card: 'repo', // row style: icon, name, description
+    summary: 'Source code of my AI, full stack and 3D projects',
+    layout: 'rows',
     list: [
       {
-        title: 'AI Agent Backend',
-        description: 'Python',
-        icon: 'fa-brands fa-python',
-        color: '#ffd43b',
-        link: null, // TODO: GitHub URL
+        title: 'ai-agent-backend',
+        description: 'Python backend for AI agent, RAG and embeddings',
+        link: 'https://github.com/182Marco/NetflixScout',
         isVisible: true,
       },
       {
-        title: 'NetflixScout Frontend',
-        description: 'Vue + TypeScript',
-        icon: 'fa-brands fa-vuejs',
-        color: '#42b883',
+        title: 'marco-m-netflix',
+        description: 'Netflix clone with modern stack',
         link: 'https://github.com/182Marco/marco-m-netflix',
         isVisible: true,
       },
       {
-        title: 'Food Delivery App',
-        description: 'Full Stack',
-        icon: 'fa-solid fa-burger',
-        color: '#ff8a3d',
-        link: null, // TODO: GitHub URL
+        title: 'deliveboo',
+        description: 'Food delivery full stack application',
+        link: 'https://github.com/182Marco/deliveBoo',
         isVisible: true,
       },
       {
-        title: '3D Gallery',
-        description: 'WebGL / Three.js',
-        icon: 'fa-solid fa-cube',
-        color: '#1685ff',
+        title: '3d-gallery',
+        description: 'Interactive 3D gallery',
         link: 'https://github.com/182Marco/3D-React-Fiber-Gallery',
         isVisible: true,
       },
