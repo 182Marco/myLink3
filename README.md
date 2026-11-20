@@ -1,24 +1,99 @@
-## The project aim
+# myLink3
 
-This repository is designed to create a **personalized Linktree** that points to the portfolio resources of **Marco Milza**, a front-end developer.
+A personalized, **fully data-driven Linktree** for **Marco Milza**, front-end
+developer. One JavaScript file holds all the content; the whole page is
+generated from it.
 
 ## What is Linktree?
 
-[Linktree](https://linktr.tee/) is a tool that allows you to create a page with a list of links to easily share on social media, websites, and other platforms. The goal of this project is to create a personalized version of Linktree to showcase and share Marco Milza's portfolio resources.
+[Linktree](https://linktr.tee/) lets you share a single page with all your
+important links. This project is a hand-made alternative: no third-party
+service, no build step, total control over design and behaviour.
 
 ## Features
 
-- **Customizable design**: The Linktree is designed with a personalized style that reflects Marco Milza's visual identity.
-- **Easy to update**: Add, modify, or remove links to portfolio resources like projects, GitHub, LinkedIn, and more.
-- **Mobile-friendly**: Optimized for mobile devices, ensuring a smooth experience across all platforms.
+- **Single source of truth**: profile, contacts, sections and cards are all
+  described in `js/data.js`. The HTML is an empty shell.
+- **Accordion sections** with animated open/close, each with a horizontally
+  scrollable row of cards.
+- **Smart links**: YouTube items open in an in-page video modal on desktop and
+  in a new tab on mobile; everything else opens in a new tab.
+- **Hidden contact details**: phone and email appear only with the `?data` URL
+  parameter, to keep them away from scrapers.
+- **Visibility switches**: hide a card or a whole section with one flag.
+- **Mobile-friendly** and dark themed, colors centralized in CSS variables.
+- **Zero tooling**: plain HTML, CSS and vanilla JavaScript.
 
-## Technologies Used
+## Technologies
 
-- **HTML5** - Basic structure of the page
-- **CSS3** - Responsive styling and layout
-- **JavaScript** - Dynamic features and interactivity (if needed)
-- **Font Awesome** - Icons to visually represent the links
-- **Google Fonts** - Font customization for improved visual appearance
+- **HTML5**: empty page shell
+- **CSS3**: one file per concern, design tokens in `css/colors.css`
+- **Vanilla JavaScript**: renderer that turns data into DOM
+- **Font Awesome** (CDN): icons
+- **AVIF** images
+
+## How it works
+
+```
+js/data.js  ──►  js/main.js  ──►  <header> + <main>
+ (the data)      (the renderer)     (the page)
+```
+
+The structure of the data decides what is created: a new object in
+`accordions` is a new section, a new object in its `list` is a new card, and
+flags such as `isVisible`, `isOnYouTube` or `isAlwaysVisible` change how or
+whether things appear. The renderer never contains content, so growing the app
+means growing the data model, not scattering edits across files.
+
+### Data model
+
+```js
+const myData = {
+  firstName, secondName, favicon, img,     // profile
+  fullName(), imgAlt(),                    // derived values
+  contacts: [{ icon, contact, isAlwaysVisible, onClick }],
+};
+
+const accordions = [
+  {
+    id: 'tutorials',                       // unique, valid CSS id
+    title: 'Coding Tutorials by me',
+    list: [
+      {
+        title, description, img,           // card
+        link,                              // target URL
+        isOnYouTube,                       // true → modal on desktop (use /embed/ URLs)
+        isVisible,                         // false → hidden
+      },
+    ],
+  },
+];
+```
+
+## Customize (data entry)
+
+Everything is done by editing `js/data.js`:
+
+| I want to...        | Do this                                                         |
+| ------------------- | --------------------------------------------------------------- |
+| Add a card          | Add an object to the section's `list`, drop an `.avif` in `img/` |
+| Add a section       | Add an object to `accordions` with a unique `id`                |
+| Hide a card/section | Set `isVisible: false` on the card(s)                           |
+| Add a contact       | Add an object to `myData.contacts`                              |
+| Keep a contact private | Set `isAlwaysVisible: false` (shown with `?data`)            |
+| Change colors       | Edit the variables in `css/colors.css`                          |
+
+## Project structure
+
+```
+index.html        empty shell
+cssLoad.css       imports Font Awesome and all files in css/
+css/              styles split by concern
+js/data.js        all the content (the only file you edit day to day)
+js/main.js        renderer and event wiring
+img/              images
+AGENTS.md         guidelines for AI agents and contributors
+```
 
 ## How to Use
 
@@ -26,4 +101,20 @@ This repository is designed to create a **personalized Linktree** that points to
 
    ```bash
    git clone https://github.com/182Marco/myLink3
+   cd myLink3
    ```
+
+2. **Open it**: double-click `index.html`, or serve the folder with any static
+   server, e.g. `npx serve .`.
+
+3. **Edit `js/data.js`** and reload. To see the private contacts, open
+   `index.html?data`.
+
+4. **Deploy** the folder as-is to any static host (Netlify, GitHub Pages...).
+
+## For contributors and AI agents
+
+Read [`AGENTS.md`](AGENTS.md). The golden rule: **the whole app must always be
+derived from the single data structure**, even as it evolves. The principle is
+also packaged as a reusable skill in
+[`.claude/skills/single-source-data-driven`](.claude/skills/single-source-data-driven/SKILL.md).
