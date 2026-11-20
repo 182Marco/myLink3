@@ -109,7 +109,6 @@ const hero = {
   description:
     "I build agentic chatbots and AI-powered solutions that unlock your company's knowledge, automate workflows and deliver measurable ROI.",
   player: 'intro',
-  hasScrollIcon: true, // mouse icon under the hero
   techStack: [
     { name: 'Python', icon: 'fa-brands fa-python', color: '#ffd43b' },
     { name: 'React', icon: 'fa-brands fa-react', color: '#61dafb' },

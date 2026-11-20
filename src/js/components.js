@@ -71,12 +71,7 @@ const HeroComponent = h => `
       </ul>
     </div>
     <div class="hero__media">${PlayerComponent(h.player, players[h.player])}</div>
-  </section>
-  ${
-    h.hasScrollIcon
-      ? '<div class="scroll-icon" aria-hidden="true"><span class="scroll-icon__mouse"></span><i class="fa-solid fa-chevron-down"></i></div>'
-      : ''
-  }`;
+  </section>`;
 
 const AboutComponent = a => `
   <section class="about" data-scroll-anchor>
