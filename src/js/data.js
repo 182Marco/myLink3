@@ -71,13 +71,13 @@ const players = {
   },
   about: {
     src: 'video/ai-project.mp4',
-    poster: './img/io.avif',
+    poster: 'img/IoPcDietro.avif',
     label: 'Presentation of my AI portfolio project',
   },
   delivboo: {
     src: 'video/delivboo.mp4',
-    poster: 'img/cover-delivboo.jpg',
-    cover: 'img/cover-delivboo.jpg', // image with its own play button/duration
+    poster: 'img/cover-delivboo.avif',
+    cover: 'img/cover-delivboo.avif', // image with its own play button
     label: 'DelivBoo presentation',
   },
 };
@@ -157,21 +157,21 @@ const accordions = [
       {
         title: 'DelivBoo – Food Delivery',
         player: 'delivboo',
-        img: 'img/cover-delivboo.jpg',
+        img: 'img/cover-delivboo.avif',
         isVisible: true,
       },
       {
         title: 'NetflixScout',
         link: 'https://www.youtube.com/embed/URvi-QwBXPs?si=Ceh7biXNW5tFx_Nc',
         isOnYouTube: true,
-        img: 'img/cover-netflixscout.jpg',
+        img: 'img/cover-netflixscout.avif',
         isVisible: true,
       },
       {
         title: '3D Gallery',
         link: 'https://www.youtube.com/embed/57bONIEfiL4?si=r-k2oSqcYLRahVdU',
         isOnYouTube: true,
-        img: 'img/cover-3dgallery.jpg',
+        img: 'img/cover-3dgallery.avif',
         isVisible: true,
       },
     ],

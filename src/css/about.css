@@ -1,6 +1,6 @@
 .about {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
   align-items: center;
   gap: clamp(20px, 4vw, 48px);
   padding: clamp(18px, 3vw, 32px);
@@ -8,7 +8,7 @@
   border-radius: 20px;
   background:
     radial-gradient(
-      ellipse at right,
+      ellipse at left,
       rgba(0, 220, 203, 0.12),
       transparent 65%
     ),

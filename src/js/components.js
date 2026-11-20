@@ -76,12 +76,12 @@ const HeroComponent = h => `
 
 const AboutComponent = a => `
   <section class="about" data-scroll-anchor>
+    <div class="about__media">${PlayerComponent(a.player, players[a.player])}</div>
     <div class="about__text">
       <span class="dash" aria-hidden="true"></span>
       <h2 class="heading">${a.title} <span class="accent">${a.accent}</span></h2>
       <p>${a.description}</p>
     </div>
-    <div class="about__media">${PlayerComponent(a.player, players[a.player])}</div>
   </section>`;
 
 /* ----- cards ----- */
