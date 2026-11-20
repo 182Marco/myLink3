@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-label="QuickBite food delivery cover">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff8a3d"/><stop offset="1" stop-color="#d9381e"/></linearGradient>
+    <radialGradient id="glow" cx=".75" cy=".35" r=".6"><stop offset="0" stop-color="#ffd27a" stop-opacity=".7"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  <rect width="1280" height="720" fill="url(#glow)"/>
+  <!-- bowl -->
+  <g transform="translate(830 330)">
+    <ellipse cx="0" cy="170" rx="270" ry="40" fill="#000" opacity=".2"/>
+    <path d="M-250 40h500a250 250 0 0 1-500 0z" fill="#fff4e3"/>
+    <path d="M-250 40h500" stroke="#f3c999" stroke-width="10"/>
+    <circle cx="-110" cy="10" r="62" fill="#e8402a"/><circle cx="-60" cy="-30" r="52" fill="#ffb627"/>
+    <circle cx="40" cy="-10" r="66" fill="#7bb661"/><circle cx="130" cy="14" r="55" fill="#e8402a"/>
+    <circle cx="10" cy="-70" r="46" fill="#ffd166"/><circle cx="-150" cy="40" r="40" fill="#7bb661"/>
+    <path d="M-60 -150c-20 -30 20 -50 0 -85M30 -160c-20 -30 20 -50 0 -85" stroke="#fff" stroke-opacity=".6" stroke-width="12" fill="none" stroke-linecap="round"/>
+  </g>
+  <!-- logo: cloche + speed lines -->
+  <g transform="translate(110 250)" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 110a80 80 0 0 1 160 0z"/><path d="M-14 126h188"/><circle cx="80" cy="18" r="9" fill="#fff"/>
+    <path d="M-80 70h50M-100 100h60M-70 130h40" stroke-width="10" opacity=".8"/>
+  </g>
+  <text x="110" y="470" font-family="Montserrat, Arial, sans-serif" font-weight="800" font-size="120" fill="#fff">QuickBite</text>
+  <text x="114" y="530" font-family="Montserrat, Arial, sans-serif" font-weight="500" font-size="44" fill="#fff" opacity=".9">Food Delivery</text>
+</svg>

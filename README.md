@@ -89,8 +89,8 @@ Everything is done by editing `src/js/data.js`:
 src/index.html    empty shell
 src/cssLoad.css   imports Font Awesome and all files in css/
 src/css/          styles split by concern
-src/js/data.js        all the content (the only file you edit day to day)
-src/js/main.js        renderer and event wiring
+src/js/data.js    all the content (the only file you edit day to day)
+src/js/*.js       components, accordion, media sequence, bootstrap
 img/              images
 AGENTS.md         guidelines for AI agents and contributors
 ```

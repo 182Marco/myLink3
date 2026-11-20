@@ -1,87 +1,33 @@
 header {
   display: flex;
   align-items: center;
-  height: 110px;
-  margin: 0 0 45px;
+  gap: 14px;
+  padding-block: 20px 28px;
 }
 
-header nav {
-  margin: 0 0 0 15px;
+.avatar {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 18px rgba(0, 220, 203, 0.35);
 }
 
-header ul li {
-  display: flex;
-  align-items: center;
-  padding: 7px 0;
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
 }
 
-header ul li:first-of-type {
-  padding: 3px 0 0;
-}
-
-header ul li:last-of-type {
-  padding: 0;
-}
-
-header ul li i {
+.header__name {
   font-size: 18px;
-  transition: all 0.2s;
+  font-weight: 600;
 }
 
-header li i::before {
-  font-size: 22px;
-  color: var(--cta-color);
-  transition: color 0.3s ease;
-  margin: 0 6px 0 0;
-}
-
-header ul li i:hover {
-  animation: trembleEffect 0.3s ease 2;
-}
-
-header ul li:not(:nth-of-type(2)) {
-  cursor: pointer;
-}
-
-@keyframes trembleEffect {
-  0% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(-5deg);
-  }
-  50% {
-    transform: rotate(5deg);
-  }
-  75% {
-    transform: rotate(-5deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
-}
-
-h1 {
-  font-size: 20px;
-  padding: 0 0 3px;
-}
-
-h1,
-h2 {
-  font-weight: 500;
-}
-
-h2 {
-  margin: 0;
-  font-size: 15px;
-  font-style: italic;
-}
-
-@media (max-width: 525px) {
-  h1 {
-    font-size: 18px;
-  }
-  h2 {
-    font-size: 12px;
-  }
+.header__role {
+  font-size: 13px;
+  color: var(--text-secondary);
 }

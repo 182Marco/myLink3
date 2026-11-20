@@ -1,45 +1,217 @@
+/*
+ * THE data of the whole site. Everything on the page is derived from here.
+ * Replace a video / cover / link by editing the values below, never the
+ * components.
+ */
+
 const myData = {
   favicon: 'img/favicon.ico',
   firstName: 'Marco',
   secondName: 'Milza',
+  role: 'AI Engineer & Full Stack Developer',
   fullName() {
     return `${this.firstName} ${this.secondName}`;
   },
   img: './img/io.avif',
   imgAlt() {
-    return `${this.firstName} ${this.secondName} profile picture`;
+    return `${this.fullName()} profile picture`;
   },
+  // Shown in the footer as icon links. `isAlwaysVisible: false` => only with
+  // `?data` in the URL (private data).
   contacts: [
     {
       icon: 'fa-brands fa-linkedin',
-      contact: 'Front end developer',
+      contact: 'LinkedIn',
+      href: 'https://www.linkedin.com/in/marco-milza',
+      isExternal: true,
       isAlwaysVisible: true,
-      onClick: () =>
-        window.open('https://www.linkedin.com/in/marco-milza', '_blank'),
+    },
+    {
+      icon: 'fa-brands fa-github',
+      contact: 'GitHub',
+      href: 'https://github.com/182Marco',
+      isExternal: true,
+      isAlwaysVisible: true,
     },
     {
       icon: 'fa-solid fa-phone',
       contact: '+39 3295858709',
+      href: 'tel:+393295858709',
       isAlwaysVisible: false,
-      onClick() {
-        window.location.href = `tel:${this.contact.replace(/\s+/g, '')}`;
-      },
     },
     {
       icon: 'fa-solid fa-envelope',
       contact: 'marcomilza@gmail.com',
+      href: 'mailto:marcomilza@gmail.com',
+      isCta: true, // also rendered as the call-to-action link in the footer
       isAlwaysVisible: false,
-      onClick() {
-        window.location.href = `mailto:${this.contact}`;
-      },
     },
   ],
 };
 
+/*
+ * Video players. Each one is referenced by id from a section (`hero.player`,
+ * `about.player`) or from a card (`player` field). `src` files go in
+ * `src/video/` (not provided yet). `endedPoster`: image shown instead of the
+ * video once it ends.
+ */
+const players = {
+  intro: {
+    src: 'video/intro.mp4',
+    poster: 'img/robot-poster.svg',
+    endedPoster: 'img/robot-poster.svg',
+    label: 'Introduction: the business value of AI agents',
+  },
+  about: {
+    src: 'video/ai-project.mp4',
+    poster: './img/io.avif',
+    label: 'Presentation of my AI portfolio project',
+  },
+  quickbite: {
+    src: 'video/quickbite.mp4',
+    poster: 'img/quickbite-cover.svg',
+    label: 'QuickBite presentation',
+  },
+};
+
+// Automatic sequence: order of the player ids. On `ended` the page scrolls to
+// the next player and plays it. After the last one, automations stop.
+const sequence = ['intro', 'about', 'quickbite'];
+
+// UI labels (kept in data so that no text lives in the components).
+const ui = {
+  playLabel: 'Play',
+  unavailable: 'Video not available yet',
+  newTab: '(opens in a new tab)',
+  comingSoon: 'Coming soon',
+  closeVideo: 'Close video',
+  scrollPrev: 'Scroll left',
+  scrollNext: 'Scroll right',
+  openLabel: 'Open',
+};
+
+const hero = {
+  badge: 'AI Agents • Full Stack • Real Impact',
+  title: ['AI Engineer.', 'Full Stack Developer.'],
+  subtitle: 'Building intelligent solutions for business.',
+  description:
+    "I build agentic chatbots and AI-powered solutions that unlock your company's knowledge, automate workflows and deliver measurable ROI.",
+  player: 'intro',
+  scrollHint: 'Scroll to discover more',
+  techStack: [
+    { name: 'Python', icon: 'fa-brands fa-python', color: '#ffd43b' },
+    { name: 'React', icon: 'fa-brands fa-react', color: '#61dafb' },
+    { name: 'TypeScript', img: 'img/typescript.svg' },
+    { name: 'HTML5', icon: 'fa-brands fa-html5', color: '#e44d26' },
+    { name: 'CSS3', icon: 'fa-brands fa-css3-alt', color: '#1572b6' },
+    { name: 'JavaScript', icon: 'fa-brands fa-js', color: '#f7df1e' },
+    { name: 'Docker', icon: 'fa-brands fa-docker', color: '#2496ed' },
+    { name: 'GitHub', icon: 'fa-brands fa-github', color: '#f5f7fa' },
+  ],
+};
+
+const about = {
+  title: 'Turning AI into',
+  accent: 'real business value.',
+  description:
+    "I'm Marco Milza, an AI Engineer and Full Stack Developer with a strong background in modern web technologies and a deep passion for building intelligent, useful products.",
+  player: 'about',
+};
+
+const projectsIntro = {
+  title: 'Real world solutions,',
+  accent: 'built with passion.',
+};
+
+/*
+ * Accordions.
+ *  layout: 'grid' (featured first card) | 'scroller' (horizontal scroll)
+ *  card: 'cover' (16:9 cover + title) | 'repo' (icon + name + tech)
+ *  list[] item:
+ *    - player: id in `players` => plays inline in the card
+ *    - isOnYouTube: true => `link` is a youtube /embed/ url: modal on
+ *      viewports >= 768px, new tab otherwise
+ *    - otherwise `link` opens in a new tab; `link: null` => placeholder
+ *    - isFeatured: larger card in a grid
+ */
 const accordions = [
   {
+    id: 'projects',
+    title: 'My Projects',
+    icon: 'fa-solid fa-play',
+    layout: 'grid',
+    card: 'cover',
+    isOpen: true,
+    list: [
+      {
+        title: 'QuickBite – Food Delivery',
+        description:
+          'Full stack food delivery: ordering app for customers, back office for restaurants and a complete backend.',
+        player: 'quickbite',
+        img: 'img/quickbite-cover.svg',
+        isFeatured: true,
+        isVisible: true,
+      },
+      {
+        title: 'NetflixScout',
+        description:
+          'A movie streaming platform: browse, search and watch movies and TV series.',
+        link: 'https://www.youtube.com/embed/URvi-QwBXPs?si=Ceh7biXNW5tFx_Nc',
+        isOnYouTube: true,
+        img: 'img/1.avif',
+        isVisible: true,
+      },
+      {
+        title: '3D Gallery',
+        description:
+          'A gallery of 3D graphic scenes applied to development, built with JavaScript.',
+        link: 'https://www.youtube.com/embed/57bONIEfiL4?si=r-k2oSqcYLRahVdU',
+        isOnYouTube: true,
+        img: 'img/10.avif',
+        isVisible: true,
+      },
+    ],
+  },
+  {
+    id: 'websites',
+    title: 'Project Websites',
+    icon: 'fa-solid fa-link',
+    layout: 'grid',
+    card: 'cover',
+    isOpen: true,
+    list: [
+      {
+        title: 'QuickBite',
+        description: 'The food delivery application.',
+        link: null, // TODO: published QuickBite URL
+        img: 'img/quickbite-site.svg',
+        isFeatured: true,
+        isVisible: true,
+      },
+      {
+        title: 'NetflixScout',
+        description:
+          'Enter also without password (the login is just simulated) and explore the movie platform, with its AI chatbot.',
+        link: 'https://netfli-x-marco-milza.netlify.app/',
+        img: 'img/2.avif',
+        isVisible: true,
+      },
+      {
+        title: '3D Gallery',
+        description: 'A gallery of 3D graphic experiments.',
+        link: 'https://3dgallerythreefiber.netlify.app/',
+        img: 'img/9.avif',
+        isVisible: true,
+      },
+    ],
+  },
+  {
     id: 'tutorials',
-    title: 'Coding Tutorials by me',
+    title: 'Tutorials',
+    icon: 'fa-solid fa-graduation-cap',
+    layout: 'scroller',
+    card: 'cover',
+    isOpen: true,
     list: [
       {
         title: 'Shallow or Deep Copy?',
@@ -60,7 +232,7 @@ const accordions = [
         img: 'img/5.avif',
       },
       {
-        title: 'Typescript Generic Explanation',
+        title: 'TypeScript Generic Explanation',
         description:
           'A simple way to understand generics and an example of usage with different syntaxes.',
         link: 'https://www.youtube.com/embed/4aE7kfqhdPg?si=UHwChIoyU8jU7IVG',
@@ -98,94 +270,68 @@ const accordions = [
     ],
   },
   {
-    id: 'videos',
-    title: 'I walk you through my apps with videos',
+    id: 'repos',
+    title: 'Code Repositories',
+    icon: 'fa-brands fa-github',
+    layout: 'grid',
+    card: 'repo',
+    isOpen: true,
     list: [
       {
-        title: 'Netflix Replica: Video Presentation',
-        description:
-          'In this video, I present the templates and features of a Netflix replica app I built, where you can browse, search, and stream movies and TV series',
-        link: 'https://www.youtube.com/embed/URvi-QwBXPs?si=Ceh7biXNW5tFx_Nc',
-        isOnYouTube: true,
+        title: 'AI Agent Backend',
+        description: 'Python',
+        icon: 'fa-brands fa-python',
+        color: '#ffd43b',
+        link: null, // TODO: GitHub URL
         isVisible: true,
-        img: 'img/1.avif',
       },
       {
-        title: 'My 3D Scenes Gallery: Video Presentation',
-        description:
-          'Experience a gallery of 3D graphic scenes applied to development. Dive into this JavaScript programming niche and explore the project firsthand!',
-        link: 'https://www.youtube.com/embed/57bONIEfiL4?si=r-k2oSqcYLRahVdU',
-        isOnYouTube: true,
+        title: 'NetflixScout Frontend',
+        description: 'Vue + TypeScript',
+        icon: 'fa-brands fa-vuejs',
+        color: '#42b883',
+        link: 'https://github.com/182Marco/marco-m-netflix',
         isVisible: true,
-        img: 'img/10.avif',
       },
-    ],
-  },
-  {
-    id: 'u-ex',
-    title: 'My project websites',
-    list: [
       {
-        title: 'See for Yourself: A Netflix Replica',
-        description:
-          "Enter also without password (the login it' just simulated), explore the templates and features of a Netflix replica app I built. Search and watch movies and TV series just like on the real platform!",
-        link: 'https://netfli-x-marco-milza.netlify.app/',
-        isOnYouTube: false,
+        title: 'Food Delivery App',
+        description: 'Full Stack',
+        icon: 'fa-solid fa-burger',
+        color: '#ff8a3d',
+        link: null, // TODO: GitHub URL
         isVisible: true,
-        img: 'img/2.avif',
       },
-
       {
-        title: 'My 3D Scenes Gallery',
-        description:
-          'In this video, I showcase a gallery of 3D graphic scenes applied to development, exploring this niche of JavaScript programming',
-        link: 'https://3dgallerythreefiber.netlify.app/',
-        isOnYouTube: false,
+        title: '3D Gallery',
+        description: 'WebGL / Three.js',
+        icon: 'fa-solid fa-cube',
+        color: '#1685ff',
+        link: 'https://github.com/182Marco/3D-React-Fiber-Gallery',
         isVisible: true,
-        img: 'img/9.avif',
       },
-    ],
-  },
-  {
-    id: 'source-code',
-    title: 'For Devs: Source Code',
-    list: [
+      // Existing links kept, hidden in the new design.
       {
         title: '3D Graphics: Live Demo (CodeSandbox)',
-        description:
-          'Interact with a gallery of 3D graphic scenes built with React and React Three Fiber. Experience real-time 3D rendering while inspecting the source code.',
+        description: 'React Three Fiber',
+        icon: 'fa-solid fa-cube',
+        color: '#1685ff',
         link: 'https://codesandbox.io/p/github/182Marco/3D-React-Fiber-Gallery/main?file=%2Fsrc%2Fcomponents%2FportalPass%2Fcomponents%2FmonsterStage%2FmonsterStage.jsx%3A1%2C1-50%2C1&workspaceId=ws_83N1aBN8g8iPuq9LEMC9FB',
-        isOnYouTube: false,
-        isVisible: true,
-        img: 'img/14.avif',
-      },
-      {
-        title: '3D Showcase: Source Code on GitHub',
-        description:
-          'Explore the React and React Three Fiber source code behind my 3D graphics project. See how 3D scenes are structured and rendered dynamically.',
-        link: 'https://github.com/182Marco/3D-React-Fiber-Gallery',
-        isOnYouTube: false,
-        isVisible: true,
-        img: 'img/12.avif',
+        isVisible: false,
       },
       {
         title: 'Netflix Replica: Source Code on CodeSandbox',
-        description:
-          'Explore the full functionality of my Netflix replica built with Vue.js. Browse, search, and stream movies and TV series while viewing the source code alongside.',
+        description: 'Vue.js',
+        icon: 'fa-brands fa-vuejs',
+        color: '#42b883',
         link: 'https://codesandbox.io/p/github/182Marco/marco-m-netflix/main?file=%2Fpackage.json%3A2%2C1-2%2C70&workspaceId=ws_83N1aBN8g8iPuq9LEMC9FB',
-        isOnYouTube: false,
-        isVisible: true,
-        img: 'img/13.avif',
-      },
-      {
-        title: 'Netflix Replica: Source Code on GitHub',
-        description:
-          'Dive into the Vue.js source code of my Netflix replica. Analyze the architecture, explore the logic, and understand how the app handles streaming features.',
-        link: 'https://github.com/182Marco/marco-m-netflix',
-        isOnYouTube: false,
-        isVisible: true,
-        img: 'img/11.avif',
+        isVisible: false,
       },
     ],
   },
 ];
+
+const footer = {
+  title: "Let's build something",
+  accent: 'great together.',
+  copyright: 'Made with ♥ and code.',
+};

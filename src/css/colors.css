@@ -1,8 +1,15 @@
 :root {
-  --background-color: #2d2d2d;
-  --primary-text-color: #eee;
-  --link-hover-color: #8a8a8a;
-  --cta-color: #0077b5;
-  --border-color: #4a4a4a;
-  --dark-shade-color: #1a1412;
+  --bg-primary: #0b0f14;
+  --bg-card: #101d29;
+  --bg-secondary: #152535;
+  --accent: #00dccb;
+  --accent-blue: #1685ff;
+  --text-primary: #f5f7fa;
+  --text-secondary: #aab8c7;
+
+  --radius-card: 14px;
+  --border-subtle: rgba(110, 180, 210, 0.17);
+  --border-glow: rgba(0, 220, 203, 0.6);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --page-pad: clamp(16px, 4vw, 40px);
 }

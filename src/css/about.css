@@ -1,0 +1,29 @@
+.about {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: clamp(20px, 4vw, 48px);
+  padding: clamp(18px, 3vw, 32px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  background:
+    radial-gradient(
+      ellipse at right,
+      rgba(0, 220, 203, 0.12),
+      transparent 65%
+    ),
+    rgba(16, 29, 41, 0.6);
+  box-shadow: var(--shadow-soft);
+}
+
+.about__text p {
+  margin-top: 16px;
+  max-width: 48ch;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .about {
+    grid-template-columns: 1fr;
+  }
+}

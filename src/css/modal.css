@@ -1,68 +1,39 @@
-dialog {
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 0;
-  z-index: 2;
-  background-color: #000;
-  transition: opacity 0.3s ease-out;
+.video-modal {
+  width: min(94vw, 1100px);
+  max-height: 92vh;
+  margin: auto;
+  overflow: visible;
+  border-radius: var(--radius-card);
+  background: #000;
+  box-shadow: var(--shadow-soft);
 }
 
-dialog.show {
-  visibility: visible;
-  opacity: 1;
-  pointer-events: auto;
+.video-modal::backdrop {
+  background: rgba(4, 8, 12, 0.85);
 }
 
-dialog .video-box {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50% -50%);
-  padding-bottom: 56.25%; /* 16:9 */
-  height: 0;
+.video-modal__frame {
+  aspect-ratio: 16 / 9;
+  width: 100%;
   overflow: hidden;
-  max-width: 100%;
+  border-radius: var(--radius-card);
 }
 
-dialog iframe {
-  position: fixed;
-  top: 0;
-  left: 0;
+.video-modal iframe {
   width: 100%;
   height: 100%;
-  z-index: 99;
 }
 
-dialog .x-box {
-  background-color: #000;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  font-size: 40px;
+.video-modal__close {
   position: absolute;
-  top: 1%;
-  left: 0.3%;
-  cursor: pointer;
-  transition: 0.3s;
-  z-index: 100;
-  cursor: pointer;
-}
-dialog .x-box .fa-x::before {
-  color: var(--link-hover-color);
-  transition: 0.3s;
-}
-
-dialog .x-box:hover .fa-x::before {
-  color: #fff;
+  top: -16px;
+  right: -16px;
+  z-index: 1;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-glow);
 }
