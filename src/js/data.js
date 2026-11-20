@@ -319,5 +319,6 @@ const footer = {
   subtitle: "Have a project in mind? I'd love to hear from you.",
   button: 'Get in touch',
   buttonIcon: 'fa-solid fa-envelope',
-  copyright: 'Made with ♥ and code.',
+  copyright:
+    'Made with <i class="fa-solid fa-heart footer__heart" aria-hidden="true"></i> and code.',
 };

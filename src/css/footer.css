@@ -107,3 +107,8 @@ footer {
   font-size: 12px;
   color: var(--text-secondary);
 }
+
+.footer__heart {
+  font-size: 0.85em;
+  color: var(--accent);
+}
