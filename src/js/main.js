@@ -8,6 +8,8 @@ document.head.appendChild(
   })
 );
 
+document.body.style.setProperty('--bg-image', `url('${new URL(pageBackground, document.baseURI).href}')`);
+
 const params = new URLSearchParams(window.location.search);
 
 const visibleContacts = myData.contacts.filter(

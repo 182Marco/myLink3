@@ -99,13 +99,17 @@ const ui = {
   closePhoto: 'Close photo',
 };
 
+// Seamless tile repeated behind the whole page (green waves).
+const pageBackground = 'img/bg-waves.avif';
+
 const hero = {
   badge: 'AI Agents • Full Stack • Real Impact',
-  title: ['AI Engineer.', 'Full Stack Developer.'],
-  subtitle: 'Building intelligent solutions for business.',
+  title: ['Agentic AI.', 'Real Impact.'],
+  accent: 'Built for Business.',
   description:
     "I build agentic chatbots and AI-powered solutions that unlock your company's knowledge, automate workflows and deliver measurable ROI.",
   player: 'intro',
+  hasScrollIcon: true, // mouse icon under the hero
   techStack: [
     { name: 'Python', icon: 'fa-brands fa-python', color: '#ffd43b' },
     { name: 'React', icon: 'fa-brands fa-react', color: '#61dafb' },
@@ -119,6 +123,7 @@ const hero = {
 };
 
 const about = {
+  eyebrow: 'About My Work',
   title: 'Turning AI into',
   accent: 'real business value.',
   description:

@@ -78,6 +78,8 @@ Scripts are plain globals, loaded in this order (see `src/index.html`):
   `delivboo.mp4`).
 - `sequence[]`: ordered player ids of the automatic sequence.
 - `hero`, `about`, `projectsIntro`, `footer`, `ui` (labels): page texts.
+- `pageBackground`: seamless AVIF tile (`img/bg-waves.avif`, 1600x1200) repeated
+  behind the whole page, injected as the `--bg-image` CSS variable.
 - `accordions[]`: `id`, `title`, `icon`, `layout` (`grid`|`scroller`), `card`
   (`cover`|`app`|`repo`), `isOpen`, `isCollapsible: false` (plain row, no
   accordion), `hasCaption: false` (text is inside the cover image), `list[]`.

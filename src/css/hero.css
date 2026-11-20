@@ -1,6 +1,6 @@
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.15fr);
   align-items: center;
   gap: clamp(20px, 4vw, 48px);
 }
@@ -22,34 +22,26 @@
 }
 
 .hero h1 {
-  font-size: clamp(24px, 3.3vw, 38px);
+  font-size: clamp(26px, 3.4vw, 40px);
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1.08;
 }
 
 .hero h1 span {
   display: block;
 }
 
-.hero__subtitle {
-  margin: 8px 0 18px;
-  font-size: clamp(18px, 2.5vw, 28px);
-  font-weight: 700;
-  line-height: 1.15;
-  color: var(--accent);
-}
-
 .hero__description {
-  max-width: 46ch;
-  margin-bottom: 26px;
-  font-size: 13.5px;
+  max-width: 44ch;
+  margin: 18px 0 26px;
+  font-size: 14px;
   color: var(--text-secondary);
 }
 
 .tech {
   display: flex;
   flex-wrap: wrap;
-  gap: 18px;
+  gap: 14px;
 }
 
 .tech li {
@@ -73,5 +65,56 @@
 
   .hero__media {
     order: -1; /* video first on small screens */
+  }
+}
+
+/* tall hero: big player with a glowing teal frame */
+.hero__media .player {
+  border: 1.5px solid rgba(0, 220, 203, 0.55);
+  border-radius: 22px;
+  box-shadow:
+    0 0 38px rgba(0, 220, 203, 0.22),
+    var(--shadow-soft);
+}
+
+.scroll-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: -28px;
+  font-size: 12px;
+}
+
+.scroll-icon__mouse {
+  position: relative;
+  width: 22px;
+  height: 34px;
+  border: 2px solid var(--text-primary);
+  border-radius: 12px;
+}
+
+.scroll-icon__mouse::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  width: 3px;
+  height: 7px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: var(--text-primary);
+  animation: wheel 1.8s ease-in-out infinite;
+}
+
+@keyframes wheel {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(6px);
+    opacity: 0.2;
   }
 }

@@ -64,22 +64,26 @@ const HeroComponent = h => `
   <section class="hero" data-scroll-anchor>
     <div class="hero__text">
       <p class="badge"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> ${h.badge}</p>
-      <h1>${h.title.map(t => `<span>${t}</span>`).join(' ')}</h1>
-      <p class="hero__subtitle">${h.subtitle}</p>
+      <h1>${h.title.map(t => `<span>${t}</span>`).join(' ')}<span class="accent">${h.accent}</span></h1>
       <p class="hero__description">${h.description}</p>
       <ul class="tech" aria-label="Technologies">
         ${h.techStack.map(TechIconComponent).join('')}
       </ul>
     </div>
     <div class="hero__media">${PlayerComponent(h.player, players[h.player])}</div>
-  </section>`;
+  </section>
+  ${
+    h.hasScrollIcon
+      ? '<div class="scroll-icon" aria-hidden="true"><span class="scroll-icon__mouse"></span><i class="fa-solid fa-chevron-down"></i></div>'
+      : ''
+  }`;
 
 const AboutComponent = a => `
   <section class="about" data-scroll-anchor>
     <div class="about__media">${PlayerComponent(a.player, players[a.player])}</div>
     <div class="about__text">
-      <span class="dash" aria-hidden="true"></span>
-      <h2 class="heading">${a.title} <span class="accent">${a.accent}</span></h2>
+      <p class="eyebrow eyebrow--accent"><span class="eyebrow__dash" aria-hidden="true"></span>${a.eyebrow}</p>
+      <h2 class="heading"><span>${a.title}</span> <span class="accent">${a.accent}</span></h2>
       <p>${a.description}</p>
     </div>
   </section>`;

@@ -5,19 +5,11 @@ body {
   line-height: 1.5;
   font-size: 14px;
   overflow-x: clip;
-  background:
-    radial-gradient(
-      ellipse at top right,
-      rgba(16, 185, 160, 0.15),
-      transparent 70%
-    ),
-    radial-gradient(
-      ellipse at bottom left,
-      rgba(59, 130, 246, 0.15),
-      transparent 70%
-    ),
-    var(--bg-primary);
-  background-attachment: fixed;
+  background-color: var(--bg-primary);
+  background-image: var(--bg-image);
+  background-position: top center;
+  background-size: 1600px auto;
+  background-repeat: repeat;
 }
 
 header,
