@@ -4,7 +4,7 @@
 }
 
 .cards--grid.cards--cover {
-  grid-template-columns: 1.2fr 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .cards--grid.cards--repo {
@@ -235,5 +235,145 @@
 
   .accordion__inner > * {
     margin-inline: 12px;
+  }
+}
+
+/* ===== reference-style overrides ===== */
+
+.block + .block,
+.projects__head + .block {
+  margin-top: 4px;
+}
+
+.cards--poster {
+  gap: 20px;
+}
+
+.card--poster {
+  border-radius: 16px;
+}
+
+.cards--poster .card__media,
+.cards--poster .player {
+  aspect-ratio: 375 / 200;
+}
+
+.cards--poster .card__media > img {
+  height: 100%;
+}
+
+.player__cover {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.player__cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.player:not([data-state='idle']) .player__cover {
+  display: none;
+}
+
+/* app row: icon + title + subtitle + round arrow */
+.cards--grid.cards--app {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.card--app .card__link {
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  min-height: 86px;
+  padding: 0 18px;
+}
+
+.card--app .card__icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
+
+.card--app .card__body,
+.card--repo .card__body {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+}
+
+.card--app .card__title {
+  font-size: 15px;
+}
+
+.card--app .card__desc {
+  display: block;
+  margin-top: 2px;
+  font-size: 12.5px;
+}
+
+.card__go {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+}
+
+.card--app .card__go {
+  width: 32px;
+  height: 32px;
+  font-size: 13px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  transition:
+    background 220ms ease,
+    color 220ms ease;
+}
+
+.card--app .card__link:hover .card__go {
+  background: var(--accent);
+  color: var(--bg-primary);
+}
+
+.card--repo .card__go {
+  align-self: flex-start;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* tutorials: framed cover + title, five visible on desktop */
+.cards--scroller .card {
+  flex: 0 0 calc((100% - 4 * 14px) / 5);
+  min-width: 170px;
+  padding: 6px;
+}
+
+.cards--scroller {
+  gap: 14px;
+}
+
+.cards--scroller .card__media {
+  border-radius: 9px;
+}
+
+.cards--scroller .card__body {
+  padding: 8px 4px 4px;
+}
+
+.cards--scroller .card__title {
+  font-size: 12px;
+}
+
+@media (max-width: 700px) {
+  .cards--grid.cards--cover,
+  .cards--grid.cards--app {
+    grid-template-columns: 1fr;
+  }
+
+  .cards--scroller .card {
+    flex-basis: 62vw;
   }
 }

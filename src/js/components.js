@@ -43,9 +43,11 @@ const PlayerComponent = (id, cfg) => `
       playsinline
     ></video>
     ${cfg.endedPoster ? `<img class="player__end" src="${cfg.endedPoster}" alt="" hidden />` : ''}
-    <button type="button" class="player__play" aria-label="${ui.playLabel}: ${cfg.label}">
-      <i class="fa-solid fa-play" aria-hidden="true"></i>
-    </button>
+    ${
+      cfg.cover
+        ? `<button type="button" class="player__cover" aria-label="${ui.playLabel}: ${cfg.label}"><img src="${cfg.cover}" alt="" /></button>`
+        : `<button type="button" class="player__play" aria-label="${ui.playLabel}: ${cfg.label}"><i class="fa-solid fa-play" aria-hidden="true"></i></button>`
+    }
     <p class="player__msg" role="status" hidden>${ui.unavailable}</p>
   </div>`;
 
@@ -87,9 +89,7 @@ const AboutComponent = a => `
 const CardBadgeComponent = item =>
   item.player || item.isOnYouTube
     ? '<span class="card__badge" aria-hidden="true"><i class="fa-solid fa-play"></i></span>'
-    : item.link
-      ? `<span class="card__badge" aria-hidden="true"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>`
-      : `<span class="card__badge card__badge--soon">${ui.comingSoon}</span>`;
+    : '<span class="card__badge" aria-hidden="true"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>';
 
 const CardBodyComponent = (item, showDescription) => `
   <div class="card__body">
@@ -97,7 +97,7 @@ const CardBodyComponent = (item, showDescription) => `
     ${showDescription ? `<p class="card__desc">${item.description}</p>` : ''}
   </div>`;
 
-// Wraps content in a link, a placeholder, or nothing (inline player).
+// Wraps content in a link, a placeholder (link: null), or nothing (inline player).
 const CardLinkComponent = (item, inner) =>
   item.player
     ? inner
@@ -106,40 +106,56 @@ const CardLinkComponent = (item, inner) =>
            ${item.isOnYouTube ? 'data-modal' : ''}>${inner}<span class="sr-only"> ${ui.newTab}</span></a>`
       : `<div class="card__link is-placeholder" aria-disabled="true">${inner}</div>`;
 
-const CoverCardComponent = (item, accordion) => `
-  <li class="card ${item.isFeatured ? 'card--featured' : ''}">
+const CoverCardComponent = (item, accordion) => {
+  const caption = accordion.hasCaption !== false;
+  return `
+  <li class="card ${caption ? '' : 'card--poster'}">
     ${CardLinkComponent(
       item,
       `<div class="card__media">
          ${
            item.player
              ? PlayerComponent(item.player, players[item.player])
-             : `<img src="${item.img}" alt="" loading="lazy" />${CardBadgeComponent(item)}`
+             : `<img src="${item.img}" alt="${caption ? '' : item.title}" loading="lazy" />${caption ? CardBadgeComponent(item) : ''}`
          }
        </div>
-       ${CardBodyComponent(item, accordion.layout === 'grid')}`
+       ${caption ? CardBodyComponent(item, accordion.layout === 'grid') : ''}`
     )}
   </li>`;
+};
 
-const RepoCardComponent = item => `
-  <li class="card card--repo">
+// icon (font or image) + title + subtitle + trailing symbol
+const RepoCardComponent = (item, accordion) => `
+  <li class="card card--${accordion.card}">
     ${CardLinkComponent(
       item,
-      `<i class="${item.icon} card__icon" style="color:${item.color}" aria-hidden="true"></i>
+      `${
+        item.img
+          ? `<img class="card__icon" src="${item.img}" alt="" />`
+          : `<i class="${item.icon} card__icon" style="color:${item.color}" aria-hidden="true"></i>`
+      }
        <div class="card__body">
          <h4 class="card__title">${item.title}</h4>
          <p class="card__desc">${item.description}</p>
        </div>
-       ${CardBadgeComponent({ link: item.link })}`
+       <span class="card__go" aria-hidden="true"><i class="${accordion.card === 'app' ? 'fa-solid fa-arrow-right' : 'fa-solid fa-arrow-up-right-from-square'}"></i></span>`
     )}
   </li>`;
 
-const cardComponents = { cover: CoverCardComponent, repo: RepoCardComponent };
+const cardComponents = {
+  cover: CoverCardComponent,
+  app: RepoCardComponent,
+  repo: RepoCardComponent,
+};
+
+const CardListComponent = a => `
+  <ul class="cards cards--${a.layout} cards--${a.card} ${a.hasCaption === false ? 'cards--poster' : ''}" ${a.isCollapsible === false ? `aria-label="${a.title}"` : ''}>
+    ${a.list.map(item => cardComponents[a.card](item, a)).join('')}
+  </ul>`;
 
 const AccordionComponent = a => {
-  const cards = `<ul class="cards cards--${a.layout} cards--${a.card}">
-      ${a.list.map(item => cardComponents[a.card](item, a)).join('')}
-    </ul>`;
+  if (a.isCollapsible === false) return `<div class="block" id="${a.id}">${CardListComponent(a)}</div>`;
+  const cards = CardListComponent(a);
   const body =
     a.layout === 'scroller'
       ? `<div class="scroller">
@@ -171,7 +187,10 @@ const AccordionComponent = a => {
 const ProjectsComponent = (intro, list) => `
   <section class="projects" data-scroll-anchor>
     <div class="projects__head">
-      <div>${HeadingComponent(intro)}</div>
+      <div>
+        <p class="eyebrow"><span class="eyebrow__dash" aria-hidden="true"></span>${intro.eyebrow}</p>
+        <h2 class="heading">${intro.title} <span class="accent">${intro.accent}</span></h2>
+      </div>
       <span class="stripes" aria-hidden="true"></span>
     </div>
     ${list.map(AccordionComponent).join('')}

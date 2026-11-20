@@ -114,7 +114,7 @@ const initPlayer = wrap => {
     onEnded(id);
   });
   wrap
-    .querySelector('.player__play')
+    .querySelector('.player__play, .player__cover')
     .addEventListener('click', () => tryPlay(video));
 };
 

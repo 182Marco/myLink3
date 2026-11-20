@@ -1,7 +1,7 @@
 .projects {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
 
 .projects > .heading {
@@ -105,4 +105,29 @@
     width: 52px;
     height: 36px;
   }
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.eyebrow__dash {
+  width: 34px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 10px rgba(0, 220, 203, 0.6);
+}
+
+.projects__head .heading {
+  max-width: 13em;
+}
+
+.projects > .block {
+  display: block;
 }

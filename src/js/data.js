@@ -59,7 +59,8 @@ const myData = {
  * Video players. Each one is referenced by id from a section (`hero.player`,
  * `about.player`) or from a card (`player` field). `src` files go in
  * `src/video/` (not provided yet). `endedPoster`: image shown instead of the
- * video once it ends.
+ * video once it ends. `cover`: image that already contains its play button
+ * (replaces the default one; hidden once playback starts).
  */
 const players = {
   intro: {
@@ -73,16 +74,17 @@ const players = {
     poster: './img/io.avif',
     label: 'Presentation of my AI portfolio project',
   },
-  quickbite: {
-    src: 'video/quickbite.mp4',
-    poster: 'img/quickbite-cover.svg',
-    label: 'QuickBite presentation',
+  delivboo: {
+    src: 'video/delivboo.mp4',
+    poster: 'img/cover-delivboo.jpg',
+    cover: 'img/cover-delivboo.jpg', // image with its own play button/duration
+    label: 'DelivBoo presentation',
   },
 };
 
 // Automatic sequence: order of the player ids. On `ended` the page scrolls to
 // the next player and plays it. After the last one, automations stop.
-const sequence = ['intro', 'about', 'quickbite'];
+const sequence = ['intro', 'about', 'delivboo'];
 
 // UI labels (kept in data so that no text lives in the components).
 const ui = {
@@ -125,14 +127,17 @@ const about = {
 };
 
 const projectsIntro = {
-  title: 'Real world solutions,',
-  accent: 'built with passion.',
+  eyebrow: 'My Projects',
+  title: 'Real-world solutions, built with',
+  accent: 'passion.',
 };
 
 /*
  * Accordions.
  *  layout: 'grid' (featured first card) | 'scroller' (horizontal scroll)
- *  card: 'cover' (16:9 cover + title) | 'repo' (icon + name + tech)
+ *  card: 'cover' (cover image) | 'app' (icon + name + arrow) | 'repo'
+ *  isCollapsible: false => plain row without accordion (default true)
+ *  hasCaption: false => no text under the cover (default true)
  *  list[] item:
  *    - player: id in `players` => plays inline in the card
  *    - isOnYouTube: true => `link` is a youtube /embed/ url: modal on
@@ -144,36 +149,29 @@ const accordions = [
   {
     id: 'projects',
     title: 'My Projects',
-    icon: 'fa-solid fa-play',
+    isCollapsible: false, // plain row, no accordion chrome
+    hasCaption: false, // title/description are part of the cover image
     layout: 'grid',
     card: 'cover',
-    isOpen: true,
     list: [
       {
-        title: 'QuickBite – Food Delivery',
-        description:
-          'Full stack food delivery: ordering app for customers, back office for restaurants and a complete backend.',
-        player: 'quickbite',
-        img: 'img/quickbite-cover.svg',
-        isFeatured: true,
+        title: 'DelivBoo – Food Delivery',
+        player: 'delivboo',
+        img: 'img/cover-delivboo.jpg',
         isVisible: true,
       },
       {
         title: 'NetflixScout',
-        description:
-          'A movie streaming platform: browse, search and watch movies and TV series.',
         link: 'https://www.youtube.com/embed/URvi-QwBXPs?si=Ceh7biXNW5tFx_Nc',
         isOnYouTube: true,
-        img: 'img/1.avif',
+        img: 'img/cover-netflixscout.jpg',
         isVisible: true,
       },
       {
         title: '3D Gallery',
-        description:
-          'A gallery of 3D graphic scenes applied to development, built with JavaScript.',
         link: 'https://www.youtube.com/embed/57bONIEfiL4?si=r-k2oSqcYLRahVdU',
         isOnYouTube: true,
-        img: 'img/10.avif',
+        img: 'img/cover-3dgallery.jpg',
         isVisible: true,
       },
     ],
@@ -181,32 +179,29 @@ const accordions = [
   {
     id: 'websites',
     title: 'Project Websites',
-    icon: 'fa-solid fa-link',
+    isCollapsible: false,
     layout: 'grid',
-    card: 'cover',
-    isOpen: true,
+    card: 'app',
     list: [
       {
-        title: 'QuickBite',
-        description: 'The food delivery application.',
-        link: null, // TODO: published QuickBite URL
-        img: 'img/quickbite-site.svg',
-        isFeatured: true,
+        title: 'DelivBoo',
+        description: 'Food Delivery Platform',
+        img: 'img/icon-delivboo.svg',
+        link: null, // TODO: published DelivBoo URL
         isVisible: true,
       },
       {
         title: 'NetflixScout',
-        description:
-          'Enter also without password (the login is just simulated) and explore the movie platform, with its AI chatbot.',
+        description: 'Movie Explorer with AI',
+        img: 'img/icon-netflix.svg',
         link: 'https://netfli-x-marco-milza.netlify.app/',
-        img: 'img/netflixscout-site.svg',
         isVisible: true,
       },
       {
         title: '3D Gallery',
-        description: 'A gallery of 3D graphic experiments.',
+        description: '3D Experience',
+        img: 'img/icon-3dgallery.svg',
         link: 'https://3dgallerythreefiber.netlify.app/',
-        img: 'img/gallery3d-site.svg',
         isVisible: true,
       },
     ],

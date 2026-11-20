@@ -75,19 +75,20 @@ Scripts are plain globals, loaded in this order (see `src/index.html`):
   `isExternal`, `isCta`, `isAlwaysVisible`; false → only with `?data`).
 - `players{id: {src, poster, endedPoster?, label}}`: video files in
   `src/video/` (not provided yet: `intro.mp4`, `ai-project.mp4`,
-  `quickbite.mp4`).
+  `delivboo.mp4`).
 - `sequence[]`: ordered player ids of the automatic sequence.
 - `hero`, `about`, `projectsIntro`, `footer`, `ui` (labels): page texts.
 - `accordions[]`: `id`, `title`, `icon`, `layout` (`grid`|`scroller`), `card`
-  (`cover`|`repo`), `isOpen`, `list[]`.
-- `list[]` item: `title`, `description`, `img`, `isVisible`, `isFeatured`, and
+  (`cover`|`app`|`repo`), `isOpen`, `isCollapsible: false` (plain row, no
+  accordion), `hasCaption: false` (text is inside the cover image), `list[]`.
+  `players[id].cover`: image with its own play button (replaces the default).
+- `list[]` item: `title`, `description`, `img`, `isVisible`, and
   one of: `player` (inline video), `isOnYouTube` + `link` (`/embed/` URL: modal
-  ≥768px, new tab below), plain `link`, or `link: null` (placeholder "Coming
-  soon"). Repo cards use `icon` + `color` instead of `img`.
+  ≥768px, new tab below), plain `link`, or `link: null` (placeholder, not clickable). Repo cards use `icon` + `color` instead of `img`.
 
 ## Video sequence (`media.js`)
 
-intro → about → quickbite, driven only by the real `ended` event. On `ended`:
+intro → about → delivboo, driven only by the real `ended` event. On `ended`:
 open the target accordion, smooth-scroll to the next player's
 `[data-scroll-anchor]`, wait (IntersectionObserver) until visible, `play()`.
 The sequence stops for good on: wheel/touch/pointer/key input, pause or seek on
