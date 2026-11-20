@@ -1,6 +1,6 @@
 // app card: icon + title + subtitle + round arrow
 const RepoCardComponent = (item, accordion) => `
-  <li class="card card--${accordion.card}" ${item.showsPlayer ? `data-shows-player="${item.showsPlayer}"` : ''}>
+  <li class="card card--${accordion.card}" ${item.showsPlayer ? `data-shows-player="${[].concat(item.showsPlayer).join(' ')}"` : ''}>
     ${CardLinkComponent(
       item,
       `<img class="card__icon" src="${item.img}" alt="" />

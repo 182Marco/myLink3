@@ -160,7 +160,8 @@ const projectsIntro = {
  *    - isOnYouTube: true => `link` is a youtube /embed/ url: modal on
  *      viewports >= 768px, new tab otherwise
  *    - otherwise `link` opens in a new tab; `link: null` => placeholder
- *    - showsPlayer: id in `players` => while that video plays the card is
+ *    - showsPlayer: id (or array of ids) in `players` => while one of those
+ *      videos plays the card is
  *      highlighted and `liveDescription` replaces `description`
  *    - isFeatured: larger card in a grid
  */
@@ -212,7 +213,7 @@ const accordions = [
       {
         title: 'NetflixScout',
         description: 'Movie Explorer with AI',
-        showsPlayer: 'netflixscout', // highlighted while this video plays
+        showsPlayer: ['about', 'netflixscout'], // highlighted while these videos play
         liveDescription: 'Public live app, shown in the video: try it online',
         img: 'img/icon-netflix.svg',
         link: 'https://netfli-x-marco-milza.netlify.app/',

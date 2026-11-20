@@ -59,7 +59,7 @@ const setState = (p, state) => {
   p.wrap.dataset.state = state;
   // highlight the cards that present this video while it plays
   document
-    .querySelectorAll(`[data-shows-player="${p.id}"]`)
+    .querySelectorAll(`[data-shows-player~="${p.id}"]`)
     .forEach(c => (c.dataset.live = String(state === 'playing')));
   p.wrap.querySelector('.player__msg').hidden = state !== 'error';
 };
