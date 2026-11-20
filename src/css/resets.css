@@ -44,12 +44,15 @@ button {
   white-space: nowrap;
 }
 
+/* No !important: the :not(#id) adds ID-level specificity, so these rules
+   beat any class-based transition/animation without it. */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
+  :root:not(#reduced-motion),
+  :root:not(#reduced-motion) *,
+  :root:not(#reduced-motion) *::before,
+  :root:not(#reduced-motion) *::after {
+    scroll-behavior: auto;
+    animation-duration: 0.01ms;
+    transition-duration: 0.01ms;
   }
 }
