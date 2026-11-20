@@ -1,14 +1,16 @@
 const FooterComponent = (f, profile, contacts) => {
   const cta = contacts.find(c => c.isCta);
   return `
-    <div class="footer__cta">
-      <h2 class="heading">${f.title} <span class="accent">${f.accent}</span></h2>
-      ${
-        cta
-          ? `<a class="footer__mail" href="${cta.href}"><i class="${cta.icon}" aria-hidden="true"></i><span>${cta.contact}</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>`
-          : ''
-      }
-    </div>
+    ${
+      cta
+        ? `<a class="footer__mail" href="${cta.href}" aria-label="${cta.contact}">
+      <img class="footer__mailImg" src="${f.img}" alt="" />
+      <span class="footer__mailTitle">${f.title}</span>
+      <span class="footer__mailSub">${f.subtitle}</span>
+      <span class="footer__mailBtn"><i class="${f.buttonIcon}" aria-hidden="true"></i>${f.button}</span>
+    </a>`
+        : ''
+    }
     <div class="footer__bar">
       <div>
         <p class="header__name">${profile.fullName()}</p>

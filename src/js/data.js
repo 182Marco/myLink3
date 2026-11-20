@@ -314,7 +314,10 @@ const accordions = [
 ];
 
 const footer = {
-  title: "Let's build something",
-  accent: 'great together.',
+  img: 'img/btnMail.avif', // container image (envelope icon on the left)
+  title: "Let's build something great together.",
+  subtitle: "Have a project in mind? I'd love to hear from you.",
+  button: 'Get in touch',
+  buttonIcon: 'fa-solid fa-envelope',
   copyright: 'Made with ♥ and code.',
 };

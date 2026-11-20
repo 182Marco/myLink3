@@ -4,58 +4,78 @@ footer {
   padding-bottom: 24px;
 }
 
-.footer__cta {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 14px;
-  padding: clamp(20px, 4vw, 36px) 0;
-  border-top: 1px solid var(--border-subtle);
-}
-
-.footer__cta,
 .footer__bar {
   position: relative;
 }
 
+/* The whole image is the link; texts/button are overlaid and scale with it
+   (container query units, 1cqw = 1% of the image width). */
 .footer__mail {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 20px;
-  font-size: 15px;
-  font-weight: 600;
-  border: 1px solid var(--border-subtle);
-  border-radius: 999px;
-  background:
-    linear-gradient(90deg, var(--accent), var(--accent-blue), var(--accent))
-      0 0 / 200% 100%;
-  background-color: var(--bg-card);
-  background-blend-mode: normal;
-  color: var(--bg-primary);
+  position: relative;
+  display: block;
+  container-type: inline-size;
+  aspect-ratio: 825 / 101;
+  margin-bottom: clamp(20px, 4vw, 36px);
+  border-radius: 1.6cqw;
   transition:
-    background-position 500ms ease,
-    box-shadow 300ms ease,
+    filter 300ms ease,
     transform 220ms ease;
 }
 
 .footer__mail:hover,
 .footer__mail:focus-visible {
-  background-position: 100% 0;
-  box-shadow: 0 0 24px rgba(0, 220, 203, 0.35);
+  filter: brightness(1.12);
   transform: translateY(-2px);
 }
 
-.footer__mail i {
-  color: inherit;
+.footer__mailImg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
-.footer__mail .fa-arrow-right {
-  transition: transform 220ms ease;
+.footer__mailTitle,
+.footer__mailSub,
+.footer__mailBtn {
+  position: absolute;
+  white-space: nowrap;
 }
 
-.footer__mail:hover .fa-arrow-right {
-  transform: translateX(4px);
+.footer__mailTitle {
+  left: 13.2%;
+  top: 44%;
+  transform: translateY(-50%);
+  font-size: 1.95cqw;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.footer__mailSub {
+  left: 13.2%;
+  top: 65.5%;
+  transform: translateY(-50%);
+  font-size: 1.32cqw;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.footer__mailBtn {
+  right: 2.15%;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9cqw;
+  width: 14.1%;
+  height: 42%;
+  border-radius: 999px;
+  background: #2ff0dc;
+  box-shadow: 0 0 2.4cqw rgba(47, 240, 220, 0.35);
+  font-size: 1.32cqw;
+  font-weight: 600;
+  color: #06151c;
 }
 
 .footer__bar {
