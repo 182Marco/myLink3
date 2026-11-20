@@ -127,3 +127,12 @@ phone/email, console has no errors.
 ## Git
 
 Default branch `main`. Commit messages are short and imperative.
+
+## Temporary: video simulation (delete later)
+
+While the mp4 files are missing, `dev/simulation.sh` generates
+`dev/simulation.html`: the real `src/` page plus `dev/simulation-shim.js`, which
+fakes playback (4 s per video, then `ended`) to show the sequence, the scroll to
+the next video and the highlighted app cards. When the real videos are in
+`src/video/`, delete `dev/simulation.sh`, `dev/simulation.html` and
+`dev/simulation-shim.js` and this section.

@@ -80,15 +80,26 @@ const players = {
     cover: 'img/cover-delivboo.avif', // image with its own play button
     label: 'DelivBoo presentation',
   },
+  netflixscout: {
+    src: 'video/netflixscout.mp4',
+    poster: 'img/cover-netflixscout.avif',
+    label: 'NetflixScout presentation',
+  },
+  gallery3d: {
+    src: 'video/3dgallery.mp4',
+    poster: 'img/cover-3dgallery.avif',
+    label: '3D Gallery presentation',
+  },
 };
 
 // Automatic sequence: order of the player ids. On `ended` the page scrolls to
 // the next player and plays it. After the last one, automations stop.
-const sequence = ['intro', 'about', 'delivboo'];
+const sequence = ['intro', 'about', 'delivboo', 'netflixscout', 'gallery3d'];
 
 // UI labels (kept in data so that no text lives in the components).
 const ui = {
   playLabel: 'Play',
+  liveBadge: 'Live app',
   unavailable: 'Video not available yet',
   newTab: '(opens in a new tab)',
   comingSoon: 'Coming soon',
@@ -149,6 +160,8 @@ const projectsIntro = {
  *    - isOnYouTube: true => `link` is a youtube /embed/ url: modal on
  *      viewports >= 768px, new tab otherwise
  *    - otherwise `link` opens in a new tab; `link: null` => placeholder
+ *    - showsPlayer: id in `players` => while that video plays the card is
+ *      highlighted and `liveDescription` replaces `description`
  *    - isFeatured: larger card in a grid
  */
 const accordions = [
@@ -168,15 +181,13 @@ const accordions = [
       },
       {
         title: 'NetflixScout',
-        link: 'https://www.youtube.com/embed/URvi-QwBXPs?si=Ceh7biXNW5tFx_Nc',
-        isOnYouTube: true,
+        player: 'netflixscout',
         img: 'img/cover-netflixscout.avif',
         isVisible: true,
       },
       {
         title: '3D Gallery',
-        link: 'https://www.youtube.com/embed/57bONIEfiL4?si=r-k2oSqcYLRahVdU',
-        isOnYouTube: true,
+        player: 'gallery3d',
         img: 'img/cover-3dgallery.avif',
         isVisible: true,
       },
@@ -192,6 +203,8 @@ const accordions = [
       {
         title: 'DelivBoo',
         description: 'Food Delivery Platform',
+        showsPlayer: 'delivboo', // highlighted while this video plays
+        liveDescription: 'Public live app, shown in the video: try it online',
         img: 'img/icon-delivboo.svg',
         link: null, // TODO: published DelivBoo URL
         isVisible: true,
@@ -199,6 +212,8 @@ const accordions = [
       {
         title: 'NetflixScout',
         description: 'Movie Explorer with AI',
+        showsPlayer: 'netflixscout', // highlighted while this video plays
+        liveDescription: 'Public live app, shown in the video: try it online',
         img: 'img/icon-netflix.svg',
         link: 'https://netfli-x-marco-milza.netlify.app/',
         isVisible: true,
@@ -206,6 +221,8 @@ const accordions = [
       {
         title: '3D Gallery',
         description: '3D Experience',
+        showsPlayer: 'gallery3d', // highlighted while this video plays
+        liveDescription: 'Public live app, shown in the video: try it online',
         img: 'img/icon-3dgallery.svg',
         link: 'https://3dgallerythreefiber.netlify.app/',
         isVisible: true,
