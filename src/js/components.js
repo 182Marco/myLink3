@@ -1,6 +1,6 @@
 /*
  * Pure components: data in, template string out. No DOM access, no state.
- * Data is trusted and developer-authored (see AGENTS.md), so it is injected
+ * Data is trusted and developer-authored, so it is injected
  * unescaped on purpose.
  */
 

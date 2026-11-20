@@ -1,4 +1,4 @@
-/* Bootstrap: data -> DOM, then wire behaviour. Order matters (see AGENTS.md). */
+/* Bootstrap: data -> DOM, then wire behaviour. Order matters. */
 
 document.title = myData.fullName();
 document.head.appendChild(
