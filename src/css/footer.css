@@ -1,7 +1,7 @@
 footer {
   position: relative;
   margin-top: clamp(40px, 7vw, 80px);
-  padding-bottom: 24px;
+  padding-bottom: 33px;
 }
 
 .footer__bar {
@@ -90,7 +90,8 @@ footer {
 
 .socials {
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 20px 24px;
 }
 
 .social {

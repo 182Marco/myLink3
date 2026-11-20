@@ -41,7 +41,7 @@ const myData = {
       icon: 'fa-solid fa-phone',
       contact: '+39 3295868709',
       href: 'tel:+393295868709',
-      places: ['header'],
+      places: ['header', 'footer'],
       isAlwaysVisible: false,
     },
     {
