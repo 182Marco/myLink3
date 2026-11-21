@@ -2,13 +2,696 @@
 <html lang="it">
   <head>
     <meta charset="utf-8" />
-    <title>Mappa del sito (solo sviluppo)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mappa del progetto (solo sviluppo)</title>
+    <!-- Bozza interna: vive in dev/, non è in src/ e non viene pubblicata. -->
+    <style>
+      :root {
+        --bg: #0b0f14;
+        --panel: #101d29;
+        --panel-2: #152535;
+        --line: rgba(110, 180, 210, 0.17);
+        --accent: #00dccb;
+        --blue: #1685ff;
+        --amber: #f5b84b;
+        --violet: #b18cff;
+        --text: #f5f7fa;
+        --muted: #aab8c7;
+        --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { height: 100%; }
+      body {
+        display: flex;
+        flex-direction: column;
+        background: var(--bg);
+        color: var(--text);
+        font: 14px/1.55 system-ui, -apple-system, 'Segoe UI', sans-serif;
+      }
+      code { font-family: var(--mono); font-size: 0.92em; color: var(--accent); background: rgba(0, 220, 203, 0.08); padding: 1px 5px; border-radius: 4px; }
+      a { color: inherit; }
+
+      /* ---------- tab bar ---------- */
+      .tabs { display: flex; gap: 4px; padding: 10px 16px 0; background: #080b0f; border-bottom: 1px solid var(--line); align-items: flex-end; }
+      .tabs__brand { margin-right: 16px; padding-bottom: 10px; color: var(--muted); font-size: 12px; letter-spacing: 0.04em; }
+      .tabs__brand b { color: var(--accent); }
+      .tab { appearance: none; border: 1px solid transparent; border-bottom: 0; background: none; color: var(--muted); padding: 9px 18px; border-radius: 10px 10px 0 0; font: inherit; cursor: pointer; }
+      .tab:hover { color: var(--text); background: rgba(255, 255, 255, 0.04); }
+      .tab[aria-selected='true'] { color: var(--text); background: var(--bg); border-color: var(--line); box-shadow: 0 2px 0 var(--bg); position: relative; top: 1px; }
+      .tab[aria-selected='true']::after { content: ''; position: absolute; left: 14px; right: 14px; top: 0; height: 2px; background: var(--accent); border-radius: 2px; }
+      .tab:focus-visible, .node:focus-visible, .tree button:focus-visible, .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+      .panel { flex: 1; min-height: 0; display: none; }
+      .panel.is-active { display: block; }
+
+      /* ---------- 1. grafico ---------- */
+      #panel-graph { overflow: auto; padding: 22px clamp(16px, 3vw, 40px) 48px; }
+      .wrap { max-width: 1280px; margin: 0 auto; }
+      h1 { font-size: 22px; margin-bottom: 4px; }
+      .lead { color: var(--muted); max-width: 78ch; margin-bottom: 18px; }
+      .golden { border: 1px solid rgba(0, 220, 203, 0.35); background: rgba(0, 220, 203, 0.06); border-radius: 12px; padding: 12px 16px; margin-bottom: 18px; max-width: 90ch; }
+      .golden b { color: var(--accent); }
+      .legend { display: flex; flex-wrap: wrap; gap: 14px; margin: 0 0 10px; color: var(--muted); font-size: 12px; }
+      .legend i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+      .graph { border: 1px solid var(--line); border-radius: 14px; background: #0a1118; overflow-x: auto; }
+      .graph svg { display: block; min-width: 980px; width: 100%; height: auto; }
+      .node { cursor: pointer; }
+      .node rect { transition: filter 0.15s, stroke-width 0.15s; }
+      .node:hover rect, .node:focus-visible rect { filter: brightness(1.35); stroke-width: 2.5; }
+      .node .t { font: 600 15px system-ui, sans-serif; fill: var(--text); }
+      .node .s { font: 12px system-ui, sans-serif; fill: var(--muted); }
+      .edge { fill: none; stroke: #5d7a92; stroke-width: 1.6; }
+      .edge.dash { stroke-dasharray: 6 5; }
+      .elabel { font: 11.5px system-ui, sans-serif; fill: #cfe0ee; paint-order: stroke; stroke: #0a1118; stroke-width: 5px; stroke-linejoin: round; text-anchor: middle; }
+      .group-label { font: 600 11px system-ui, sans-serif; fill: #6f8aa0; letter-spacing: 0.08em; text-transform: uppercase; }
+      .hint { color: var(--muted); font-size: 12px; margin: 8px 2px 22px; }
+      h2 { font-size: 16px; margin: 6px 0 10px; }
+      .steps { counter-reset: s; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
+      .steps li { counter-increment: s; border: 1px solid var(--line); background: var(--panel); border-radius: 12px; padding: 12px 14px 12px 50px; position: relative; }
+      .steps li::before { content: counter(s); position: absolute; left: 13px; top: 12px; width: 25px; height: 25px; border-radius: 50%; background: rgba(0, 220, 203, 0.14); color: var(--accent); display: grid; place-items: center; font-weight: 700; }
+      .steps b { display: block; margin-bottom: 2px; }
+      .steps span { color: var(--muted); }
+
+      /* ---------- 2. stile VS Code ---------- */
+      #panel-code.is-active { display: grid; grid-template-columns: 300px 1fr; }
+      .side { background: #0d141b; border-right: 1px solid var(--line); overflow: auto; display: flex; flex-direction: column; min-height: 0; }
+      .side__head { padding: 10px 14px; font-size: 11px; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; position: sticky; top: 0; background: #0d141b; z-index: 1; display: flex; justify-content: space-between; align-items: center; }
+      .side__head button { background: none; border: 0; color: var(--muted); cursor: pointer; font-size: 11px; text-decoration: underline; }
+      .tree { list-style: none; padding: 0 0 24px; font-size: 13px; }
+      .tree ul { list-style: none; }
+      .tree button { display: flex; align-items: center; gap: 6px; width: 100%; text-align: left; background: none; border: 0; color: #cdd9e4; font: inherit; padding: 3px 10px 3px calc(10px + var(--d) * 14px); cursor: pointer; white-space: nowrap; }
+      .tree button:hover { background: rgba(255, 255, 255, 0.05); }
+      .tree button[aria-current='true'] { background: rgba(0, 220, 203, 0.14); color: #fff; }
+      .tree .chev { width: 10px; color: var(--muted); font-size: 9px; transition: transform 0.12s; display: inline-block; flex: none; }
+      .tree [aria-expanded='true'] > .chev { transform: rotate(90deg); }
+      .tree .ico { width: 15px; flex: none; text-align: center; font-size: 11px; font-weight: 700; }
+      .tree .nm { overflow: hidden; text-overflow: ellipsis; }
+      .tree .badge { margin-left: auto; font-size: 10px; color: var(--muted); }
+      .tree li[hidden] { display: none; }
+
+      .main { overflow: auto; min-width: 0; min-height: 0; }
+      .crumbs { position: sticky; top: 0; z-index: 1; background: #0b0f14ee; backdrop-filter: blur(6px); padding: 9px 28px; font: 12px var(--mono); color: var(--muted); border-bottom: 1px solid var(--line); }
+      .crumbs b { color: var(--text); font-weight: 500; }
+      .doc { max-width: 860px; padding: 26px 28px 70px; }
+      .doc__kind { display: inline-block; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); margin-bottom: 8px; }
+      .doc h1 { font: 700 26px var(--mono); margin-bottom: 8px; }
+      .doc__one { font-size: 17px; color: #e6eef6; margin-bottom: 22px; }
+      .doc h3 { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin: 22px 0 8px; }
+      .doc ul.points { padding-left: 20px; }
+      .doc ul.points li { margin: 5px 0; }
+      .example { background: #08101a; border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 8px; padding: 12px 14px; font: 12.5px/1.6 var(--mono); color: #d7e6f3; white-space: pre-wrap; overflow-x: auto; }
+      .example .why { display: block; margin-top: 8px; font: 13px/1.5 system-ui, sans-serif; color: var(--muted); }
+      .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+      .chip { display: inline-flex; gap: 6px; align-items: center; background: var(--panel); border: 1px solid var(--line); color: var(--text); padding: 5px 11px; border-radius: 999px; font: 12px var(--mono); cursor: pointer; }
+      .chip:hover { border-color: var(--accent); }
+      .chip small { font: 12px system-ui; color: var(--muted); }
+      .children { display: grid; gap: 6px; }
+      .children .chip { border-radius: 10px; width: 100%; justify-content: flex-start; padding: 8px 12px; }
+      .children .chip small { margin-left: auto; text-align: right; }
+      .welcome { color: var(--muted); }
+
+      /* ---------- 3. link ---------- */
+      #panel-links { overflow: auto; padding: 22px clamp(16px, 3vw, 40px) 60px; }
+      .grid { display: grid; grid-template-columns: 150px repeat(2, minmax(0, 1fr)); gap: 12px; margin: 14px 0 26px; }
+      .grid .colh { color: var(--muted); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; padding: 0 4px; }
+      .grid .colh b { color: var(--text); display: block; font-size: 14px; letter-spacing: 0; text-transform: none; }
+      .rowh { align-self: center; padding: 4px; }
+      .rowh b { display: block; }
+      .rowh span { color: var(--muted); font-size: 12px; }
+      .link { display: block; text-decoration: none; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 13px 15px; transition: border-color 0.15s, transform 0.15s; }
+      .link:hover { border-color: var(--accent); transform: translateY(-1px); }
+      .link .u { font: 13px var(--mono); color: var(--accent); word-break: break-all; }
+      .link .d { color: var(--muted); font-size: 12.5px; margin-top: 5px; }
+      .link .go { float: right; color: var(--muted); }
+      .link.is-na { opacity: 0.45; pointer-events: none; border-style: dashed; }
+      .composer { border: 1px solid var(--line); background: var(--panel); border-radius: 14px; padding: 16px 18px; max-width: 820px; }
+      .composer .opts { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 10px 0 14px; }
+      .composer label { display: flex; gap: 7px; align-items: center; cursor: pointer; }
+      .composer label.off { opacity: 0.4; cursor: not-allowed; }
+      .composer input { accent-color: var(--accent); }
+      .out { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; background: #08101a; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+      .out code { flex: 1; min-width: 220px; word-break: break-all; background: none; }
+      .btn { appearance: none; background: rgba(0, 220, 203, 0.14); border: 1px solid rgba(0, 220, 203, 0.4); color: var(--text); font: inherit; padding: 6px 14px; border-radius: 8px; cursor: pointer; text-decoration: none; }
+      .btn:hover { background: rgba(0, 220, 203, 0.26); }
+      .notes { max-width: 820px; margin-top: 26px; display: grid; gap: 10px; }
+      .notes div { border-left: 3px solid var(--amber); padding: 4px 0 4px 12px; color: #d9e2ea; }
+      .notes pre { margin-top: 6px; background: #08101a; border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; font: 12.5px var(--mono); color: #d7e6f3; overflow-x: auto; }
+
+      @media (max-width: 800px) {
+        #panel-code.is-active { grid-template-columns: 1fr; grid-template-rows: 38vh 1fr; }
+        .side { border-right: 0; border-bottom: 1px solid var(--line); }
+        .grid { grid-template-columns: 1fr; }
+        .grid .colh:first-child { display: none; }
+        .tabs__brand { display: none; }
+      }
+    </style>
   </head>
   <body>
-    <h1>Mappa del sito</h1>
-    <p>Bozza interna: non viene pubblicata (non è in <code>src/</code>).</p>
-    <ul>
-      <li><code>src/index.html</code> → guscio vuoto, renderizzato da <code>js/main.js</code> a partire da <code>js/data.js</code></li>
-    </ul>
+    <nav class="tabs" role="tablist" aria-label="Sezioni della mappa">
+      <span class="tabs__brand"><b>myLink3</b> · mappa interna</span>
+      <button class="tab" role="tab" id="tab-graph" aria-controls="panel-graph" aria-selected="true">Grafico concettuale</button>
+      <button class="tab" role="tab" id="tab-code" aria-controls="panel-code" aria-selected="false">File e cartelle</button>
+      <button class="tab" role="tab" id="tab-links" aria-controls="panel-links" aria-selected="false">Link di avvio</button>
+    </nav>
+
+    <!-- ============ TAB 1: GRAFICO ============ -->
+    <section class="panel is-active" id="panel-graph" role="tabpanel" aria-labelledby="tab-graph">
+      <div class="wrap">
+        <h1>Come funziona il progetto, in un colpo d'occhio</h1>
+        <p class="lead">
+          Una pagina Linktree senza strumenti di build: un guscio HTML vuoto, un
+          file di dati e un po' di JavaScript che trasforma i dati in pagina. Le
+          frecce mostrano chi "passa cosa" a chi. <b>Clicca un riquadro</b> per
+          leggere la spiegazione di quel file.
+        </p>
+        <div class="golden">
+          <b>Regola d'oro:</b> tutto deriva da <code>data.js</code>. Per
+          aggiungere, togliere o riordinare qualcosa sulla pagina si modificano
+          solo i dati; l'HTML e i componenti non contengono contenuti.
+        </div>
+        <div class="legend" id="legend"></div>
+        <div class="graph"><svg id="svg" viewBox="0 0 1260 790" role="img" aria-label="Grafico dei file del progetto e di come si passano i dati"></svg></div>
+        <p class="hint">Linea continua = passa dati o chiama codice. Linea tratteggiata = collegamento indiretto o solo di sviluppo.</p>
+
+        <h2>Cosa succede quando apri la pagina</h2>
+        <ol class="steps" id="steps"></ol>
+      </div>
+    </section>
+
+    <!-- ============ TAB 2: FILE ============ -->
+    <section class="panel" id="panel-code" role="tabpanel" aria-labelledby="tab-code">
+      <aside class="side" aria-label="Esplora risorse">
+        <div class="side__head"><span>Esplora · myLink3</span><button id="collapseAll" type="button">comprimi tutto</button></div>
+        <ul class="tree" id="tree" role="tree"></ul>
+      </aside>
+      <div class="main">
+        <div class="crumbs" id="crumbs"></div>
+        <article class="doc" id="doc"></article>
+      </div>
+    </section>
+
+    <!-- ============ TAB 3: LINK ============ -->
+    <section class="panel" id="panel-links" role="tabpanel" aria-labelledby="tab-links">
+      <div class="wrap">
+        <h1>Tutti i modi di far partire il progetto</h1>
+        <p class="lead">
+          Due scelte indipendenti: con o senza <code>?data</code> (mostra
+          telefono, che altrimenti resta nascosto) e con o senza la
+          <b>simulazione</b> dei video (i file mp4 non ci sono ancora, la
+          simulazione li "finge" per 4 secondi ciascuno). I link sono relativi
+          a questo file: funzionano sia aprendo <code>dev/mappa.html</code> con
+          doppio clic, sia da un server locale.
+        </p>
+
+        <div class="grid" id="matrix"></div>
+
+        <div class="composer">
+          <h2>Costruisci il tuo link</h2>
+          <div class="opts" id="opts">
+            <label><input type="radio" name="origin" value="src" checked /> sorgente <code>src/</code></label>
+            <label id="lblDist"><input type="radio" name="origin" value="dist" /> versione pubblicata <code>dist/</code></label>
+            <label><input type="checkbox" id="optSim" /> con simulazione video</label>
+            <label><input type="checkbox" id="optData" /> con <code>?data</code></label>
+          </div>
+          <div class="out">
+            <code id="outUrl"></code>
+            <a class="btn" id="outOpen" target="_blank" rel="noopener">Apri</a>
+            <button class="btn" id="outCopy" type="button">Copia URL</button>
+          </div>
+        </div>
+
+        <div class="notes">
+          <div>
+            <b>Server locale (consigliato).</b> Dalla cartella del progetto:
+            <pre>python3 -m http.server 8000
+# poi apri  http://localhost:8000/dev/mappa.html</pre>
+          </div>
+          <div>
+            <b>Prima di aprire <code>dist/</code></b> o dopo aver cambiato
+            <code>src/index.html</code> rigenera:
+            <pre>./build.sh                # ricrea dist/ copiando src/
+sh dev/simulation.sh      # ricrea dev/simulation.html</pre>
+          </div>
+          <div>
+            <b>La simulazione non esiste in <code>dist/</code>:</b> è solo uno
+            strumento di sviluppo (<code>dev/</code>) e va tolta quando ci sono
+            i video veri in <code>src/video/</code>.
+          </div>
+          <div>
+            <b><code>?data</code> è solo un interruttore:</b> conta che ci sia,
+            non il valore. <code>?data</code>, <code>?data=1</code> e
+            <code>?data=qualsiasi</code> fanno la stessa cosa.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      /* =====================================================================
+         DATI della mappa: tutto quello che la pagina mostra è derivato da qui
+         (stessa filosofia del progetto). Per spiegare un nuovo file basta
+         aggiungere una voce all'albero FILES.
+         ===================================================================== */
+
+      /* ---------- spiegazioni file e cartelle ---------- */
+      // D(nome, frase, punti[], figli[], opzioni) = cartella
+      // F(nome, frase, punti[], esempio, collegati[]) = file
+      const D = (n, one, pts, kids, o = {}) => ({ n, one, pts, kids, ...o });
+      const F = (n, one, pts, ex, rel = []) => ({ n, one, pts, ex, rel });
+      // esempio con spiegazione: 'codice ||| perché'
+
+      const FILES = D('myLink3', 'La cartella principale del progetto.', [
+        'Dentro ci sono due mondi separati: `src/` (il sito vero, quello che va online) e tutto il resto (istruzioni, strumenti, appunti).',
+        'Regola: i file di produzione stanno solo in `src/`. `src/` non nomina mai `dev/`, `skills/` o `AGENTS.md`.',
+      ], [
+        D('.claude', 'Impostazioni di Claude Code per questo progetto.', ['Contiene solo un collegamento (symlink) alla cartella `skills/`, così gli assistenti AI trovano le skill del progetto.'], [
+          F('skills', 'Collegamento (symlink) verso la cartella `skills/`.', ['Non è una cartella vera: è una scorciatoia. Aprire `.claude/skills` equivale ad aprire `skills/`.', 'Serve perché Claude Code cerca le skill in `.claude/skills`, ma noi le teniamo in `skills/` per tenerle visibili.'], '', ['skills']),
+        ]),
+        D('dev', 'Strumenti e appunti interni di sviluppo. Non vanno online.', ['Mai referenziata da `src/`. `build.sh` non la copia in `dist/`.', 'Qui c\'è anche questa mappa.'], [
+          F('mappa.html', 'Questa pagina: la mappa del progetto.', ['Tre tab: il grafico concettuale, l\'albero dei file con spiegazioni, i link per avviare il progetto.', 'È un solo file HTML autonomo, senza librerie.'], 'Per aggiungere la spiegazione di un nuovo file: aggiungi una riga F(...) nell\'albero FILES dentro questo file.|||Anche la mappa segue la regola d\'oro: i contenuti sono dati, l\'HTML li disegna.', ['dev/simulation.sh']),
+          F('simulation-shim.js', 'Finge la riproduzione dei video (temporaneo).', ['Sostituisce `play()`, `pause()` e le proprietà `paused` / `ended` dei video con versioni finte.', 'Ogni video "dura" 4 secondi, poi scatta l\'evento `ended` come se fosse finito davvero.', 'Ignora gli errori di caricamento, perché i file mp4 non esistono ancora.', 'Da cancellare quando in `src/video/` ci sono i video veri.'], 'const FAKE_MS = 4000;  // cambia qui la durata finta|||Con 4000 ogni video "finisce" dopo 4 secondi e parte il successivo: si vede subito tutta la sequenza.', ['src/js/media.js', 'dev/simulation.sh', 'dev/simulation.html']),
+          F('simulation.html', 'La pagina vera + la simulazione (file generato).', ['Non si modifica a mano: lo crea `simulation.sh` partendo da `src/index.html`.', 'Dentro c\'è `<base href="../src/">` (così trova CSS, JS e immagini in `src/`) e uno script in più: lo shim.', 'Accetta `?data` come la pagina normale.'], 'dev/simulation.html?data|||Pagina con la simulazione e con il telefono visibile.', ['dev/simulation.sh', 'dev/simulation-shim.js', 'src/index.html']),
+          F('simulation.sh', 'Genera `simulation.html` (temporaneo).', ['Con `sed` prende `src/index.html` e fa due sostituzioni: aggiunge `<base href="../src/">` dopo `<head>` e inserisce lo script dello shim dopo `<body>`.', 'Va rilanciato ogni volta che cambia `src/index.html` (ad esempio se aggiungi un componente).'], 'sh dev/simulation.sh|||Stampa "open dev/simulation.html" e il file è pronto.', ['dev/simulation.html', 'dev/simulation-shim.js']),
+        ], { badge: 'solo dev' }),
+        D('skills', 'Istruzioni riutilizzabili per gli assistenti AI.', ['Sono "ricette" che spiegano come lavorare bene su un tipo di progetto.'], [
+          D('single-source-data-driven', 'La skill sulla regola d\'oro.', ['Una sola cartella con dentro `SKILL.md`.'], [
+            F('SKILL.md', 'Il testo della skill "tutto deriva da un solo file di dati".', ['Spiega in modo portabile (anche per altri progetti) il principio: contenuti e flag nei dati, renderer "stupido" che itera.', 'Dice cosa non fare: niente `if (item.title === \'...\')`, niente contenuti scritti nel markup.', 'Un assistente la carica prima di aggiungere funzionalità.'], 'Vuoi una nuova sezione?\n→ nuovo oggetto in accordions[]\nNON → nuovo <section> in index.html|||È la regola riassunta in due righe.', ['AGENTS.md', 'src/js/data.js']),
+          ]),
+        ], { badge: 'AI' }),
+        D('src', 'Il sito vero: l\'unica cartella che va online.', ['Tutto ciò che sta qui dentro viene copiato in `dist/` da `build.sh`.', 'Funziona anche da sola: apri `src/index.html` nel browser e va.', 'Dentro: la pagina (`index.html`), gli stili (`css/`), la logica (`js/`), le immagini (`img/`) e, in futuro, i video (`video/`).'], [
+          F('index.html', 'Il "guscio" vuoto della pagina.', ['Contiene solo `<header>`, `<main>`, `<footer>` vuoti e l\'elenco degli script da caricare.', 'Nessun testo, nessun link: tutto viene creato dal JavaScript a partire da `data.js`.', 'L\'ordine degli script conta: prima i dati, poi i componenti, poi `media.js`, per ultimo `main.js`. Ogni script usa quello che i precedenti hanno già definito.'], '<main></main>\n<script src="./js/data.js"><\/script>\n…\n<script src="./js/main.js"><\/script>|||`<main>` è vuoto: è `main.js` a riempirlo. Se aggiungi un nuovo componente va aggiunto qui un `<script>`, prima di `main.js`.', ['src/js/data.js', 'src/js/main.js', 'src/cssLoad.css']),
+          F('cssLoad.css', 'L\'elenco di tutti gli stili.', ['Contiene solo righe `@import`: prima Font Awesome (le icone, da internet) poi ogni file della cartella `css/`.', 'L\'ordine è quello della cascata CSS: `colors.css` per primo, perché definisce i colori usati da tutti.'], '@import url(\'css/colors.css\');\n@import url(\'css/header.css\');|||Nuovo file CSS = nuova riga @import qui.', ['src/css/colors.css']),
+          D('css', 'Gli stili, un file per ogni "pezzo" di pagina.', ['Ogni file si occupa di una cosa sola, così sai dove mettere le mani.', 'I colori non si scrivono mai a mano: si usano le variabili di `colors.css`.', 'Breakpoint usati: 560px, 768px, 900px.'], [
+            F('colors.css', 'I colori e le misure ricorrenti (design token).', ['Definisce variabili come `--accent` (turchese), `--bg-primary` (sfondo scuro), `--radius-card` (angoli).', 'Per cambiare il tema dell\'intero sito basta cambiare qui un valore.'], '--accent: #00dccb;\n\n/* altrove: */\nborder-color: var(--accent);|||Cambi #00dccb in #ff5ea0 e tutti gli elementi turchesi diventano rosa.', ['src/cssLoad.css']),
+            F('resets.css', 'Azzera gli stili di default del browser e carica il font.', ['Toglie margini e riempimenti automatici, imposta `box-sizing`.', 'Importa il font Montserrat da Google Fonts.', 'Definisce `.sr-only`: testo visibile solo agli screen reader.'], '', []),
+            F('mainContainers.css', 'Il corpo della pagina e il suo sfondo.', ['Colore, font e dimensione base del `body`.', 'Mette l\'immagine di sfondo fissa dietro a tutto (usa la variabile `--bg-image` impostata da `main.js`).', 'Limita e centra la larghezza del contenuto.'], '', ['src/js/main.js']),
+            F('header.css', 'L\'intestazione in alto.', ['Avatar tondo (la tua foto), nome, ruolo e i "chip" con i contatti.'], '', ['src/js/components/HeaderComponent.js']),
+            F('hero.css', 'La sezione di apertura.', ['Due colonne: a sinistra badge, titolo, descrizione e icone delle tecnologie; a destra il video.', 'Su schermo stretto le colonne si impilano.'], '', ['src/js/components/HeroComponent.js']),
+            F('about.css', 'La scheda "About".', ['Una scheda larga: video a sinistra (circa il 41%), testo a destra, con un leggero bagliore turchese.'], '', ['src/js/components/AboutComponent.js']),
+            F('player.css', 'Il lettore video.', ['Riquadro 16:9 con bordo e ombra.', 'Pulsante play centrale, messaggio d\'errore "Video not available yet".', 'Cambia aspetto in base a `data-state` (idle, playing, paused, ended, error).'], '', ['src/js/components/PlayerComponent.js', 'src/js/media.js']),
+            F('accordion.css', 'La sezione progetti e l\'effetto apri/chiudi.', ['Disposizione verticale delle sezioni dentro "My Projects".', 'L\'animazione dell\'accordion è solo CSS: anima `grid-template-rows` da 0fr a 1fr leggendo `data-open`.'], '.accordion[data-open="true"] { … apre … }|||JavaScript cambia solo l\'attributo data-open; il movimento lo fa il CSS.', ['src/js/components/accordion/AccordionBehavior.js']),
+            F('cards.css', 'Le card.', ['Griglia (3 colonne) o scroller orizzontale.', 'Card "cover" (immagine, con o senza didascalia) e card "app" (icona, titolo, freccia).', 'Effetto "live" quando un video che presenta quella app è in riproduzione.'], '', ['src/js/components/CoverCardComponent.js', 'src/js/components/RepoCardComponent.js']),
+            F('rows.css', 'Le righe di elenco.', ['Stile delle righe di Tutorial e GitHub Repositories: icona, titolo, descrizione opzionale, freccina.'], '', ['src/js/components/RowComponent.js']),
+            F('modal.css', 'Le finestre sovrapposte.', ['Il `<dialog>` che mostra il video YouTube su schermi larghi e quello che ingrandisce la foto.', 'Sfondo scuro dietro (`::backdrop`) e pulsante di chiusura.'], '', ['src/js/components/VideoModalComponent.js']),
+            F('footer.css', 'Il piede della pagina.', ['Il grande banner "Let\'s build something great together" (tutta l\'immagine è un link `mailto:`).', 'Sotto: nome, ruolo, icone dei social, copyright.'], '', ['src/js/components/FooterComponent.js']),
+          ]),
+          D('js', 'La logica: dati, componenti, video, avvio.', ['Script "classici" (senza import/export): quello che definisci in uno è visibile ai successivi.', 'Ordine di caricamento: `data.js` → `components/*` → `media.js` → `main.js`.'], [
+            F('data.js', 'IL file. Tutto il sito è derivato da qui.', [
+              '`myData`: nome, ruolo, foto, contatti (`isAlwaysVisible: false` = solo con `?data`). Ha anche metodi come `fullName()`.',
+              '`players`: i video (`src`, `poster`, `label`). `sequence`: in che ordine partono da soli.',
+              '`ui`: tutte le etichette di testo (così nei componenti non ci sono parole scritte a mano).',
+              '`hero`, `about`, `projectsIntro`, `footer`: i testi delle sezioni.',
+              '`accordions`: l\'elenco delle sezioni di progetti; ognuna ha `list[]` con le card.',
+              '`pageBackground`: l\'immagine di sfondo.',
+              'Flag che cambiano il comportamento: `isVisible`, `isOnYouTube`, `isAlwaysVisible`, `isOpen`, `isCollapsible`, `hasCaption`.',
+            ], '{\n  title: \'Il mio nuovo progetto\',\n  description: \'Una riga che lo spiega\',\n  img: \'img/cover-nuovo.avif\',\n  link: \'https://esempio.it\',\n  isVisible: true,\n}|||Incollato dentro `list[]` di un accordion, nasce una nuova card. Con `isVisible: false` sparisce senza cancellarla. Con `link: null` è un segnaposto non cliccabile.', ['src/js/main.js', 'src/js/components', 'src/js/media.js']),
+            F('main.js', 'L\'avvio: trasforma i dati in pagina.', [
+              'Imposta titolo scheda, favicon e sfondo.',
+              'Legge `?data` dall\'indirizzo (come semplice sì/no) e filtra i contatti: quelli con `isAlwaysVisible: false` compaiono solo con `?data`.',
+              'Filtra le sezioni: toglie le card con `isVisible: false` e le sezioni rimaste vuote (una sola volta, qui).',
+              'Chiama i componenti e mette l\'HTML risultante in `<header>`, `<main>`, `<footer>`.',
+              'Per ultimo avvia `initAccordions()` e `initMedia()` (che fa partire la sequenza video).',
+              'Non contiene mai testi o link scritti a mano.',
+            ], 'const visibleContacts = myData.contacts.filter(\n  c => c.isAlwaysVisible || params.has(\'data\')\n);|||Senza ?data restano solo LinkedIn, GitHub ed email. Con ?data si aggiunge il telefono.', ['src/js/data.js', 'src/js/components', 'src/js/media.js', 'src/js/components/accordion/AccordionBehavior.js']),
+            F('media.js', 'Tutto ciò che riguarda i video.', [
+              'Registro dei lettori: sa quali video ci sono e il loro stato (`idle`, `playing`, `paused`, `ended`, `error`).',
+              'Un solo video alla volta: se ne parte uno, gli altri vanno in pausa.',
+              'Sequenza automatica (intro → about → delivboo → netflixscout → gallery3d): quando un video finisce (evento vero `ended`) apre l\'accordion giusto, scorre fino al video successivo, aspetta che sia visibile e lo avvia.',
+              'La sequenza si ferma per sempre se l\'utente tocca/scorre/preme un tasto, mette in pausa, cerca nel video, se `play()` viene rifiutato, se c\'è un errore o se si apre un modal.',
+              'Gestisce il modal YouTube (da 768px in su; sotto si apre una nuova scheda) e il visualizzatore della foto.',
+              'Mai timer per "indovinare" quando finisce un video: si usa solo l\'evento reale.',
+            ], '// il video "intro" finisce →\n// si apre la sezione che contiene "about",\n// la pagina scorre lì, e "about" parte da sola|||Se mentre scorre tu muovi la rotella, la sequenza si ferma e non riparte.', ['src/js/data.js', 'src/js/components/PlayerComponent.js', 'dev/simulation-shim.js']),
+            D('components', 'I "mattoncini": piccole funzioni che restituiscono HTML.', ['Un file per componente, nome che finisce con `Component`.', 'Sono funzioni pure: ricevono dati, restituiscono una stringa HTML. Non leggono la pagina e non hanno effetti collaterali.', 'Si compongono tra loro come mattoncini (Projects usa Accordion, che usa CardList, che usa le card).'], [
+              F('HeaderComponent.js', 'Intestazione: avatar, nome, ruolo, chip.', ['Riceve `myData` e i contatti da mostrare nell\'header.', 'L\'avatar è un pulsante che apre la foto grande.', 'Il nome arriva da `fullName()`: non è scritto qui.'], 'HeaderComponent(myData, contatti)\n→ <button class="avatar">…</button>\n   <p class="header__name">Marco Milza</p>', ['src/js/components/ChipComponent.js']),
+              F('ChipComponent.js', 'Un singolo "chip" di contatto (icona + testo, link).', ['Usato nell\'header per il telefono quando c\'è `?data`.'], '', ['src/js/components/HeaderComponent.js']),
+              F('HeroComponent.js', 'La sezione di apertura.', ['Badge, titolo (con la parte colorata `accent`), descrizione, icone tecnologie e il video `intro`.'], '', ['src/js/components/TechIconComponent.js', 'src/js/components/PlayerComponent.js']),
+              F('TechIconComponent.js', 'Una icona di tecnologia.', ['Se nei dati c\'è `img` mostra l\'immagine, altrimenti un\'icona Font Awesome col suo colore.'], '{ name: \'TypeScript\', img: \'img/typescript.svg\' }|||Con img usa il file; senza, usa icon + color.', ['src/js/components/HeroComponent.js']),
+              F('AboutComponent.js', 'La scheda "About": video + testo.', [], '', ['src/js/components/PlayerComponent.js']),
+              F('ProjectsComponent.js', 'La sezione "My Projects".', ['Titolo della sezione e poi una `AccordionComponent` per ogni sezione visibile.'], '', ['src/js/components/accordion/AccordionComponent.js']),
+              F('HeadingComponent.js', 'Un titolo con trattino e parola colorata.', ['Mini-componente riusabile: `title` + `accent` in turchese.'], '', []),
+              F('SectionLabelComponent.js', 'L\'etichetta sopra una sezione.', ['Trattino verde + titolo. Appare solo se la sezione ha `hasTitle: true`.'], '', ['src/js/components/accordion/AccordionComponent.js']),
+              F('CardListComponent.js', 'L\'elenco di card di una sezione.', ['Sceglie il componente giusto in base a `card` (`cover` o `app`) tramite una tabella.', 'Aggiunge classi in base a `layout` (griglia/scroller) e `hasCaption`.', 'Aggiungere un nuovo tipo di card = una riga nella tabella + un file.'], 'const cardComponents = {\n  cover: CoverCardComponent,\n  app: RepoCardComponent,\n};|||Il dato card: \'app\' diventa automaticamente RepoCard.', ['src/js/components/CoverCardComponent.js', 'src/js/components/RepoCardComponent.js']),
+              F('CoverCardComponent.js', 'Card con immagine di copertina.', ['Se la card ha `player`, mostra il video; altrimenti l\'immagine.', 'Con `hasCaption: false` mostra solo l\'immagine (il testo è già dentro).'], '', ['src/js/components/CardLinkComponent.js', 'src/js/components/CardBadgeComponent.js', 'src/js/components/CardBodyComponent.js', 'src/js/components/PlayerComponent.js']),
+              F('RepoCardComponent.js', 'Card "app": icona, titolo, sottotitolo, freccia.', ['Se ha `showsPlayer` si illumina con il badge "Live app" mentre quel video è in riproduzione.', '`liveDescription` è il testo alternativo mostrato in quel momento.'], '{ title: \'DelivBoo\', showsPlayer: \'delivboo\', … }|||Mentre il video delivboo gira, questa card si evidenzia.', ['src/js/components/CardLinkComponent.js']),
+              F('RowComponent.js', 'Una riga di elenco.', ['Icona + titolo + descrizione opzionale + freccina.', 'Se l\'item non ha `icon` usa quella della sezione.'], '', ['src/js/components/RowsAccordionComponent.js', 'src/js/components/CardLinkComponent.js']),
+              F('RowsAccordionComponent.js', 'Accordion con le righe dentro.', ['Un pulsante-titolo (`summary`) che apre/chiude e sotto le righe.', 'Gestisce gli attributi di accessibilità `aria-expanded` e `aria-controls`.', 'Parte aperto solo se `isOpen: true`.'], '', ['src/js/components/RowComponent.js', 'src/js/components/accordion/AccordionBehavior.js']),
+              F('CardLinkComponent.js', 'Decide cosa è cliccabile.', ['`player` → niente link (c\'è il video).', '`link` → un `<a>` che si apre in nuova scheda.', '`isOnYouTube` → l\'`<a>` riceve `data-modal`: `media.js` lo intercetta e apre il modal su schermi larghi.', '`link: null` → un segnaposto non cliccabile.'], 'link: \'https://youtube.com/embed/xyz\'\nisOnYouTube: true|||Desktop: video in finestra. Mobile: nuova scheda.', ['src/js/media.js']),
+              F('CardBadgeComponent.js', 'Il bollino in un angolo della card.', ['Triangolo ▶ per i video, freccia ↗ per i link esterni.'], '', []),
+              F('CardBodyComponent.js', 'Titolo e (se serve) descrizione sotto la card.', [], '', []),
+              F('PlayerComponent.js', 'Il lettore video.', ['Crea un `<video>` (muto, con poster), il pulsante play e il messaggio d\'errore.', 'Se c\'è `cover` usa quell\'immagine come pulsante; se c\'è `endedPoster` la mostra a fine video.', 'Il suo `data-state` è cambiato da `media.js`.'], '<div class="player" data-player="intro" data-state="idle">', ['src/js/media.js', 'src/js/data.js']),
+              F('VideoModalComponent.js', 'La finestra per i video YouTube.', ['Un `<dialog>` con pulsante di chiusura e un contenitore vuoto.'], '', ['src/js/components/ModalIframeComponent.js', 'src/js/media.js']),
+              F('ModalIframeComponent.js', 'L\'iframe YouTube dentro il modal.', ['Viene creato all\'apertura e rimosso alla chiusura: così il video si ferma davvero.'], '', ['src/js/media.js']),
+              F('PhotoModalComponent.js', 'La finestra con la foto ingrandita.', ['Si apre cliccando l\'avatar nell\'header.'], '', ['src/js/components/HeaderComponent.js']),
+              F('ContactComponent.js', 'Un\'icona social.', ['Link con solo l\'icona (LinkedIn, GitHub, email…) e `aria-label` per gli screen reader.'], '', ['src/js/components/FooterComponent.js']),
+              F('FooterComponent.js', 'Il piede della pagina.', ['Il banner con la call to action (link all\'email: il contatto con `isCta: true`).', 'Barra con nome, ruolo, icone social, copyright.', 'Se nessun contatto ha `isCta`, il banner non compare.'], '', ['src/js/components/ContactComponent.js']),
+              D('accordion', 'Le due metà dell\'accordion: aspetto e comportamento.', ['Separate di proposito: una disegna, l\'altra reagisce ai click.'], [
+                F('AccordionComponent.js', 'Il contenitore di una sezione.', ['Mette l\'etichetta (se `hasTitle`) e poi sceglie: `layout: \'rows\'` → righe, altrimenti → lista di card.', 'Assegna alla sezione un `id` preso dai dati.'], '', ['src/js/components/RowsAccordionComponent.js', 'src/js/components/CardListComponent.js', 'src/js/components/SectionLabelComponent.js']),
+                F('AccordionBehavior.js', 'Apre e chiude gli accordion.', ['`setAccordion(el, open)` cambia `data-open` e `aria-expanded`.', '`initAccordions()` aggancia il click su ogni pulsante.', 'L\'animazione non è qui: la fa il CSS.', 'Funziona anche da tastiera, perché il trigger è un vero `<button>`.'], 'setAccordion(el, true);   // lo apre|||`media.js` la usa per aprire la sezione del prossimo video.', ['src/css/accordion.css', 'src/js/media.js']),
+              ]),
+            ]),
+          ]),
+          D('img', 'Immagini e icone, indicate nei dati con il loro percorso.', ['Formato AVIF (leggero) o SVG. Nel codice non c\'è mai un nome di file: sta in `data.js`.'], [
+            F('favicon.ico', 'L\'iconcina nella scheda del browser.', [], '', ['src/js/data.js']),
+            F('io.avif', 'La tua foto: avatar e foto ingrandita.', [], '', ['src/js/components/HeaderComponent.js']),
+            F('IoPcDietro.avif', 'Anteprima del video "about".', [], '', ['src/js/data.js']),
+            F('robot-poster.svg', 'Anteprima del video intro e immagine mostrata quando finisce.', [], '', ['src/js/data.js']),
+            F('Onde-futuristiche-al-neon.avif', 'Sfondo fisso di tutta la pagina.', ['Il percorso è in `pageBackground`; `main.js` lo mette nella variabile CSS `--bg-image`.'], '', ['src/js/main.js']),
+            F('btnMail.avif', 'Immagine del banner "Get in touch" nel footer.', [], '', ['src/js/components/FooterComponent.js']),
+            F('cover-delivboo.avif', 'Copertina del progetto DelivBoo (anche poster/pulsante play del video).', [], '', ['src/js/data.js']),
+            F('cover-netflixscout.avif', 'Copertina del progetto NetflixScout.', [], '', ['src/js/data.js']),
+            F('cover-3dgallery.avif', 'Copertina del progetto 3D Gallery.', [], '', ['src/js/data.js']),
+            F('icon-delivboo.svg', 'Icona della card app DelivBoo.', [], '', ['src/js/components/RepoCardComponent.js']),
+            F('icon-netflix.svg', 'Icona della card app NetflixScout.', [], '', ['src/js/components/RepoCardComponent.js']),
+            F('icon-3dgallery.svg', 'Icona della card app 3D Gallery.', [], '', ['src/js/components/RepoCardComponent.js']),
+            F('typescript.svg', 'Icona TypeScript nella fila delle tecnologie.', [], '', ['src/js/components/TechIconComponent.js']),
+          ]),
+          D('video', 'I video locali. (Non esiste ancora.)', ['I dati puntano già a `video/intro.mp4`, `ai-project.mp4`, `delivboo.mp4`, `netflixscout.mp4`, `3dgallery.mp4`, ma i file vanno ancora aggiunti.', 'Finché mancano, il lettore mostra "Video not available yet" oppure puoi usare la simulazione.'], [], { badge: 'da aggiungere', ghost: true }),
+        ]),
+        D('dist', 'La versione da pubblicare (generata, non nel repository).', ['Creata da `build.sh`: è una copia di `src/`, senza file nascosti.', 'Non si modifica mai a mano: verrebbe cancellata al prossimo build.', 'È la cartella da mettere online.'], [], { badge: 'generata', ghost: true }),
+        F('.gitignore', 'Dice a Git cosa ignorare.', ['Ignora `dist/` (si rigenera), `.DS_Store` (file di macOS), `*.log` e `*.tmp`.'], 'dist/\n.DS_Store|||Questi file non finiscono mai nei commit.', ['build.sh']),
+        F('.prettierrc', 'Le regole di formattazione del codice.', ['Apici singoli, punto e virgola, 2 spazi, 80 colonne, `arrowParens: avoid`.', 'Si applicano con `npx prettier --write .`, se disponibile.'], '', []),
+        F('AGENTS.md', 'Le istruzioni per gli assistenti AI (e per te, tra sei mesi).', ['Spiega lo scopo, la regola d\'oro, la struttura, il modello dati, le regole del video, lo stile e come verificare.', 'È la fonte di verità sulle convenzioni del progetto.'], '', ['CLAUDE.md', 'skills/single-source-data-driven/SKILL.md']),
+        F('CLAUDE.md', 'Punta a `AGENTS.md`.', ['Contiene solo `@AGENTS.md`: Claude Code legge questo file e importa le istruzioni dall\'altro, così c\'è un solo testo da mantenere.'], '@AGENTS.md', ['AGENTS.md']),
+        F('README.md', 'Presentazione pubblica del progetto.', ['Cos\'è, funzionalità (dati in un file, accordion, link intelligenti, `?data`), tecnologie e come usarlo.'], '', ['AGENTS.md']),
+        F('build.sh', 'Prepara la cartella da pubblicare.', ['Cancella `dist/`, la ricrea e ci copia dentro solo il contenuto di `src/`.', 'Rimuove i file nascosti (come `.DS_Store`) e stampa l\'elenco dei file.', 'Va lanciato prima di ogni pubblicazione.'], './build.sh|||Dopo averlo lanciato apri dist/index.html per controllare che tutto funzioni.', ['.gitignore']),
+      ]);
+
+      /* ---------- grafico ---------- */
+      const KINDS = {
+        data:   { label: 'Dati (fonte unica)', color: '#00dccb', fill: '#0b2d2f' },
+        shell:  { label: 'Pagina e stile',     color: '#1685ff', fill: '#0e2340' },
+        code:   { label: 'Codice JavaScript',  color: '#8ea4b8', fill: '#142231' },
+        out:    { label: 'Risultato nel browser', color: '#b18cff', fill: '#241b3d' },
+        dev:    { label: 'Solo sviluppo / build', color: '#f5b84b', fill: '#33270f' },
+        assets: { label: 'Immagini e video',   color: '#6fcf97', fill: '#10301f' },
+      };
+      const W = 220, H = 92;
+      const NODES = [
+        { id: 'index',  x: 40,   y: 40,  kind: 'shell',  t: 'index.html', s: 'guscio vuoto + elenco script', go: 'src/index.html' },
+        { id: 'css',    x: 1000, y: 40,  kind: 'shell',  t: 'cssLoad.css + css/', s: 'tutti gli stili; colori in colors.css', go: 'src/css' },
+        { id: 'data',   x: 40,   y: 260, kind: 'data',   t: 'data.js', s: 'myData, players, sequence, accordions…', go: 'src/js/data.js' },
+        { id: 'main',   x: 360,  y: 260, kind: 'code',   t: 'main.js', s: 'legge ?data, filtra, avvia tutto', go: 'src/js/main.js' },
+        { id: 'comp',   x: 680,  y: 260, kind: 'code',   t: 'components/ (22 file)', s: 'funzioni: dati → HTML', go: 'src/js/components' },
+        { id: 'dom',    x: 1000, y: 260, kind: 'out',    t: 'Pagina nel browser', s: 'header, main, footer', go: null },
+        { id: 'assets', x: 40,   y: 470, kind: 'assets', t: 'img/ e video/', s: 'percorsi scritti nei dati', go: 'src/img' },
+        { id: 'accb',   x: 360,  y: 470, kind: 'code',   t: 'AccordionBehavior.js', s: 'apre/chiude (data-open)', go: 'src/js/components/accordion/AccordionBehavior.js' },
+        { id: 'media',  x: 680,  y: 470, kind: 'code',   t: 'media.js', s: 'video, sequenza, modal', go: 'src/js/media.js' },
+        { id: 'build',  x: 40,   y: 665, kind: 'dev',    t: 'build.sh', s: 'copia src/ in dist/', go: 'build.sh' },
+        { id: 'dist',   x: 360,  y: 665, kind: 'dev',    t: 'dist/', s: 'cartella da pubblicare', go: 'dist' },
+        { id: 'simsh',  x: 680,  y: 665, kind: 'dev',    t: 'simulation.sh', s: 'genera la simulazione', go: 'dev/simulation.sh' },
+        { id: 'sim',    x: 1000, y: 665, kind: 'dev',    t: 'simulation.html + shim', s: 'video finti da 4 secondi', go: 'dev/simulation.html' },
+      ];
+      const EDGES = [
+        ['index', 'data', '1 · carica', 0],
+        ['index', 'css', 'link stylesheet', 1],
+        ['data', 'main', 'globali', 0],
+        ['main', 'comp', 'template', 0],
+        ['comp', 'dom', 'HTML', 0],
+        ['css', 'dom', 'aspetto', 0],
+        ['data', 'assets', 'percorsi', 1],
+        ['main', 'accb', 'initAccordions()', 0],
+        ['main', 'media', 'initMedia()', 0],
+        ['data', 'media', 'players', 1],
+        ['media', 'dom', 'play, scroll, modal', 0],
+        ['accb', 'dom', 'apre / chiude', 1],
+        ['media', 'accb', 'apre la sezione', 1],
+        ['build', 'dist', 'copia src/', 0],
+        ['simsh', 'sim', 'genera da index.html', 0],
+        ['sim', 'media', 'finge play / ended', 1],
+      ];
+      const GROUPS = [
+        { x: 20, y: 14, w: 1220, h: 580, label: 'src/ — il sito (l\'unico codice di produzione)', color: '#1685ff' },
+        { x: 20, y: 628, w: 1220, h: 140, label: 'build e strumenti dev — non fanno parte del sito', color: '#f5b84b' },
+      ];
+      const STEPS = [
+        ['Il browser apre index.html', 'Trova solo <header>, <main> e <footer> vuoti, più la lista degli script.'],
+        ['Si caricano i dati', '<code>data.js</code> definisce <code>myData</code>, <code>players</code>, <code>accordions</code>… come variabili globali.'],
+        ['Si caricano i componenti', 'Ogni file definisce una funzione "dati → HTML". Non succede ancora nulla di visibile.'],
+        ['Parte main.js', 'Legge <code>?data</code>, tiene solo contatti e card visibili e chiama i componenti.'],
+        ['La pagina appare', 'L\'HTML generato finisce in header/main/footer; il CSS lo veste.'],
+        ['Si attivano i comportamenti', '<code>initAccordions()</code> rende cliccabili le sezioni; <code>initMedia()</code> prepara i lettori.'],
+        ['Parte la sequenza video', 'intro → about → delivboo → netflixscout → gallery3d, a ogni <code>ended</code>. Si ferma se interagisci.'],
+      ];
+
+      /* =====================================================================
+         RENDER (non contiene contenuti: itera i dati sopra)
+         ===================================================================== */
+      const $ = s => document.querySelector(s);
+      const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+      const md = s => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>');
+      const NS = 'http://www.w3.org/2000/svg';
+
+      /* --- tab --- */
+      const tabs = ['graph', 'code', 'links'];
+      const showTab = (name, push = true) => {
+        tabs.forEach(t => {
+          $('#tab-' + t).setAttribute('aria-selected', String(t === name));
+          $('#panel-' + t).classList.toggle('is-active', t === name);
+        });
+        if (push) updateHash();
+      };
+      tabs.forEach(t => $('#tab-' + t).addEventListener('click', () => showTab(t)));
+      $('.tabs').addEventListener('keydown', e => {
+        const i = tabs.findIndex(t => $('#tab-' + t).getAttribute('aria-selected') === 'true');
+        const j = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : null;
+        if (j === null) return;
+        const name = tabs[(j + tabs.length) % tabs.length];
+        showTab(name);
+        $('#tab-' + name).focus();
+      });
+
+      /* --- grafico --- */
+      const svg = $('#svg');
+      const el = (tag, attrs = {}, text) => {
+        const n = document.createElementNS(NS, tag);
+        Object.entries(attrs).forEach(([k, v]) => n.setAttribute(k, v));
+        if (text !== undefined) n.textContent = text;
+        return n;
+      };
+      const defs = el('defs');
+      defs.innerHTML = '<marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#8fb0c8"/></marker>';
+      svg.append(defs);
+
+      GROUPS.forEach(g => {
+        svg.append(el('rect', { x: g.x, y: g.y, width: g.w, height: g.h, rx: 16, fill: 'none', stroke: g.color, 'stroke-opacity': 0.35, 'stroke-dasharray': '3 6' }));
+        svg.append(el('text', { x: g.x + 16, y: g.y + g.h - 12, class: 'group-label' }, g.label));
+      });
+
+      const byId = Object.fromEntries(NODES.map(n => [n.id, n]));
+      const center = n => [n.x + W / 2, n.y + H / 2];
+      // punto in cui il segmento centro→(tx,ty) esce dal rettangolo del nodo
+      const clip = (n, tx, ty) => {
+        const [cx, cy] = center(n);
+        const dx = tx - cx, dy = ty - cy;
+        const k = Math.min(dx ? (W / 2 + 4) / Math.abs(dx) : Infinity, dy ? (H / 2 + 4) / Math.abs(dy) : Infinity);
+        return [cx + dx * k, cy + dy * k];
+      };
+      EDGES.forEach(([a, b, label, dash]) => {
+        const A = byId[a], B = byId[b];
+        const [p1x, p1y] = clip(A, ...center(B));
+        const [p2x, p2y] = clip(B, ...center(A));
+        svg.append(el('line', { x1: p1x, y1: p1y, x2: p2x, y2: p2y, class: 'edge' + (dash ? ' dash' : ''), 'marker-end': 'url(#arr)' }));
+        svg.append(el('text', { x: (p1x + p2x) / 2, y: (p1y + p2y) / 2 + 4, class: 'elabel' }, label));
+      });
+
+      NODES.forEach(n => {
+        const k = KINDS[n.kind];
+        const g = el('g', { class: 'node', transform: `translate(${n.x} ${n.y})`, tabindex: n.go ? 0 : -1, role: n.go ? 'link' : 'img', 'aria-label': n.t + ': ' + n.s });
+        g.append(el('rect', { width: W, height: H, rx: 12, fill: k.fill, stroke: k.color, 'stroke-width': 1.5 }));
+        g.append(el('text', { x: 16, y: 38, class: 't' }, n.t));
+        // sottotitolo su due righe se lungo
+        const words = n.s.split(' ');
+        let l1 = '', l2 = '';
+        words.forEach(w => ((l1 + ' ' + w).trim().length <= 30 && !l2 ? (l1 = (l1 + ' ' + w).trim()) : (l2 = (l2 + ' ' + w).trim())));
+        g.append(el('text', { x: 16, y: 60, class: 's' }, l1));
+        if (l2) g.append(el('text', { x: 16, y: 77, class: 's' }, l2));
+        if (n.go) {
+          const open = () => openPath(n.go);
+          g.addEventListener('click', open);
+          g.addEventListener('keydown', e => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), open()));
+        }
+        svg.append(g);
+      });
+
+      $('#legend').innerHTML = Object.values(KINDS).map(k => `<span><i style="background:${k.color}"></i>${esc(k.label)}</span>`).join('');
+      $('#steps').innerHTML = STEPS.map(([t, d]) => `<li><b>${esc(t)}</b><span>${d}</span></li>`).join('');
+
+      /* --- albero file --- */
+      const index = new Map(); // path -> nodo
+      const walk = (node, parent, depth) => {
+        node.path = parent ? (parent.path ? parent.path + '/' : '') + node.n : '';
+        node.depth = depth;
+        node.parent = parent;
+        node.isDir = !!node.kids;
+        index.set(node.path, node);
+        (node.kids || []).forEach(c => walk(c, node, depth + 1));
+      };
+      walk(FILES, null, -1);
+      // i file dentro .claude sono symlink: il path "skills" è ambiguo, risolvi con ricerca per nome
+      const resolve = p => index.get(p) || [...index.values()].find(n => n.path.endsWith('/' + p)) || null;
+
+      const FILE_ICON = { js: ['JS', '#f0db4f'], html: ['<>', '#e8825a'], css: ['#', '#58a6ff'], md: ['M', '#9bb7d1'], sh: ['$', '#6fcf97'], json: ['{}', '#f5b84b'], avif: ['▣', '#c58af9'], svg: ['▣', '#f5b84b'], ico: ['▣', '#c58af9'] };
+      const iconFor = n => {
+        if (n.isDir) return ['▸', '#8ea4b8'];
+        const ext = n.n.includes('.') ? n.n.split('.').pop() : '';
+        return FILE_ICON[ext] || ['·', '#8ea4b8'];
+      };
+
+      const treeEl = $('#tree');
+      const open = new Set(['', 'src', 'src/js']);
+      let current = null;
+
+      const renderTree = () => {
+        const build = node => {
+          const li = document.createElement('li');
+          li.setAttribute('role', 'treeitem');
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          const [ic, col] = iconFor(node);
+          const isOpen = open.has(node.path);
+          btn.style.setProperty('--d', node.depth);
+          if (node.isDir) btn.setAttribute('aria-expanded', String(isOpen));
+          if (current === node.path) btn.setAttribute('aria-current', 'true');
+          btn.dataset.path = node.path;
+          btn.innerHTML = `<span class="chev">${node.isDir ? '▶' : ''}</span><span class="ico" style="color:${col}">${node.isDir ? '' : esc(ic)}</span><span class="nm">${esc(node.n)}</span>${node.badge ? `<span class="badge">${esc(node.badge)}</span>` : ''}`;
+          li.append(btn);
+          if (node.isDir && isOpen && node.kids.length) {
+            const ul = document.createElement('ul');
+            ul.setAttribute('role', 'group');
+            node.kids.forEach(c => ul.append(build(c)));
+            li.append(ul);
+          }
+          return li;
+        };
+        treeEl.replaceChildren(...FILES.kids.map(build));
+      };
+
+      treeEl.addEventListener('click', e => {
+        const b = e.target.closest('button');
+        if (!b) return;
+        selectPath(b.dataset.path, true);
+      });
+      $('#collapseAll').addEventListener('click', () => {
+        open.clear();
+        open.add('');
+        renderTree();
+      });
+
+      const chip = (n, withSmall) =>
+        `<button type="button" class="chip" data-go="${esc(n.path)}">${esc(n.path || n.n)}${withSmall && n.one ? `<small>${esc(n.one)}</small>` : ''}</button>`;
+
+      const renderDoc = node => {
+        const kind = node.isDir ? 'Cartella' : node.ghost ? 'Generato' : node.n.includes('.') ? 'File ' + node.n.split('.').pop() : 'File';
+        let html = `<span class="doc__kind">${esc(node.isDir ? (node.ghost ? 'Cartella (' + node.badge + ')' : kind) : kind)}</span>`;
+        html += `<h1>${esc(node.n)}${node.isDir ? '/' : ''}</h1><p class="doc__one">${md(node.one)}</p>`;
+        if (node.pts && node.pts.length) html += `<h3>Cosa fa, in parole semplici</h3><ul class="points">${node.pts.map(p => `<li>${md(p)}</li>`).join('')}</ul>`;
+        if (node.ex) {
+          const [code, why] = node.ex.split('|||');
+          html += `<h3>Esempio</h3><div class="example">${esc(code)}${why ? `<span class="why">${md(why)}</span>` : ''}</div>`;
+        }
+        if (node.isDir && node.kids.length) html += `<h3>Contenuto</h3><div class="children">${node.kids.map(c => `<button type="button" class="chip" data-go="${esc(c.path)}">${c.isDir ? '▸ ' : ''}${esc(c.n)}<small>${esc(c.one)}</small></button>`).join('')}</div>`;
+        const rel = (node.rel || []).map(resolve).filter(Boolean);
+        if (rel.length) html += `<h3>Collegato a</h3><div class="chips">${rel.map(r => chip(r, false)).join('')}</div>`;
+        return html;
+      };
+
+      const selectPath = (path, toggle = false) => {
+        const node = resolve(path);
+        if (!node) return;
+        path = node.path;
+        // apri tutti gli antenati
+        for (let p = node.parent; p; p = p.parent) open.add(p.path);
+        if (node.isDir) toggle && open.has(path) && current === path ? open.delete(path) : open.add(path);
+        current = path;
+        renderTree();
+        $('#crumbs').innerHTML = ['myLink3', ...path.split('/')].map((s, i, a) => (i === a.length - 1 ? `<b>${esc(s)}</b>` : esc(s))).join(' › ');
+        $('#doc').innerHTML = renderDoc(node);
+        $('.main').scrollTop = 0;
+        treeEl.querySelector('[aria-current]')?.scrollIntoView({ block: 'nearest' });
+        updateHash();
+      };
+
+      $('#doc').addEventListener('click', e => {
+        const b = e.target.closest('[data-go]');
+        if (b) selectPath(b.dataset.go);
+      });
+
+      const openPath = p => {
+        showTab('code', false);
+        selectPath(p);
+      };
+
+      const welcome = () => {
+        $('#crumbs').innerHTML = '<b>myLink3</b>';
+        $('#doc').innerHTML = `<span class="doc__kind">Esplora risorse</span><h1>Scegli un file o una cartella</h1>
+          <p class="doc__one welcome">Clicca qualcosa nella colonna a sinistra: invece del codice vedrai cosa fa, spiegato semplice, con un esempio.</p>
+          <h3>Da dove iniziare</h3><div class="children">${['src/js/data.js', 'src/index.html', 'src/js/main.js', 'src/js/media.js', 'AGENTS.md', 'build.sh'].map(p => resolve(p)).map(n => chip(n, true)).join('')}</div>`;
+      };
+
+      /* --- link di avvio --- */
+      // Percorsi relativi a dev/mappa.html. Ogni riga = una destinazione, ogni colonna = ?data sì/no.
+      const TARGETS = [
+        { id: 'src',  label: 'Sorgente',      sub: 'src/index.html', path: '../src/index.html', note: 'Il sito reale in sviluppo. I video mp4 mancano: compare "Video not available yet".' },
+        { id: 'sim',  label: 'Simulazione',   sub: 'dev/simulation.html', path: './simulation.html', note: 'Video finti da 4 secondi: si vede la sequenza, lo scroll e le card che si illuminano.' },
+        { id: 'dist', label: 'Pubblicata',    sub: 'dist/index.html', path: '../dist/index.html', note: 'La copia da deployare. Serve aver lanciato ./build.sh.' },
+      ];
+      const QUERIES = [
+        { id: 'plain', label: 'Senza ?data', sub: 'pubblico', q: '', note: 'Contatti pubblici: LinkedIn, GitHub, email. Telefono nascosto.' },
+        { id: 'data',  label: 'Con ?data',   sub: 'privato',  q: '?data', note: 'In più il telefono, nell\'header (chip) e nel footer.' },
+      ];
+      const abs = rel => new URL(rel, location.href).href;
+      const url = (t, q) => t.path + q.q;
+
+      const matrix = $('#matrix');
+      matrix.innerHTML = '<div></div>' + QUERIES.map(q => `<div class="colh"><b>${esc(q.label)}</b>${esc(q.sub)}</div>`).join('') +
+        TARGETS.map(t => `<div class="rowh"><b>${esc(t.label)}</b><span>${esc(t.sub)}</span></div>` +
+          QUERIES.map(q => `<a class="link" href="${esc(url(t, q))}" target="_blank" rel="noopener"><span class="go">↗</span><div class="u" data-abs="${esc(url(t, q))}"></div><div class="d">${esc(t.note)} ${esc(q.note)}</div></a>`).join('')).join('');
+      const fillAbs = () => matrix.querySelectorAll('[data-abs]').forEach(n => (n.textContent = abs(n.dataset.abs)));
+      fillAbs();
+
+      const composer = () => {
+        const origin = document.querySelector('input[name=origin]:checked').value;
+        const sim = $('#optSim').checked;
+        const data = $('#optData').checked;
+        $('#lblDist').classList.toggle('off', sim);
+        document.querySelector('input[name=origin][value=dist]').disabled = sim;
+        const t = TARGETS.find(x => x.id === (sim ? 'sim' : origin));
+        const q = QUERIES.find(x => x.id === (data ? 'data' : 'plain'));
+        const href = url(t, q);
+        $('#outUrl').textContent = abs(href);
+        $('#outOpen').href = href;
+        return abs(href);
+      };
+      $('#opts').addEventListener('change', e => {
+        if (e.target.id === 'optSim' && e.target.checked) document.querySelector('input[name=origin][value=src]').checked = true;
+        composer();
+      });
+      $('#outCopy').addEventListener('click', async e => {
+        try {
+          await navigator.clipboard.writeText(composer());
+          e.target.textContent = 'Copiato ✓';
+        } catch (_) {
+          e.target.textContent = 'Seleziona e copia a mano';
+        }
+        setTimeout(() => (e.target.textContent = 'Copia URL'), 1600);
+      });
+      composer();
+
+      /* --- hash (ricorda tab e file aperto) --- */
+      const updateHash = () => {
+        const tab = tabs.find(t => $('#tab-' + t).getAttribute('aria-selected') === 'true');
+        const h = '#' + tab + (tab === 'code' && current ? '/' + current : '');
+        if (location.hash !== h) history.replaceState(null, '', h);
+      };
+      const fromHash = () => {
+        const [tab, ...rest] = decodeURIComponent(location.hash.slice(1)).split('/');
+        if (!tabs.includes(tab)) return welcome(), renderTree();
+        showTab(tab, false);
+        renderTree();
+        if (rest.length) selectPath(rest.join('/'));
+        else welcome();
+      };
+      addEventListener('hashchange', fromHash);
+      fromHash();
+    </script>
   </body>
 </html>
